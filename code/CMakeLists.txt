@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 2.8.0)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 cmake_policy(SET CMP0017 NEW)
 
@@ -105,6 +105,10 @@ INCLUDE_DIRECTORIES(
     bulletlib/src
     bulletlib/examples
     bulletlib/Extras
+    msgpack/
+    msgpack/src
+    msgpack/example
+    msgpack/include/msgpack
     ${OPENGL_INCLUDE_DIRS}
 	${GLUT_INCLUDE_DIRS}
 	)
@@ -146,6 +150,7 @@ TARGET_LINK_LIBRARIES(whiskit
     OpenGLWindow
     BulletExampleBrowserLib
     BulletExampleLib
+    # msgpack
     
  )
 
@@ -209,6 +214,7 @@ TARGET_LINK_LIBRARIES(whiskit_gui
     OpenGLWindow
     BulletExampleBrowserLib
     BulletExampleLib
+    # msgpack
     
  )
 
