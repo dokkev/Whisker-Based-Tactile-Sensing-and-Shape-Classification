@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 3.8.0)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 cmake_policy(SET CMP0017 NEW)
 
@@ -86,7 +86,7 @@ IF (APPLE)
   FIND_LIBRARY(COCOA_LIBRARY Cocoa)
 ENDIF()
 
-FIND_PACKAGE(Boost COMPONENTS program_options filesystem REQUIRED)
+FIND_PACKAGE(Boost 1.65 COMPONENTS program_options filesystem REQUIRED)
 IF (Boost_FOUND)
     INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
     ADD_DEFINITIONS( "-DHAS_BOOST" )
@@ -105,10 +105,6 @@ INCLUDE_DIRECTORIES(
     bulletlib/src
     bulletlib/examples
     bulletlib/Extras
-    msgpack/
-    msgpack/src
-    msgpack/example
-    msgpack/include/msgpack
     ${OPENGL_INCLUDE_DIRS}
 	${GLUT_INCLUDE_DIRS}
 	)
