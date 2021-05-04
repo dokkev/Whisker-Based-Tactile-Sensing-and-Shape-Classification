@@ -210,9 +210,9 @@ void Simulation::initPhysics()
 		// ObjX_ = parameters->ObjX;
 		// ObjY_ = parameters->ObjY;
 		// ObjZ_ = parameters->ObjZ;
-		ObjX_ = 0;
+		ObjX_ = 10;
 		ObjY_ = 100;
-		ObjZ_ = 200;
+		ObjZ_ = 10;
 
 		// object orientation with 4D quaternion	
 		// ObjQx_ = parameters->ObjQx;
@@ -231,7 +231,7 @@ void Simulation::initPhysics()
 		btVector3 vec = btVector3(ObjX_,ObjY_,ObjZ_);
 		btTransform tf = btTransform(quat,vec);
 
-		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(SCALE),btScalar(0),COL_ENV,envCollidesWith);
+		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(100),btScalar(0),COL_ENV,envCollidesWith);
 	}
 
 	// create object from 3D scan at a specific position and orientation using 3D quaternion (roll,pitch,yaw)
