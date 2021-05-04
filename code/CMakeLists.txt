@@ -86,7 +86,7 @@ IF (APPLE)
   FIND_LIBRARY(COCOA_LIBRARY Cocoa)
 ENDIF()
 
-FIND_PACKAGE(Boost 1.65 COMPONENTS program_options filesystem REQUIRED)
+FIND_PACKAGE(Boost 1.65 COMPONENTS program_options filesystem REQUIRED system)
 # IF (Boost_FOUND)
 #     INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 #     ADD_DEFINITIONS( "-DHAS_BOOST" )
@@ -138,7 +138,8 @@ ADD_EXECUTABLE(
     
 TARGET_LINK_LIBRARIES(whiskit
 	${CMAKE_DL_LIBS}
-	${Boost_LIBRARIES} 	
+	${Boost_LIBRARIES}
+    ${Boost_SYSTEM_LIBRARY} 	
 	${OPENGL_gl_LIBRARY} 
     ${OPENGL_glu_LIBRARY}
     Bullet3Common
