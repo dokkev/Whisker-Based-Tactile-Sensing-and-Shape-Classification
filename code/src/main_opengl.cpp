@@ -150,6 +150,12 @@ int main(int argc, char** argv)
 		("CYAW", po::value<std::string>(), "head yaw")
 
 		("ObjX", po::value<float>(&param->ObjX), "X-postion of the object")
+		("ObjY", po::value<float>(&param->ObjY), "Y-postion of the object")
+		("ObjZ", po::value<float>(&param->ObjZ), "Z-postion of the object")
+
+		("ObjYAW", po::value<float>(&param->ObjYAW), "Yaw of the object")
+		("ObjPITCH", po::value<float>(&param->ObjPITCH), "Pitch of the object")
+		("ObjROLL", po::value<float>(&param->ObjROLL), "Roll of the object")
 		
 		("SPEED", po::value<float>(&param->PEG_SPEED), "peg speed")
 

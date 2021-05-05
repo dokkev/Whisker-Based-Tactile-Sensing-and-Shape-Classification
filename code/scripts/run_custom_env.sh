@@ -10,18 +10,15 @@
 --file_env "../data/environment/env_5.obj" \
 --ACTIVE 1 \
 --TIME_STOP 1.0 \
---WHISKER_NAMES R \
 --SAVE_VIDEO 1 \
 --SAVE 0 \
---ObjX 10 \
---ObjY 100 \
+--ObjX 30 \
+--ObjY 10 \
 --ObjZ 10 \
---ObjQx 0.0 \
---ObjQy 0.0 \
---ObjQz 0.0 \
---ObjQw 1.0 \
 --ObjYAW 90 \
---ObjPITCH 0 \
+--ObjPITCH 90 \
 --ObjROLL 0 \
 --file_video "../output/video_object.mp4" \
 --dir_out ../output/full_array_env_active
+
+# --WHISKER_NAMES R \

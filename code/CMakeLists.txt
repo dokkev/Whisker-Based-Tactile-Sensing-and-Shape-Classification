@@ -86,7 +86,7 @@ IF (APPLE)
   FIND_LIBRARY(COCOA_LIBRARY Cocoa)
 ENDIF()
 
-FIND_PACKAGE(Boost 1.65.1 COMPONENTS program_options filesystem REQUIRED system)
+FIND_PACKAGE(Boost 1.53 COMPONENTS program_options filesystem REQUIRED system)
 IF (Boost_FOUND)
     INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
     ADD_DEFINITIONS( "-DHAS_BOOST" )
