@@ -249,12 +249,14 @@ void Simulation::initPhysics()
 		ObjPITCH_ = parameters->ObjPITCH;
 		ObjROLL_ = parameters->ObjROLL;
 
+		std::cout << "ObjX: " << ObjX_ << std::endl;
+
 		//set Quaternion and Vector 
 		btQuaternion quat = btQuaternion(ObjYAW_,ObjPITCH_,ObjROLL_);
 		btVector3 vec = btVector3(ObjX_,ObjY_,ObjZ_);
 		btTransform tf = btTransform(quat,vec);
 
-		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(SCALE),btScalar(0),COL_ENV,envCollidesWith);
+		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(100),btScalar(0),COL_ENV,envCollidesWith);
 	}
 
 

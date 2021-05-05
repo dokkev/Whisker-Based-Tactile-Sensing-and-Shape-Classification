@@ -148,6 +148,8 @@ int main(int argc, char** argv)
 		("CDIST", po::value<float>(&param->CDIST), "distance of camera")
 		("CPITCH", po::value<std::string>(), "head pitch")
 		("CYAW", po::value<std::string>(), "head yaw")
+
+		("ObjX", po::value<float>(&param->ObjX), "X-postion of the object")
 		
 		("SPEED", po::value<float>(&param->PEG_SPEED), "peg speed")
 
