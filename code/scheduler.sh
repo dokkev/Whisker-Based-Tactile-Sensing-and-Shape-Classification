@@ -18,6 +18,7 @@ export PATH=$PATH:/Final_Project
 
 # load modules you need to use: these are just examples
 # module load python/anaconda3.6
+module load numpy/1.19.2
 
 # Set your working directory 
 # This sets it to the directory you're submitting from -- change as appropriate
@@ -30,6 +31,6 @@ export PATH=$PATH:/Final_Project
 # A command you actually want to execute (example):
 # Another command you actually want to execute, if needed (example):
 # python error_function-quest.py
-python3 run_batch_sims.py ${STARTID}
+python3 run_quest_test.py ${STARTID}
 
 
