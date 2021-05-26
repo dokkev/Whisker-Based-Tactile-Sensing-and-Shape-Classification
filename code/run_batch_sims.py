@@ -42,7 +42,23 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     #with counter.get_lock():
     #    counter.value += 1
     
-    objects = ['scan_00.obj','scan_01.obj','scan_02.obj','scan_03.obj','scan_04.obj','scan_05.obj']
+    objects = ['scan_00.obj','scan_01.obj','scan_02.obj','scan_03.obj','scan_04.obj','scan_05.obj', \
+        'scan_06.obj','scan_07.obj','scan_08.obj','scan_09.obj','scan_10.obj','scan_11.obj','scan_12.obj',\
+        'scan_13.obj','scan_14.obj','scan_15.obj','scan_16.obj','scan_17.obj','scan_18.obj','scan_19.obj',\
+        'scan_20.obj','scan_21.obj','scan_22.obj','scan_23.obj','scan_24.obj','scan_25.obj','scan_26.obj',\
+        'scan_27.obj','scan_28.obj','scan_29.obj','scan_30.obj','scan_31.obj','scan_32.obj','scan_33.obj',\
+        'scan_34.obj','scan_35.obj','scan_36.obj','scan_37.obj',\
+        'scan_38.obj','scan_39.obj','scan_40.obj','scan_41.obj','scan_42.obj','scan_43.obj','scan_44.obj',\
+        'scan_45.obj','scan_46.obj','scan_47.obj','scan_48.obj','scan_49.obj','scan_50.obj','scan_51.obj',\
+        'scan_52.obj','scan_53.obj','scan_54.obj','scan_55.obj','scan_56.obj','scan_57.obj','scan_58.obj',\
+        'scan_59.obj','scan_60.obj','scan_61.obj','scan_62.obj','scan_63.obj','scan_64.obj','scan_65.obj',\
+        'scan_66.obj','scan_67.obj','scan_68.obj','scan_69.obj','scan_70.obj','scan_71.obj','scan_72.obj',\
+        'scan_73.obj','scan_74.obj','scan_75.obj','scan_76.obj','scan_77.obj','scan_78.obj','scan_79.obj',\
+        'scan_80.obj','scan_81.obj','scan_82.obj','scan_83.obj','scan_84.obj','scan_85.obj','scan_86.obj',\
+        'scan_87.obj','scan_88.obj','scan_89.obj','scan_90.obj','scan_91.obj','scan_92.obj','scan_93.obj',\
+        'scan_94.obj','scan_95.obj','scan_96.obj','scan_97.obj']
+    
+    
     # print('Simulating: ' + str(whisker))
     objFile = objects[objID]
 
@@ -110,7 +126,7 @@ def simulate_obj(sim_input):
 
     simID = 0
     j = 1 # the object number you want to start with
-    obj_max = 2 # the object number you want to end with
+    obj_max = 98 # the object number you want to end with
 
 
     global x,y,z,yaw,pitch,roll,obj_num
@@ -169,7 +185,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 1
     counter = Value('i',trialbase)
-    numConfig = 2
+    numConfig = 10
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
@@ -181,7 +197,7 @@ if __name__ == "__main__":
     #    	trials.append([4,trialbase+n])
 
     
-    pool = Pool(processes=1,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=10,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()

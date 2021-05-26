@@ -31,6 +31,6 @@ module load numpy/1.19.2
 # A command you actually want to execute (example):
 # Another command you actually want to execute, if needed (example):
 # python error_function-quest.py
-python3 run_quest_test.py ${STARTID}
+python3 run_quest.py ${STARTID}
 
 
