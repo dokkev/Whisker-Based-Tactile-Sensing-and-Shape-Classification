@@ -12,87 +12,87 @@
 ,11,rock,solid,50,20,10,0,0,1.57
 ,12,rough surface 1,surface,30,20,10,-1.57,0,1.57
 ,13,round chuncky rock,solid,45,20,10,-1.57,0,1.57
-,14,tree branch,solid,40,20,0,1.57,-1.57,0
+,14,tree branch,solid,45,20,10,-1.57,0,1.57
 ,15,rough surface 2,surface,30,20,10,-1.57,0,1.57
-,16,flat rough rock,solid,50,20,0,1.57,0,1.57
-,17,curved thick tree branch,solid,30,-10,0,1.57,1.57,0
-,18,smooth flat rock,solid,40,20,10,0,0,1.57
-,19,acacia leaf,surface,30,10,10,-1.57,0,0
-,20,rough surface 3,surface,30,20,10,1.57,0,1.57
-,21,cut egg,solid,60,10,10,1.57,0,0
-,22,banana,solid,40,20,10,1.57,0,-1.57
-,23,white mushroom,solid,50,0,0,1.57,0,0
-,24,kiwi,solid,50,10,10,0,0,1.57
-,25,pear,solid,50,10,0,1.57,0,0
-,26,crushed macaroon?,solid,50,30,20,-1.57,-1.57,0
-,27,dry leaf,surface,20,10,10,-1.57,0,-1.57
-,28,carrot,solid,50,10,10,1.57,0,0
-,29,radish,solid,20,10,10,1.57,0,0
-,30,half eaten apple,solid,50,10,10,1.57,0,0.2
-,31,pumpkin,solid,30,20,0,0,-1.57,0
-,32,dragon fruit (not actually),solid,20,0,5,0,1.57,1.57
-,33,ginger,solid,,,,,,
-,34,mango?,solid,,,,,,
-,35,peanut,solid,,,,,,
-,36,raspberry,solid,,,,,,
-,37,some kind of round fruit,solid,,,,,,
-,38,shiitake mushroom,solid,,,,,,
-,39,short branch,solid,,,,,,
-,40,piles of stones,solid,,,,,,
-,41,piles of stones 2,solid,,,,,,
-,42,portabella mushroom,solid,,,,,,
-,43,stone field,solid,,,,,,
-,44,stone field 2,solid,,,,,,
-,45,stone field 3,solid,,,,,,
-,46,stone field 4,solid,,,,,,
-,47,celementine,solid,,,,,,
-,48,dry hazel leaf,surface,,,,,,
-,49,dry hazel leaf 2,surface,,,,,,
-,50,rectangular-ish leaf,surface,,,,,,
-,51,rectangular-ish leaf 2,surface,,,,,,
-,52,rectangular-ish leaf 3,surface,,,,,,
-,53,rectangular-ish leaf 4,surface,,,,,,
-,54,dry willow leaf,surface,,,,,,
-,55,damaged dry leaf,surface,,,,,,
-,56,small brach with dry leaves,surface,,,,,,
-,57,dry curved long leaf,surface,,,,,,
-,58,dry long leaf,surface,,,,,,
-,59,short pinecone,solid,,,,,,
-,60,long pinecone,solid,,,,,,
-,61,used aluminum foil,surface,,,,,,
-,62,used aluminum foil 2,surface,,,,,,
-,63,pile of leaves,solid,,,,,,
-,64,clovers,surface,,,,,,
-,65,acorn,solid,,,,,,
-,66,corn,solid,,,,,,
-,67,ice burg lettuce,solid,,,,,,
-,68,white mushroom 2,solid,,,,,,
-,69,edamame,solid,,,,,,
-,70,dry leaf,surface,,,,,,
-,71,lettuce leaf,surface,,,,,,
-,72,lettuce leaf 2,surface,,,,,,
-,73,lettuce leaf 3,surface,,,,,,
-,74,lettuce leaf 4,surface,,,,,,
-,75,lettuce leaf 5,surface,,,,,,
-,76,rough surface 4,surface,,,,,,
-,77,rough surface 5,surface,,,,,,
-,78,dry leaf  2,surface,,,,,,
-,79,thick tree branch,solid,,,,,,
-,80,tree branch,solid,,,,,,
-,81,tree branch 2,solid,,,,,,
-,82,tree branch 3,solid,,,,,,
-,83,round rock 2,solid,,,,,,
-,84,thick tree branch 2,solid,,,,,,
-,85,pinecone,solid,,,,,,
-,86,dry green pea leaf,surface,,,,,,
-,87,thick tree branch 3,,,,,,,
-,88,pinecone 2,solid,,,,,,
-,89,dry green pea leaf 2,surface,,,,,,
-,90,long straight tree branch,solid,,,,,,
-,91,long curved tree branch,solid,,,,,,
-,92,multiple leaves,surface,,,,,,
-,93,dry oak tree,surface,,,,,,
-,94,sharp rock,solid,,,,,,
-,95,flat rock,solid,,,,,,
-,96,long tree branch ,solid,,,,,,
-,97,tree branch 4,solid,,,,,,
+,16,flat rough rock,solid,40,20,10,-1.57,0,1.57
+,17,curved thick tree branch,solid,35,20,10,-1.57,0,1.57
+,18,smooth flat rock,solid,50,20,10,-1.57,0,1.57
+,19,acacia leaf,surface,30,10,10,-1.57,0,1.57
+,20,rough surface 3,surface,30,10,10,-1.57,0,1.57
+,21,cut egg,solid,60,10,10,1.57,0,1.57
+,22,banana,solid,60,10,10,0,-1.57,0
+,23,white mushroom,solid,60,10,10,-1.57,0,-1.57
+,24,kiwi,solid,60,10,10,0,0,0
+,25,pear,solid,55,10,10,0,0,-1.57
+,26,crushed macaroon?,solid,50,20,5,-1.57,0,-1.57
+,27,dry leaf,surface,40,20,5,-1.57,0,-1.57
+,28,carrot,solid,40,20,5,1.57,0,0
+,29,radish,solid,40,20,-5,1.57,0,0
+,30,half eaten apple,solid,50,10,10,0,0,1
+,31,pumpkin,solid,60,10,10,0,0,0
+,32,dragon fruit (not actually),solid,75,0,-220,0,0,0
+,33,ginger,solid,40,10,10,1.57,0,0
+,34,mango?,solid,60,10,10,0,0,0
+,35,peanut,solid,45,10,10,1.57,0,0
+,36,raspberry,solid,60,10,10,0,0,0
+,37,some kind of round fruit,solid,60,10,10,0,0,0
+,38,shiitake mushroom,solid,40,20,10,-1.57,-0.7,0
+,39,short branch,solid,40,20,10,1.57,0,0
+,40,piles of stones,solid,50,20,10,-1.57,0,0
+,41,piles of stones 2,solid,55,20,10,-1.57,0,0
+,42,portabella mushroom,solid,40,20,10,-1.57,-0.7,0
+,43,stone field,solid,40,20,10,-1.57,0,0
+,44,stone field 2,solid,40,20,10,-1.57,0,0
+,45,stone field 3,solid,40,20,10,-1.57,0,0
+,46,stone field 4,solid,40,20,10,-1.57,0,0
+,47,celementine,solid,60,20,10,-1.57,0,0
+,48,dry hazel leaf,surface,30,20,10,-1.57,0,0
+,49,dry hazel leaf 2,surface,40,20,10,-1.57,0,0
+,50,rectangular-ish leaf,surface,40,20,10,-1.57,0,0
+,51,rectangular-ish leaf 2,surface,40,20,10,-1.57,0,0
+,52,rectangular-ish leaf 3,surface,40,20,10,-1.57,0,0
+,53,rectangular-ish leaf 4,surface,40,20,10,-1.57,0,0
+,54,dry willow leaf,surface,40,20,10,-1.57,0,0
+,55,damaged dry leaf,surface,20,20,10,-1.57,0,0
+,56,small brach with dry leaves,surface,40,10,10,-1.57,0,0
+,57,dry curved long leaf,surface,40,10,10,-1.57,0,0
+,58,dry long leaf,surface,40,10,10,-1.57,0,0
+,59,short pinecone,solid,50,10,10,-1.57,-0.7,0
+,60,long pinecone,solid,50,10,10,-1.57,-0.7,0
+,61,used aluminum foil,surface,40,10,10,1.57,-0.7,0
+,62,used aluminum foil 2,surface,40,10,10,1.57,-0.7,0
+,63,pile of leaves,solid,40,10,10,1.57,-0.7,0
+,64,clovers,surface,40,10,10,1.57,-0.7,0
+,65,acorn,solid,50,10,10,1.57,0,0
+,66,corn,solid,45,10,10,0,-0.7,0
+,67,ice burg lettuce,solid,60,10,10,0,-0.7,0
+,68,white mushroom 2,solid,60,10,10,0,-0.7,1.57
+,69,edamame,solid,40,10,10,1.57,-0.7,1.57
+,70,dry leaf,surface,40,10,10,1.57,-0.7,0
+,71,lettuce leaf,surface,40,10,10,1.57,-0.7,0
+,72,lettuce leaf 2,surface,40,10,10,1.57,-0.7,0
+,73,lettuce leaf 3,surface,40,10,10,1.57,-0.7,0
+,74,lettuce leaf 4,surface,40,10,10,1.57,-0.7,0
+,75,lettuce leaf 5,surface,40,10,10,1.57,-0.7,0
+,76,rough surface 4,surface,40,10,10,1.57,-0.7,0
+,77,rough surface 5,surface,40,10,10,1.57,-0.7,0
+,78,dry leaf  2,surface,40,10,10,1.57,-0.7,0
+,79,thick tree branch,solid,50,10,0,1.57,-0.7,0
+,80,tree branch,solid,50,10,0,1.57,0,0
+,81,tree branch 2,solid,30,10,0,1.57,-1.57,0
+,82,tree branch 3,solid,30,10,0,1.57,-1.57,0
+,83,round rock 2,solid,50,10,0,1.57,-1.57,0
+,84,thick tree branch 2,solid,45,10,0,1.57,-1.57,0
+,85,pinecone,solid,50,10,5,1.57,0,0
+,86,dry green pea leaf,surface,40,10,5,1.57,0,0
+,87,thick tree branch 3,,40,10,5,1.57,-0.7,0
+,88,pinecone 2,solid,60,10,5,1.57,-0.7,0
+,89,dry green pea leaf 2,surface,50,10,5,1.57,-0.7,0
+,90,long straight tree branch,solid,30,10,5,1.57,-0.7,0
+,91,long curved tree branch,solid,30,10,5,1.57,-0.7,0
+,92,multiple leaves,surface,50,10,5,1.57,-0.7,0
+,93,dry oak tree,surface,50,10,5,1.57,-0.7,0
+,94,sharp rock,solid,50,10,5,1.57,-0.7,0
+,95,flat rock,solid,50,10,5,1.57,-0.7,0
+,96,long tree branch ,solid,30,0,5,1.57,-0.7,0
+,97,tree branch 4,solid,30,0,5,1.57,-0.7,0
