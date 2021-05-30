@@ -1,0 +1,13 @@
+
+
+
+../build/AppWhiskerGui \
+--BLOW 3 \
+--CONNECT 1 \
+--ACTIVE 1 \
+--TIME_STOP 60000000 \
+--TIME_STEP 0.01 \
+--NUM_STEP_INT 5 \
+--WHISKER_NAMES GAME \
+--WHISK_FREQ 1 \
+--NUM_UNITS 8 \

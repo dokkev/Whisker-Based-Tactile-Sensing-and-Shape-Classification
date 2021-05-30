@@ -142,12 +142,16 @@ def simulate_obj(sim_input):
                 row = line_j[j]
                 obj_num = int(row[1])
                 obj_name = row[2]
-                x = float(row[4])
-                y = float(row[5])
-                z = float(row[6])
-                yaw = float(row[7])
-                pitch = float(row[8])
-                roll = float(row[9])
+
+                # generate random float
+                randf = random.uniform(0.1, 0.5)
+
+                x = float(row[4]) + randf
+                y = float(row[5]) + randf
+                z = float(row[6]) + randf
+                yaw = float(row[7]) + randf
+                pitch = float(row[8]) + randf
+                roll = float(row[9]) + randf
 
                 print("===========NEXT OBJECT==============")
                 print("Now Whisking: " + str(obj_name))
