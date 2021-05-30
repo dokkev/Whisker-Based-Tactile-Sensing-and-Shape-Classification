@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <iterator>
 #include <string>
 #include <sys/stat.h>
-// #include <msgpack.h>
+#include <msgpack.hpp>
 #include "LinearMath/btVector3.h"
 
 #include <boost/lexical_cast.hpp>
