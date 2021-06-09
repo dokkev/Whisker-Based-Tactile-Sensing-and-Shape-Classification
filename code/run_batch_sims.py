@@ -63,9 +63,17 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     objFile = objects[objID]
 
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "scan1-5/"+filename
+    dirout = "scan1-97/"+filename
     
-    print(dirout)
+
+    # add random int for siumlation
+    # randi = random.randint(-3, 3)
+    # ObjX = ObjX + randi
+    # ObjY = ObjY + randi
+    # ObjZ = ObjZ + randi
+
+
+
     directory = os.path.dirname(dirout)
     pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
     if not os.path.exists(directory):
@@ -77,11 +85,14 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --CPITCH -0 \
     --CYAW 180 \
     --BLOW 1  \
+    --WHISKER_NAMES R\
     --OBJECT 5 \
     --ACTIVE 1 \
     --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
+
+   
 
     str2 = " --file_env ../data/environment/" + objFile
     str3 = " --dir_out ../output/" + str(filename)
@@ -95,6 +106,11 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
 
     start = time.time()
+    print("===========NEXT OBJECT==============")
+    print(dirout)
+    print("Now Whisking: " + str(objFile))
+    print("X = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
+    print("YAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
     print("starting whiskit")
     s = subprocess.getoutput([cmdstr])
     print("ended whiskit")
@@ -137,22 +153,20 @@ def simulate_obj(sim_input):
         
             # open the object parameters
             with open('obj_param.csv','r')as file:
+                randi = random.randint(-3, 3)
                 filecontent=csv.reader(file)
                 line_j = list(filecontent)
                 row = line_j[j]
                 obj_num = int(row[1])
                 obj_name = row[2]
-                x = float(row[4])
-                y = float(row[5])
-                z = float(row[6])
-                yaw = float(row[7])
-                pitch = float(row[8])
-                roll = float(row[9])
+                x = int(row[4]) 
+                y = int(row[5]) 
+                z = int(row[6]) 
+                yaw = round(float(row[7]) + float((random.uniform(-0.2, 0.2))),3)
+                pitch = round(float(row[8]) + float((random.uniform(-0.2, 0.2))),3)
+                roll = round(float(row[9])+ float((random.uniform(-0.2, 0.2))),3)
 
-                print("===========NEXT OBJECT==============")
-                print("Now Whisking: " + str(obj_name))
-                print("X = " + str(x) + " Y = " + str(y) + " Z = " +str(z))
-                print("YAW = " + str(yaw) + " PITCH = " + str(pitch) + " ROLL = " +str(roll))
+                #+ round((random.uniform(-0.2, 0.2)),3)
                
 
             simulate("R", x, y, z, yaw, pitch, roll, obj_num, trialID, simID)

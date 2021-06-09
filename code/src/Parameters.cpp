@@ -29,6 +29,7 @@ Parameters::Parameters(){
     PRINT = 2;			// set to PRINT=1 to kinematics/dynamics realtime, set to PRINT = 2 to print simulation time
 	SAVE = 1;			// save results to csv file
 	SAVE_VIDEO = 1;		// save video when running main_opengl.cpp
+	CONNECT = 0;		// enable connection between Python and C++
 
 	// collision object type
 	OBJECT = 0;			// 0: nothing

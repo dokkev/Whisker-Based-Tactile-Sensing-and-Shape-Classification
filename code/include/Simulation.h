@@ -71,6 +71,10 @@ private:
 	std::vector<float> this_loc_vel;
 
 
+	State* state = new State();
+	Client connection;
+
+
 public:
 	Simulation(struct GUIHelperInterface* helper):CommonRigidBodyBase(helper){}
 	virtual ~Simulation(){}

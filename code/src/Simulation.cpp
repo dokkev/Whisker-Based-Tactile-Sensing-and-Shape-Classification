@@ -36,6 +36,14 @@ void Simulation::stepSimulation(){
 	m_time += parameters->TIME_STEP; 								// increase time
 	m_step += 1;													// increase step
 	
+
+	// if(parameters->CONNECT){
+	// 	connection.send_data(data_dump);
+	// 	clear_output(data_dump);
+	// 	connection.receive_data(state->new_state);
+	// 	state->update();
+	// }
+
 	// run simulation as long as stop time not exceeded
 	if(parameters->TIME_STOP==0 || m_time < parameters->TIME_STOP){
 
@@ -207,24 +215,18 @@ void Simulation::initPhysics()
 		btVector4 envColor = btVector4(0.6,0.6,0.6,1);
 
 		// object position
-		// ObjX_ = parameters->ObjX;
-		// ObjY_ = parameters->ObjY;
-		// ObjZ_ = parameters->ObjZ;
-		ObjX_ = 10;
-		ObjY_ = 100;
-		ObjZ_ = 10;
+		ObjX_ = parameters->ObjX;
+		ObjY_ = parameters->ObjY;
+		ObjZ_ = parameters->ObjZ;
 
 		// object orientation with 4D quaternion	
-		// ObjQx_ = parameters->ObjQx;
-		// ObjQy_ = parameters->ObjQy;
-		// ObjQz_ = parameters->ObjQz;
-		// ObjQw_ = parameters->ObjQw;
-		ObjQx_ = 0;
-		ObjQy_ = 0;
-		ObjQz_ = 0;
-		ObjQw_ = 1.0;
+		ObjQx_ = parameters->ObjQx;
+		ObjQy_ = parameters->ObjQy;
+		ObjQz_ = parameters->ObjQz;
+		ObjQw_ = parameters->ObjQw;
 
-		std::cout << "ObjX: " << ObjX_ << std::endl;
+		// make sure params are adjusted accordingly with the user input
+		// std::cout << "ObjX: " << ObjX_ << std::endl;
 
 		//set Quaternion and Vector 
 		btQuaternion quat = btQuaternion(ObjQx_,ObjQy_,ObjQz_,ObjQw_);
@@ -249,7 +251,8 @@ void Simulation::initPhysics()
 		ObjPITCH_ = parameters->ObjPITCH;
 		ObjROLL_ = parameters->ObjROLL;
 
-		std::cout << "ObjX: " << ObjX_ << std::endl;
+		// make sure params are adjusted accordingly with the user input
+		// std::cout << "ObjX: " << ObjX_ << std::endl;
 
 		//set Quaternion and Vector 
 		btQuaternion quat = btQuaternion(ObjYAW_,ObjPITCH_,ObjROLL_);
@@ -283,7 +286,9 @@ void Simulation::initPhysics()
 		read_csv_float(parameters->dir_rathead_trajectory, parameters->HEAD_LOC_VEL);
 	}
 
-	
+	// if(parameters->CONNECT){
+	// 	connection.start();
+	// }
 
 	// initialize time/step tracker
 	m_time_elapsed = 0;
