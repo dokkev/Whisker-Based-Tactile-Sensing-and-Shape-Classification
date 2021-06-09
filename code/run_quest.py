@@ -63,7 +63,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     objFile = objects[objID]
 
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "scan1-5/"+filename
+    dirout = "scan1-97/"+filename
     
     print(dirout)
     directory = os.path.dirname(dirout)
@@ -71,6 +71,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+    # str1 = "~/Final_Project/whiskitphysics/code/build/whiskit \
     str1 = "~/Final_Project/whisker_project/code/build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
@@ -79,6 +80,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --BLOW 1  \
     --OBJECT 5 \
     --ACTIVE 1 \
+    --WHISKER_NAMES R \
     --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
@@ -94,10 +96,15 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
 
+    print("===========NEXT OBJECT==============")
+    print("Now Whisking: " + str(objFile))
+    print("X = " + str(x) + " Y = " + str(y) + " Z = " +str(z))
+    print("YAW = " + str(yaw) + " PITCH = " + str(pitch) + " ROLL = " +str(roll))
+
     start = time.time()
-    print("starting whiskit")
+    print("starting whiskit" + str(filename))
     s = subprocess.getoutput([cmdstr])
-    print("ended whiskit")
+    print("ended whiskit" + str(filename))
     time_elapsed = time.time()-start
     # print("Elapsed time: " + str(time_elapsed))
     print("Simulation Object: " + str(objFile))
@@ -143,15 +150,12 @@ def simulate_obj(sim_input):
                 obj_num = int(row[1])
                 obj_name = row[2]
 
-                # generate random float
-                randf = random.uniform(0.1, 0.5)
-
-                x = float(row[4]) + randf
-                y = float(row[5]) + randf
-                z = float(row[6]) + randf
-                yaw = float(row[7]) + randf
-                pitch = float(row[8]) + randf
-                roll = float(row[9]) + randf
+                x = float(row[4])
+                y = float(row[5])
+                z = float(row[6])
+                yaw = round(float(row[7]) + random.uniform(0,0.1),2)
+                pitch = round(float(row[8]) + random.uniform(0,0.1),2)
+                roll = round(float(row[9]) + random.uniform(0,0.1),2)
 
                 print("===========NEXT OBJECT==============")
                 print("Now Whisking: " + str(obj_name))

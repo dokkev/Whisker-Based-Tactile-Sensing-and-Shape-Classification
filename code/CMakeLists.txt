@@ -72,6 +72,40 @@ ENDIF(WIN32)
 # This is the shortcut to finding GLU, GLUT and OpenGL if they are properly installed on your system
 # This should be the case.
 
+#####################################################
+find_package(PkgConfig)
+## use pkg-config to get hints for 0mq locations
+pkg_check_modules(PC_ZeroMQ QUIET zmq)
+
+## use the hint from above to find where 'zmq.hpp' is located
+find_path(ZeroMQ_INCLUDE_DIR
+        NAMES zmq.hpp
+        PATHS ${PC_ZeroMQ_INCLUDE_DIRS}
+        )
+
+## use the hint from about to find the location of libzmq
+find_library(ZeroMQ_LIBRARY
+        NAMES zmq
+        PATHS ${PC_ZeroMQ_LIBRARY_DIRS}
+        )
+
+        FIND_PATH(MSGPACK_INCLUDE_DIR msgpack.hpp
+        /usr/include
+        /usr/include/msgpack
+        /usr/local/include
+        /usr/local/include/msgpack
+    )
+    
+    FIND_LIBRARY(MSGPACK_LIBRARY NAMES msgpackc PATHS
+        /usr/lib
+        /usr/local/lib
+        /usr/local/lib/cmake/msgpack
+    )
+
+
+
+##########################################################
+
 FIND_PACKAGE(OpenGL)
 IF (OPENGL_FOUND)
 	MESSAGE("OPENGL FOUND")
@@ -107,6 +141,8 @@ INCLUDE_DIRECTORIES(
     bulletlib/Extras
     ${OPENGL_INCLUDE_DIRS}
 	${GLUT_INCLUDE_DIRS}
+    ${ZeroMQ_INCLUDE_DIR}
+    ${MSGPACK_INCLUDE_DIR}
 	)
 
 
@@ -140,6 +176,8 @@ TARGET_LINK_LIBRARIES(whiskit
     ${Boost_SYSTEM_LIBRARY} 	
 	${OPENGL_gl_LIBRARY} 
     ${OPENGL_glu_LIBRARY}
+    ${ZeroMQ_LIBRARY}
+    ${MSGPACK_LIBRARY}
     Bullet3Common
     BulletDynamics
     BulletCollision
@@ -204,6 +242,7 @@ TARGET_LINK_LIBRARIES(whiskit_gui
 	${Boost_LIBRARIES} 	
 	${OPENGL_gl_LIBRARY} 
     ${OPENGL_glu_LIBRARY}
+    ${ZeroMQ_LIBRARY}
     Bullet3Common
     BulletDynamics
     BulletCollision

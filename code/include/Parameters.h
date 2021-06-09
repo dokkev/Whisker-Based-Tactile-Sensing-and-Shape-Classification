@@ -44,6 +44,7 @@ public:
 	int PRINT;
 	int SAVE;
 	int SAVE_VIDEO;
+	int CONNECT;
 	
 	// collision object type
 	int OBJECT;
