@@ -1,13 +1,24 @@
 
-
-
-../build/AppWhiskerGui \
---BLOW 3 \
+../build/whiskit_gui \
+--PRINT 2 \
 --CONNECT 1 \
---ACTIVE 1 \
---TIME_STOP 60000000 \
---TIME_STEP 0.01 \
---NUM_STEP_INT 5 \
+--CDIST 50 \
+--CPITCH -0 \
+--CYAW 180 \
+--BLOW 1 \
+--DEBUG 0 \
+--OBJECT 5 \
 --WHISKER_NAMES GAME \
---WHISK_FREQ 1 \
---NUM_UNITS 8 \
+--file_env "../data/environment/scan_80.obj" \
+--ACTIVE 1 \
+--TIME_STOP 100.0 \
+--SAVE_VIDEO 1 \
+--SAVE 1 \
+--ObjX 30 \
+--ObjY 0 \
+--ObjZ 5 \
+--ObjYAW 1.57 \
+--ObjPITCH -0.7 \
+--ObjROLL 0 \
+--file_video "../output/ratgame.mp4" \
+--dir_out ../output/ratgam
