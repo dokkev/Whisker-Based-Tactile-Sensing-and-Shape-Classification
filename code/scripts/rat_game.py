@@ -153,7 +153,7 @@ if __name__=="__main__":
         my = np.array(Y[4]).flatten()
         mz = np.array(Y[5]).flatten()
         
-        if fx.shape[0]>0:
+        # if fx.shape[0]>0:
 
             # i=0
             # graph.plot(0,t,fx[i],color=BLUE)
@@ -163,15 +163,15 @@ if __name__=="__main__":
             # graph.plot(4,t,my[i],color=BLACK)
             # graph.plot(5,t,mz[i],color=RED)
 
-            i=23
-            graph.plot(0,t,fx[i],color=BLUE)
-            graph.plot(1,t,fy[i],color=BLACK)
-            graph.plot(2,t,fz[i],color=RED)
-            graph.plot(3,t,mx[i],color=BLUE)
-            graph.plot(4,t,my[i],color=BLACK)
-            graph.plot(5,t,mz[i],color=RED)
+            # i=23
+            # graph.plot(0,t,fx[i],color=BLUE)
+            # graph.plot(1,t,fy[i],color=BLACK)
+            # graph.plot(2,t,fz[i],color=RED)
+            # graph.plot(3,t,mx[i],color=BLUE)
+            # graph.plot(4,t,my[i],color=BLACK)
+            # graph.plot(5,t,mz[i],color=RED)
 
-            graph.update()
+            # graph.update()
 
         buffer = BytesIO()
         for x in X:
