@@ -37,12 +37,12 @@ void Simulation::stepSimulation(){
 	m_step += 1;													// increase step
 	
 
-	// if(parameters->CONNECT){
-	// 	connection.send_data(data_dump);
-	// 	clear_output(data_dump);
-	// 	connection.receive_data(state->new_state);
-	// 	state->update();
-	// }
+	if(parameters->CONNECT){
+		connection.send_data(data_dump);
+		clear_output(data_dump);
+		connection.receive_data(state->new_state);
+		state->update();
+	}
 
 	// run simulation as long as stop time not exceeded
 	if(parameters->TIME_STOP==0 || m_time < parameters->TIME_STOP){
@@ -80,6 +80,15 @@ void Simulation::stepSimulation(){
 			// scabbers->setLinearVelocity(btVector3(0, 0, 0));
 			scabbers->setAngularVelocity(btVector3(this_loc_vel[6], this_loc_vel[7], this_loc_vel[8]));
 			// scabbers->setAngularVelocity(btVector3(0, 0, 0));
+		}
+		// Control the rat if CONNECT == 1
+		if(parameters->CONNECT){
+		// 	scabbers->rotateHead(state->current_state.pitch,state->current_state.yaw,state->current_state.roll);
+		// 	scabbers->translateHead(btVector3(state->current_state.x,state->current_state.y,state->current_state.z));
+			btQuaternion quat = btQuaternion(state->current_state.pitch,state->current_state.yaw,state->current_state.roll);
+			btVector3 vec = btVector3(state->current_state.x,state->current_state.y,state->current_state.z);
+			btTransform RatTF = btTransform(quat,vec);
+			scabbers->setTransform(RatTF);
 		}
 
 		// step simulation
@@ -286,9 +295,9 @@ void Simulation::initPhysics()
 		read_csv_float(parameters->dir_rathead_trajectory, parameters->HEAD_LOC_VEL);
 	}
 
-	// if(parameters->CONNECT){
-	// 	connection.start();
-	// }
+	if(parameters->CONNECT){
+		connection.start();
+	}
 
 	// initialize time/step tracker
 	m_time_elapsed = 0;

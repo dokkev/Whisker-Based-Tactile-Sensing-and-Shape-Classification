@@ -81,6 +81,7 @@ const btVector3 Rat::getAngularVelocity(){
 	return rathead->body->getAngularVelocity();
 }
 
+
 void Rat::whisk(int step, std::vector<std::vector<float>> whisker_vel){
 	// total number of steps in one cycle of whisking phase
 	int totalStep = whisker_vel[0].size()/3;
