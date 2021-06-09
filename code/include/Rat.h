@@ -57,6 +57,8 @@ public:
 	const btTransform getTransform();
 	const btVector3 getLinearVelocity();
 	const btVector3 getAngularVelocity();
+	void translateHead(btVector3 deltaPos); 				// old function to move rat
+	void rotateHead(float pitch, float yaw, float roll);	// old function to rotate rat
 
 	void whisk(int step, std::vector<std::vector<float>> whisker_loc_vel);
 	btAlignedObjectArray<Whisker*> getArray();
