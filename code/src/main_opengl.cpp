@@ -125,7 +125,8 @@ int main(int argc, char** argv)
 	    desc.add_options() 
 		("help,h", "Help screen")
 		("DEBUG", po::value<int>(&param->DEBUG), "debug on/off")
-		
+		("CONNECT", po::value<int>(&param->CONNECT), "enable server-client connection")
+
 		("TIME_STOP", po::value<float>(&param->TIME_STOP), "duration of simulation")
 
 		("PRINT", po::value<int>(&param->PRINT), "print simulation output")
@@ -206,6 +207,19 @@ int main(int argc, char** argv)
 	    			"LC0","LC1","LC2","LC3","LC4","LC5",
 	    			"LD0","LD1","LD2","LD3","LD4","LD5",
 	    			"LE1","LE2","LE3","LE4","LE5"};
+	    	}
+				else if (param->WHISKER_NAMES[0] == "GAME"){
+	    		param->WHISKER_NAMES = {
+	    			"LA0","LA2","LA4",
+	    			"LB0","LB2","LB4",
+	    			"LC0","LC2","LC4","LC5",
+	    			"LD1","LD3","LD5",
+	    			"LE1","LE2","LE4","LE5",
+	    			"RA0","RA2","RA4",
+	    			"RB0","RB2","RB4",
+	    			"RC0","RC2","RC4","RC5",
+	    			"RD0","RD3","RD5",
+	    			"RE1","RE2","RE4","RE5"};
 	    	}
 
 			std::vector<std::string> coordinates;

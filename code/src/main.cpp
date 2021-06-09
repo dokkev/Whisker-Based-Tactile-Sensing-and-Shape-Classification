@@ -65,6 +65,8 @@ int main(int argc, char* argv[])
 		
 		("TIME_STOP", po::value<float>(&param->TIME_STOP), "duration of simulation")
 
+		("CONNECT", po::value<int>(&param->CONNECT), "enable server-client connection")
+
 		("PRINT", po::value<int>(&param->PRINT), "print simulation output")
 		("SAVE", po::value<int>(&param->SAVE), "saving on/off")
 		("SAVE_VIDEO", po::value<int>(&param->SAVE_VIDEO), "video on/off")
@@ -145,6 +147,21 @@ int main(int argc, char* argv[])
 	    			"LD0","LD1","LD2","LD3","LD4","LD5",
 	    			"LE1","LE2","LE3","LE4","LE5"};
 	    	}
+			
+			else if (param->WHISKER_NAMES[0] == "GAME"){
+	    		param->WHISKER_NAMES = {
+	    			"LA0","LA2","LA4",
+	    			"LB1","LB3","LB5",
+	    			"LC0","LC2","LC4","LC6",
+	    			"LD1","LD3","LD5",
+	    			"LE1","LE3","LE5","LE6",
+	    			"RA0","RA2","RA4",
+	    			"RB1","RB3","RB5",
+	    			"RC0","RC2","RC4","RC6",
+	    			"RD1","RD3","RD5",
+	    			"RE1","RE3","RE5","RE6"};
+	    	}
+
 
 			std::vector<std::string> coordinates;
 			if (!vm["POSITION"].empty() && (coordinates = vm["POSITION"].as<std::vector<std::string> >()).size() == 3) {
