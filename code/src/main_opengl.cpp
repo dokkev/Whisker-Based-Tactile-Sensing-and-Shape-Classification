@@ -125,6 +125,7 @@ int main(int argc, char** argv)
 	    desc.add_options() 
 		("help,h", "Help screen")
 		("DEBUG", po::value<int>(&param->DEBUG), "debug on/off")
+		
 		("CONNECT", po::value<int>(&param->CONNECT), "enable server-client connection")
 
 		("TIME_STOP", po::value<float>(&param->TIME_STOP), "duration of simulation")

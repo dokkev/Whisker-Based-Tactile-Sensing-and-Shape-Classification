@@ -20,4 +20,4 @@
 --ObjPITCH -0.7 \
 --ObjROLL 0 \
 --file_video "../output/ratgame.mp4" \
---dir_out ../output/ratgam
+--dir_out ../output/ratgame
