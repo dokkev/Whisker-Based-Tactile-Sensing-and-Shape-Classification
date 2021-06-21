@@ -59,7 +59,8 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
         os.makedirs(directory)
 
     # ~/Final_Project/whisker_project/code/build/whiskit
-    str1 = "~/Final_Project/whiskitphysics/code/build/whiskit \
+    # change this path accordingly 
+    str1 = "~/Final_Project/whisker_project/code/build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
     --CPITCH -0 \
@@ -67,6 +68,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --BLOW 1  \
     --OBJECT 5 \
     --ACTIVE 1 \
+    --WHISKER_NAMES R \
     --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
@@ -183,7 +185,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 1
     counter = Value('i',trialbase)
-    numConfig = 2 # how many times you want to simulate
+    numConfig = 100 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
