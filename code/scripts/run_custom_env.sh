@@ -12,7 +12,7 @@
 --TIME_STOP 1.0 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
---ObjX 40 \
+--ObjX 55 \
 --ObjY 20 \
 --ObjZ 0 \
 --ObjYAW 0 \

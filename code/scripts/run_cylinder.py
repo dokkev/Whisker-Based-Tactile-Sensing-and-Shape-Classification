@@ -42,7 +42,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     #with counter.get_lock():
     #    counter.value += 1
     
-    objects = ['c1.obj','c2.obj','c3','c4','c5']
+    objects = ['c1.obj','c2.obj','c3.obj','c4.obj','c5.obj']
         
     
     
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 1
     counter = Value('i',trialbase)
-    numConfig = 100 # how many times you want to simulate
+    numConfig = 50 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
