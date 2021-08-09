@@ -1,6 +1,7 @@
 
 ../build/whiskit_gui \
 --PRINT 2 \
+--CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
 --CYAW 180 \
@@ -20,3 +21,4 @@
 --ObjROLL 0 \
 --file_video "../output/video_object.mp4" \
 --dir_out ../output/full_array_env_active
+
