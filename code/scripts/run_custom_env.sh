@@ -7,12 +7,13 @@
 --CYAW 180 \
 --BLOW 1 \
 --DEBUG 0 \
---OBJECT 5 \
---file_env "../data/environment/scan_97.obj" \
 --ACTIVE 1 \
+--WHISKER_NAMES R \
 --TIME_STOP 1.0 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
+--OBJECT 5 \
+--file_env "../data/environment/scan_97.obj" \
 --ObjX 30 \
 --ObjY 0 \
 --ObjZ 5 \
