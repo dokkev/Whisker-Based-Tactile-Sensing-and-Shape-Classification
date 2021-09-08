@@ -35,6 +35,8 @@ Parameters::Parameters(){
 						// 1: peg
 						// 2: wall
 						// 3: create object from 3D scan
+						// 4: create object from 3D scan using x,y,z,qx,qy,qz,qw
+						// 5: create object from 3D scan using x,y,z,yaw,pitch,roll
 				
 	// parameters for peg (OBJECT = 1)
 	PEG_LOC = btVector3(20, 25, 0);
