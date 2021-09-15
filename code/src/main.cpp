@@ -162,6 +162,10 @@ int main(int argc, char* argv[])
 	    			"RE1","RE3","RE5","RE6"};
 	    	}
 
+			else if (param->WHISKER_NAMES[0] == "TEST"){
+	    		param->WHISKER_NAMES = {
+	    			"RC0", "RC1", "RB1", "RD1"};
+			}
 
 			std::vector<std::string> coordinates;
 			if (!vm["POSITION"].empty() && (coordinates = vm["POSITION"].as<std::vector<std::string> >()).size() == 3) {

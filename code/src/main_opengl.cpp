@@ -209,7 +209,7 @@ int main(int argc, char** argv)
 	    			"LD0","LD1","LD2","LD3","LD4","LD5",
 	    			"LE1","LE2","LE3","LE4","LE5"};
 	    	}
-				else if (param->WHISKER_NAMES[0] == "GAME"){
+			else if (param->WHISKER_NAMES[0] == "GAME"){
 	    		param->WHISKER_NAMES = {
 	    			"LA0","LA2","LA4",
 	    			"LB0","LB2","LB4",
@@ -222,6 +222,18 @@ int main(int argc, char** argv)
 	    			"RD0","RD3","RD5",
 	    			"RE1","RE2","RE4","RE5"};
 	    	}
+
+			else if (param->WHISKER_NAMES[0] == "TEST"){
+	    		param->WHISKER_NAMES = {
+	    			"RC0", "RC1", "RB1", "RD1"};
+			}
+			
+			else if (param->WHISKER_NAMES[0] == "ONE"){
+	    		param->WHISKER_NAMES = {
+	    			"RC0"};
+	    	}
+
+
 
 			std::vector<std::string> coordinates;
 			if (!vm["POSITION"].empty() && (coordinates = vm["POSITION"].as<std::vector<std::string> >()).size() == 3) {
