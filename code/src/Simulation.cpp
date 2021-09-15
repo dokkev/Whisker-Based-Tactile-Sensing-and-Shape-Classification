@@ -115,6 +115,11 @@ void Simulation::stepSimulation(){
 	if(parameters->PRINT==2){
 		std::cout << "\rSimulation time: " << std::setprecision(2) << m_time << "s\tCompleted: " << std::setprecision(2) << m_time/parameters->TIME_STOP*100 << " %\tTime remaining: " << std::setprecision(4) << time_remaining/60 << " min " << std::setprecision(4) << (time_remaining % 60) << " s\n" << std::flush;
 	}
+
+	else if(parameters->PRINT==3){
+		char do_nothing = 1;
+
+	}
     
 }
 
