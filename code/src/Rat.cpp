@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "Rat.h"
+#include <stdio.h>
 
 Rat::Rat(GUIHelperInterface* helper,btDiscreteDynamicsWorld* world, btAlignedObjectArray<btCollisionShape*>* shapes, Parameters* parameters){
 	// set initial position and orientation of rat head
@@ -166,9 +167,11 @@ void Rat::detect_collision(btDiscreteDynamicsWorld* world){
 			btVector3 ptA = pt.getPositionWorldOnA();
 			btVector3 ptB = pt.getPositionWorldOnB();
 			double ptdist = pt.getDistance();
+			std::cout << "ptdist:" << ptdist << std::endl;
 			
 			
 			if (ptdist < 0.5){
+				std::cout << "Contact!:" << ptdist << std::endl;
 				int* coll0 = (int*) obA->getUserPointer();
 				if(coll0!=nullptr){
 					*coll0 = 1;
