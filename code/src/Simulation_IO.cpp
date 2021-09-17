@@ -19,6 +19,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "Simulation_IO.h"
 
+std::string ps = "+";
+std::string i,j,k;
+
 
 void clear_output(output* data){
 
@@ -220,8 +223,22 @@ void save_data(output* data, std::string dirname){
     catch (...) { 
         std::cout << "- Saving Fz failed." << std::endl;
     }
+    try{
+        filename = subdirname0 + "/Mijk";
+        // data -> Mx;
+        // data_My
+        // write_3D_string_csv
+        
+    }   
+        catch (...) { 
+        std::cout << "- Saving Mijk failed." << std::endl;
+    
+    }
     
 }
+
+
+
 
 void write_2D_float_csv(std::string filename, std::vector<std::vector<float>> data){
     std::ofstream outputFile;
@@ -256,6 +273,31 @@ void write_1D_string_csv(std::string filename, std::vector<std::string> data){
     }
     outputFile.close();
 }
+
+void write_3D_float_csv(std::string filename, std::vector<std::vector<float>> data_x,std::vector<std::vector<float>> data_y,std::vector<std::vector<float>> data_z){
+    std::ofstream outputFile;
+    outputFile.open(filename);
+    for(int row=0;row<data_x.size();row++){
+        for(int col=0;col<data_x[row].size();col++){
+            // std::vector<std::vector<float>> source = data_x;
+            // std::vector<float*> target(source.size());
+            // for (int i = 0; i < source.size(); ++i)
+            //     target[i] = &*source[i].begin();
+
+            std::string data_xs = std::to_string(data_x[row][col]);
+            std::string data_ys = std::to_string(data_y[row][col]);
+            std::string data_zs = std::to_string(data_z[row][col]);
+
+            outputFile << data_x[row][col] << ",";
+
+     
+
+        }
+        outputFile << std::endl;
+    }
+    outputFile.close();
+}
+
 
 
 void read_csv_string(std::string fileName, std::vector<std::string> &dataList){

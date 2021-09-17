@@ -19,6 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef SIMULATION_IO_H
 #define SIMULATION_IO_H
 
+
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <sstream>
 #include <typeinfo>
 #include <iostream>
 #include <fstream>
@@ -59,6 +65,7 @@ struct output{
 	std::vector<std::string> names;
 
 
+
 	void init(std::vector<std::string> whiskernames){
 		names = whiskernames;
 		for(int w=0;w<whiskernames.size();w++){
@@ -71,6 +78,12 @@ struct output{
 };
 
 
+
+
+// std::string Mx_string, My_string, Mz_string, Fx_string, Fy_string, Fz_sting, P_string;
+// std::string Mx_;
+
+
 void clear_output(output* data);
 void save_data(output* data, std::string filename = "../output/test");
 
@@ -81,5 +94,6 @@ void read_csv_float(std::string fileName, std::vector<std::vector<float> > &data
 void write_2D_float_csv(std::string filename, std::vector<std::vector<float>> data);
 void write_2D_int_csv(std::string filename, std::vector<std::vector<int>> data);
 void write_1D_string_csv(std::string filename, std::vector<std::string> data);
+void write_3D_string_csv(std::string filename,std::vector<std::string> data_x,std::vector<std::string> data_y,std::vector<std::string> data_z);
 
 #endif //SIMULATION_IO_H
