@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "Simulation_IO.h"
 
 std::string ps = "+";
-std::string i,j,k;
+std::string is,js,ks;
 
 
 void clear_output(output* data){
@@ -287,8 +287,9 @@ void write_3D_float_csv(std::string filename, std::vector<std::vector<float>> da
             std::string data_xs = std::to_string(data_x[row][col]);
             std::string data_ys = std::to_string(data_y[row][col]);
             std::string data_zs = std::to_string(data_z[row][col]);
+            std::string ijk_vec = data_xs+is + ps + data_ys+js + ps + data_zs+ks;
 
-            outputFile << data_x[row][col] << ",";
+            outputFile << ijk_vec << ",";
 
      
 
