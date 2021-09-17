@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "Simulation_IO.h"
 
 std::string ps = "+";
-std::string is,js,ks;
+std::string is = "i",js = "j",ks = "k";
 
 
 void clear_output(output* data){
@@ -224,7 +224,7 @@ void save_data(output* data, std::string dirname){
         std::cout << "- Saving Fz failed." << std::endl;
     }
     try{
-        filename = subdirname0 + "/Mijk";
+        filename = subdirname0 + "/Mijk.csv";
         write_3D_string_csv(filename,data-> Mx,data->My,data->Mz);
         std::cout << "- Mijk saved." << std::endl;
         
@@ -285,7 +285,7 @@ void write_3D_string_csv(std::string filename,  std::vector<std::vector<float>> 
             std::string data_ys = std::to_string(data_y[row][col]);
             std::string data_zs = std::to_string(data_z[row][col]);
             std::string ijk_vec = data_xs+is + ps + data_ys+js + ps + data_zs+ks;
-
+            // std::cout << ijk_vec << std::endl;
             outputFile << ijk_vec << ",";
 
      
