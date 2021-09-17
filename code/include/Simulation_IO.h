@@ -94,6 +94,6 @@ void read_csv_float(std::string fileName, std::vector<std::vector<float> > &data
 void write_2D_float_csv(std::string filename, std::vector<std::vector<float>> data);
 void write_2D_int_csv(std::string filename, std::vector<std::vector<int>> data);
 void write_1D_string_csv(std::string filename, std::vector<std::string> data);
-void write_3D_string_csv(std::string filename,std::vector<std::string> data_x,std::vector<std::string> data_y,std::vector<std::string> data_z);
+void write_3D_string_csv(std::string filename,std::vector<std::vector<float>> data_x,std::vector<std::vector<float>> data_y,std::vector<std::vector<float>>);
 
 #endif //SIMULATION_IO_H
