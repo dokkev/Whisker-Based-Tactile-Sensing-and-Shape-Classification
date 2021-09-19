@@ -1,6 +1,6 @@
 
-../build/whiskit_gui \
---PRINT 1 \
+../build/whiskit \
+--PRINT 2 \
 --CDIST 50 \
 --CPITCH 0 \
 --CYAW 180 \
@@ -9,6 +9,7 @@
 --OBJECT 5 \
 --file_env "../data/cylinders/c1.obj" \
 --ACTIVE 1 \
+--WHISKER_NAMES TEST
 --TIME_STOP 1.0 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
@@ -19,4 +20,4 @@
 --ObjPITCH 0 \
 --ObjROLL 0 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/full_array_env_active
+--dir_out ../output/collision_test_wo_gui
