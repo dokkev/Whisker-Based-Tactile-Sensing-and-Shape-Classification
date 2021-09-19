@@ -1,6 +1,6 @@
 
 ../build/whiskit_gui \
---PRINT 3 \
+--PRINT 2 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
@@ -9,7 +9,7 @@
 --DEBUG 0 \
 --ACTIVE 1 \
 --WHISKER_NAMES TEST \
---TIME_STOP 1.0 \
+--TIME_STOP 0.5 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
 --OBJECT 5 \
@@ -21,5 +21,4 @@
 --ObjPITCH 0 \
 --ObjROLL 0 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/ijk_test
-
+--dir_out ../output/collion_test_1

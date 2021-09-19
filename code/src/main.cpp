@@ -167,6 +167,11 @@ int main(int argc, char* argv[])
 	    			"RC0", "RC1", "RB1", "RD1"};
 			}
 
+			else if (param->WHISKER_NAMES[0] == "ONE"){
+	    		param->WHISKER_NAMES = {
+	    			"RC0"};
+	    	}
+
 			std::vector<std::string> coordinates;
 			if (!vm["POSITION"].empty() && (coordinates = vm["POSITION"].as<std::vector<std::string> >()).size() == 3) {
 				param->RATHEAD_LOC[0] = lexical_cast<float>(coordinates[0]);

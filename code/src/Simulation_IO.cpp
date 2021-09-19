@@ -233,7 +233,17 @@ void save_data(output* data, std::string dirname){
         std::cout << "- Saving Mijk failed." << std::endl;
     
     }
+    try{
+        filename = subdirname0 + "/Fijk.csv";
+        write_3D_string_csv(filename,data-> Fx,data->Fy,data->Fz);
+        std::cout << "- Fijk saved." << std::endl;
+        
+    }   
+        catch (...) { 
+        std::cout << "- Saving Fijk failed." << std::endl;
     
+    }
+
 }
 
 
