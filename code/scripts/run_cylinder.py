@@ -11,7 +11,9 @@ import os
 import pathlib
 import sys
 import csv
-
+"""
+This script takes care of parallel simulation.
+"""
 counter = None
 E1 = np.array([1,0,0])
 E2 = np.array([0,1,0])
@@ -49,8 +51,10 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     # print('Simulating: ' + str(whisker))
     objFile = objects[objID]
 
+
+    # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "cylinder1-5/"+filename
+    dirout = "../output/"+filename
     
     # print(dirout)
     directory = os.path.dirname(dirout)
@@ -60,7 +64,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # ~/Final_Project/whisker_project/code/build/whiskit
     # change this path accordingly 
-    str1 = "~/Final_Project/whisker_project/code/build/whiskit \
+    str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
     --CPITCH -0 \
@@ -68,7 +72,6 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --BLOW 1  \
     --OBJECT 5 \
     --ACTIVE 1 \
-    --WHISKER_NAMES R \
     --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
@@ -107,6 +110,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     file.write("\nPITCH : "+str(ObjPITCH))
     file.write("\nROLL : "+str(ObjROLL))
     file.write("\nobject ID: "+str(objID))
+    file.write("\ntrial ID: "+str(trialID))
     file.write("\nfilename: "+str(objFile))
     file.write("\ncollision: "+str(collision))
     file.write("\nsimulation time: "+str(time_elapsed))
@@ -119,8 +123,6 @@ def simulate_obj(sim_input):
     trialID = sim_input[1]
 
     simID = 0
-
-
 
     global x,y,z,yaw,pitch,roll,obj_num
 
@@ -137,7 +139,7 @@ def simulate_obj(sim_input):
                     # Objects are scaled by 100, so 0.005 m * 100 = 5 m
     
     obj_tag = 0 # object tag you want to start with (if tag ==0 it simulates c1.obj)
-    obj_tag_max = 4 # object tag you want to end with (when tag == 4, it simulates c4.obj)
+    obj_tag_max = 5 # object tag you want to end with (when tag == 4, it simulates c4.obj)
 
     for i in range(1):
 
@@ -183,9 +185,9 @@ if __name__ == "__main__":
 
     # global counter
     # trialbase = int(sys.argv[1])
-    trialbase = 1
+    trialbase = 10
     counter = Value('i',trialbase)
-    numConfig = 50 # how many times you want to simulate
+    numConfig = 2 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
