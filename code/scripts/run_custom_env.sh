@@ -1,24 +1,24 @@
 
 ../build/whiskit_gui \
---PRINT 2 \
+--PRINT 1 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
---CYAW 180 \
+--CYAW 0 \
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---WHISKER_NAMES TEST \
+--WHISKER_NAMES RODGERS \
 --TIME_STOP 0.5 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
 --OBJECT 5 \
---file_env "../data/cylinders/c1.obj" \
---ObjX 45 \
+--file_env "../data/concave/concave.obj" \
+--ObjX 5 \
 --ObjY 10 \
---ObjZ 0 \
+--ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL 0 \
+--ObjROLL -0.3 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/collion_test_1
+--dir_out ../output/rodgers_concave

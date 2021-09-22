@@ -170,6 +170,10 @@ int main(int argc, char* argv[])
 			else if (param->WHISKER_NAMES[0] == "ONE"){
 	    		param->WHISKER_NAMES = {
 	    			"RC0"};
+			}
+			else if (param->WHISKER_NAMES[0] == "RODGERS"){
+	    		param->WHISKER_NAMES = {
+	    			"RC0","RC1","RC2","RC3"};
 	    	}
 
 			std::vector<std::string> coordinates;
