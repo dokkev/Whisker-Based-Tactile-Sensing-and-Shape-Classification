@@ -44,8 +44,14 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     #with counter.get_lock():
     #    counter.value += 1
     
-    # objects = ['concave_close.obj','concave_med.obj','concave_far.obj']
-    objects = ['convex_close.obj','convex_med.obj','convex_far.obj']
+ 
+    objects = ['concave20.obj','concave22.obj','concave24.obj','concave26.obj','concave28.obj',
+               'concave30.obj','concave32.obj','concave34.obj','concave36.obj','concave38.obj',
+               'concave40.obj',
+               'convex20.obj','convex22.obj','convex24.obj','convex26.obj','convex28.obj',
+               'convex30.obj','convex32.obj','convex34.obj','convex36.obj','convex38.obj',
+               'convex40.obj']
+               
         
     
     
@@ -55,7 +61,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "../output/"+filename
+    dirout = "../output/"+str(object_type)+"/"+filename
     # dirout = "data_parameters"+filename
     
     # print(dirout)
@@ -69,6 +75,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
+    --SIM_TIME 0.1 \
     --CPITCH -0 \
     --CYAW 180 \
     --BLOW 1  \
@@ -79,7 +86,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --SAVE 1 "
 
     str2 = " --file_env ../data/concave/" + objFile
-    str3 = " --dir_out ../output/" + str(filename)
+    str3 = " --dir_out " + str(dirout)
     str4 = " --WHISKER_NAMES " + str(whisker)
     strx = " --ObjX " + str(ObjX) 
     stry = " --ObjY " + str(ObjY)
@@ -93,6 +100,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     start = time.time()
     print("===========NEXT SIMULATION==============")
     print("starting whiskit:" + filename)
+    print("Object Type: " + str(object_type))
     print("Now Whisking: " + str(objFile))
     print("X = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
     print("YAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
@@ -128,30 +136,12 @@ def simulate_obj(sim_input):
     simID = 0
 
     global x,y,z,yaw,pitch,roll,obj_num
+    global object_type
 
-
-    # Concave
-    # ObjXi = 30
-    # ObjYi = 30
-    # ObjZi = -10
-    # ObjYAWi = 0
-    # ObjPITCHi = 0
-    # ObjROLLi = 0.3
-    # X_increment = 2.7 # close, mid, far addition
-
-
-    # Convex
-    ObjXi = 40
-    ObjYi = 10
-    ObjZi = -10
-    ObjYAWi = 0
-    ObjPITCHi = 0
-    ObjROLLi = -3.14
-    X_increment = 2.7 # close, mid, far addition
-
-    
-    obj_tag = 0 # object tag you want to start with (if tag ==0 it simulates c1.obj)
-    obj_tag_max = 3 # object tag you want to end with (when tag == 4, it simulates c4.obj)
+    obj_tag = 0 # object tag you want to start with
+    obj_tag_max = 21 # max object tag you want to end with 
+    concave_max = 10 # object tag you want to end with 
+    convex_max = 21 # object tag you want to end with
 
     for i in range(1):
 
@@ -160,26 +150,46 @@ def simulate_obj(sim_input):
         # while loop  is used to make random applied differnt every siumlation
         while obj_tag <= obj_tag_max:
 
+            if obj_tag <= concave_max: 
+                # Concave
+                ObjXi = 30
+                ObjYi = 30
+                ObjZi = -10
+                ObjYAWi = 0
+                ObjPITCHi = 0
+                ObjROLLi = 0.3
+                object_type = 'concave'
+           
+            elif concave_max < obj_tag <= convex_max:
+                # Convex
+                ObjXi = 40
+                ObjYi = 10
+                ObjZi = -10
+                ObjYAWi = 0
+                ObjPITCHi = 0
+                ObjROLLi = -3.14
+                object_type = 'convex'
+        
+
+
             # tiny translation max delta =~ 1 cm is applied
-            ObjX = round(ObjXi) # + random.uniform(-0.01, 0.01),4)
-            ObjY = round(ObjYi) #+ random.uniform(-0.01, 0.01),4)
+            ObjX = round(ObjXi + random.uniform(-1.0, 1.0),4)
+            ObjY = round(ObjYi + random.uniform(-1.0, 1.0),4)
             ObjZ = round(ObjZi) #+ random.uniform(-0.01, 0.01),4)
 
-            # tiny rotation mat theta =~ 20 deg (0.35 rad) is applied
+            # tiny rotation mat theta =~ 0.15 rad is applied
             ObjYAW = round(ObjYAWi) #+ random.uniform (-0.35,0.35),4)
             ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
             ObjROLL = round(ObjROLLi + random.uniform (-0.15,0.15),4)
 
-            simulate("RODGERS", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
-
-            # increase X for mid and far
-            ObjXi = ObjXi + X_increment
+            simulate("ONE", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 
             # increase simulation ID
             simID+=1
 
             # make it simulate next 
             obj_tag+=1
+
 
 
 
@@ -199,7 +209,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 10 # how many times you want to simulate
+    numConfig = 1 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
