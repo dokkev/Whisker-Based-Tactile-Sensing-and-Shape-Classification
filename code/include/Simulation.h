@@ -55,6 +55,7 @@ private:
 	btScalar m_time;
 	int m_step;
 	int m_total_steps;
+	btScalar m_time_stop;
 
 	btVector3 gravity = btVector3(0,0,-9.8*SCALE);
 	btAlignedObjectArray<btVector3> m_objcenter; // store center position calculated from bounding box for all objs, before start trans

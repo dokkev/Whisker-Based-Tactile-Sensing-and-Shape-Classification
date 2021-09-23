@@ -38,6 +38,7 @@ public:
 	float TIME_STEP;
 	int NUM_STEP_INT;
 	float TIME_STOP;
+	float SIM_TIME;
 
 	// simulation parameters
 	int DEBUG;
