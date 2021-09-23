@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 		("DEBUG", po::value<int>(&param->DEBUG), "debug on/off")
 		
 		("TIME_STOP", po::value<float>(&param->TIME_STOP), "duration of simulation")
+		("SIM_TIME", po::value<float>(&param->SIM_TIME), "duration of simuation (created for debugging)")
 
 		("CONNECT", po::value<int>(&param->CONNECT), "enable server-client connection")
 

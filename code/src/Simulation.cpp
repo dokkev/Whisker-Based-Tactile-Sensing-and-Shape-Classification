@@ -35,6 +35,8 @@ void Simulation::stepSimulation(){
 	auto start = std::chrono::high_resolution_clock::now(); 
 	m_time += parameters->TIME_STEP; 								// increase time
 	m_step += 1;													// increase step
+	m_time_stop = parameters->SIM_TIME;								// set time stop 
+	// std::cout << "Time Stop: " << m_time_stop << " s" << std::endl;
 	
 
 	if(parameters->CONNECT){
@@ -45,7 +47,7 @@ void Simulation::stepSimulation(){
 	}
 
 	// run simulation as long as stop time not exceeded
-	if(parameters->TIME_STOP==0 || m_time < parameters->TIME_STOP){
+	if(m_time_stop==0 || m_time < m_time_stop){
 
 		// register collisions
 		scabbers->detect_collision(m_dynamicsWorld);
@@ -111,7 +113,7 @@ void Simulation::stepSimulation(){
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 	m_time_elapsed += duration.count()/1000.f;
 	auto factor = m_time_elapsed / m_time;
-	auto time_remaining = (int)((parameters->TIME_STOP - m_time) * (factor));
+	auto time_remaining = (int)((m_time_stop - m_time) * (factor));
 	if(parameters->PRINT==2){
 		std::cout << "\rSimulation time: " << std::setprecision(2) << m_time << "s\tCompleted: " << std::setprecision(2) << m_time/parameters->TIME_STOP*100 << " %\tTime remaining: " << std::setprecision(4) << time_remaining/60 << " min " << std::setprecision(4) << (time_remaining % 60) << " s\n" << std::flush;
 	}

@@ -129,6 +129,7 @@ int main(int argc, char** argv)
 		("CONNECT", po::value<int>(&param->CONNECT), "enable server-client connection")
 
 		("TIME_STOP", po::value<float>(&param->TIME_STOP), "duration of simulation")
+		("SIM_TIME", po::value<float>(&param->SIM_TIME), "duration of simuation (created for debugging)")
 
 		("PRINT", po::value<int>(&param->PRINT), "print simulation output")
 		("SAVE", po::value<int>(&param->SAVE), "saving on/off")
