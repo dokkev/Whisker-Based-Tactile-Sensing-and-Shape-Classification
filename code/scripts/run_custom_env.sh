@@ -1,6 +1,7 @@
 
 ../build/whiskit_gui \
---PRINT 1 \
+--PRINT 2 \
+--SIM_TIME 10.0 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
@@ -9,16 +10,15 @@
 --DEBUG 0 \
 --ACTIVE 1 \
 --WHISKER_NAMES RODGERS \
---TIME_STOP 0.5 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
 --OBJECT 5 \
---file_env "../data/concave/concave.obj" \
---ObjX 5 \
---ObjY 10 \
+--file_env "../data/concave/concave_close.obj" \
+--ObjX 30 \
+--ObjY 30 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL -0.3 \
+--ObjROLL 0.3 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/rodgers_concave
+--dir_out ../output/rodgers_convex
