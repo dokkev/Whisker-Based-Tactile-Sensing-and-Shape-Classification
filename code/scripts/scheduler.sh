@@ -2,10 +2,10 @@
 #MSUB -A p30135
 #MSUB -q normal
 #MSUB -l walltime=48:00:00
-#MSUB -M nzweifel@u.northwestern.edu
+#MSUB -M dongkang2021@u.northwestern.edu
 #MSUB -j oe
 #MSUB -N 2-obj_dataset
-#MSUB -l nodes=1:ppn= 10
+#MSUB -l nodes=1:ppn= 28
 
 # Leave a blank line, like above, before you start your other commands
 
@@ -31,6 +31,6 @@ module load numpy/1.19.2
 # A command you actually want to execute (example):
 # Another command you actually want to execute, if needed (example):
 # python error_function-quest.py
-python3 run_quest.py ${STARTID}
+python3 concave.py ${STARTID}
 
 
