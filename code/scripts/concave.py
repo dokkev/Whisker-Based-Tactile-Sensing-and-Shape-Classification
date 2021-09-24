@@ -85,7 +85,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --SAVE_VIDEO 0 \
     --SAVE 1 "
 
-    str2 = " --file_env ../data/concave/" + objFile
+    str2 = " --file_env ../data/concave/ " + objFile
     str3 = " --dir_out " + str(dirout)
     str4 = " --WHISKER_NAMES " + str(whisker)
     strx = " --ObjX " + str(ObjX) 
