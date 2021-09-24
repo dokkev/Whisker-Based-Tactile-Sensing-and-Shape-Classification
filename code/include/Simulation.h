@@ -29,8 +29,8 @@ Copyright (c) 2015 Google Inc. http://bulletphysics.org
 #include "Simulation_utility.h"
 #include "Simulation_IO.h"
 
-#include "Interface.hpp"
-#include "State.hpp"
+// #include "Interface.hpp"
+// #include "State.hpp"
 
 #include <iostream>
 #include <chrono> 
