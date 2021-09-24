@@ -75,19 +75,18 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
-    --SIM_TIME 1.0 \
-    --CPITCH -0 \
+    --WHISKER_NAMES R \
+    --TIME_STOP 1.0 \
+    --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
     --OBJECT 5 \
     --ACTIVE 1 \
-    --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
 
     str2 = " --file_env ../data/concave/" + objFile
     str3 = " --dir_out " + str(dirout)
-    str4 = " --WHISKER_NAMES " + str(whisker)
     strx = " --ObjX " + str(ObjX) 
     stry = " --ObjY " + str(ObjY)
     strz = " --ObjZ " + str(ObjZ)
@@ -95,7 +94,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     strpitch = " --ObjPITCH " + str(ObjPITCH)
     strroll = " --ObjROLL " + str(ObjROLL) 
 
-    cmdstr = str1+str2+str3+str4+strx+stry+strz+stryaw+strpitch+strroll
+    cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
 
     start = time.time()
     print("===========NEXT SIMULATION==============")
@@ -182,7 +181,7 @@ def simulate_obj(sim_input):
             ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
             ObjROLL = round(ObjROLLi + random.uniform (-0.15,0.15),4)
 
-            simulate("ONE", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
+            simulate("R", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 
             # increase simulation ID
             simID+=1
@@ -209,7 +208,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 1 # how many times you want to simulate
+    numConfig = 100 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
@@ -221,7 +220,7 @@ if __name__ == "__main__":
     #    	trials.append([4,trialbase+n])
 
     
-    pool = Pool(processes=10,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=28,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()
