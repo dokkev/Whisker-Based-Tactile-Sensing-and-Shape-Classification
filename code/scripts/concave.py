@@ -75,7 +75,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
-    --SIM_TIME 0.1 \
+    --SIM_TIME 1.0 \
     --CPITCH -0 \
     --CYAW 180 \
     --BLOW 1  \
