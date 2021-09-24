@@ -182,7 +182,7 @@ def simulate_obj(sim_input):
             ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
             ObjROLL = round(ObjROLLi + random.uniform (-0.15,0.15),4)
 
-            simulate("R", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
+            simulate("ONE", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 
             # increase simulation ID
             simID+=1
@@ -209,7 +209,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 100 # how many times you want to simulate
+    numConfig = 1 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
