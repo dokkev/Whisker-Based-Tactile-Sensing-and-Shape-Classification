@@ -6,6 +6,7 @@ import pygame
 from pygame.locals import *
 from io import BytesIO
 import sys
+import math
 
 from graph import *
 
@@ -21,6 +22,23 @@ def get_Rz(theta):
     theta = theta
     R = np.array([[np.cos(-theta),-np.sin(-theta),0.],[np.sin(theta), np.cos(theta), 0.],[0.,0., 1.]])
     return R
+
+def update_state(state):
+    if np.abs(state[5])>=2*np.pi:
+        state[5] = 0.
+    if np.abs(state[4])>=2*np.pi:
+        state[4] = 0.               
+    
+    # get roll
+    Rz = get_Rz(state[5])
+    # get yaw
+    Rx = get_Rx(state[4])
+
+    next_step = np.dot(Rz,orientation)
+    next_step = np.dot(Rx,next_step)
+    next_step[0] = -next_step[0]
+    
+
 
 
 WINSIZE = (720, 960)
@@ -59,10 +77,11 @@ if __name__=="__main__":
     # graph2.flush()
 
     pygame.key.set_repeat(1, 10)
-    turn_size = 0.03
+    turn_size = 0.02
     step_size = 0.1
     orientation = np.array([0.,step_size,0.])
     pitchaxis = np.array([0.,0.,0.])
+    global next_step
     next_step = np.array([0.,step_size,0.])
     
     print("And let's go!!!")
@@ -74,60 +93,83 @@ if __name__=="__main__":
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
+                
+
+                if event.key == pygame.K_s:
+                    state[0:3] -= next_step
+          
+                if event.key == pygame.K_w:
+                    state[0:3] += next_step
 
                 if event.key == pygame.K_DOWN:
                     state[0:3] -= next_step
-                    # state[1] -= next_step[1]
-                    # print('x:' + str(state[0]))
-                    # print('y:' + str(state[1]))
+          
                 if event.key == pygame.K_UP:
                     state[0:3] += next_step
-                    # print('x:' + str(state[0]))
-                    # print('y:' + str(state[1]))
+
+                # if event.key == pygame.K_UP:
+                #     state[4] += turn_size
+
+                #     # update_state(state)
+
+                #     if np.abs(state[4])>=2*np.pi:
+                #         state[4] = 0.
+                    
+                #     # get roll
+                #     Rz = get_Rz(state[5])
+                #     # get yaw
+                #     Rx = get_Rx(state[4])
+
+                #     # next_step = np.dot(Rz,orientation)
+                #     next_step = np.dot(Rx,orientation)
+                #     # next_step[0] = -next_step[0]
+
+                # if event.key == pygame.K_DOWN:
+                #     state[4] -= turn_size
+                #     # update_state(state)
+
+                #     if np.abs(state[4])>=2*np.pi:
+                #         state[4] = 0.
+                    
+                #     # get roll
+                #     Rz = get_Rz(state[5])
+                #     # get yaw
+                #     Rx = get_Rx(state[4])
+
+                #     # next_step = np.dot(Rz,orientation)
+                #     next_step = np.dot(Rx,orientation)
+                #     # next_step[0] = -next_step[0]
 
                 if event.key == pygame.K_RIGHT:
-                    state[4] += turn_size
+                    state[5] -= turn_size
 
-                    if np.abs(state[4])>=2*np.pi:
-                        state[4] = 0.
-                    # print('yaw:' + str(state[4]))
-                    Rz = get_Rz(state[4])
-                    # Rx = get_Rx(state[3])
-                    next_step = np.dot(Rz,orientation)
-                    # next_step[0] = -next_step[0]
-                    # print(next_step)
-
-                if event.key == pygame.K_LEFT:
-                    state[4] -= turn_size
-
-                    if np.abs(state[4])>=2*np.pi:
-                        state[4] = 0.
+                    if np.abs(state[5])>=2*np.pi:
+                        state[5] = 0.
                     
-                    # print('yaw:' + str(state[4]))
-                    Rz = get_Rz(state[4])
-                    # Rx = get_Rx(state[3])
+                    # get roll
+                    Rz = get_Rz(state[5])
+                    # get yaw
+                    Rx = get_Rx(state[4])
+
                     next_step = np.dot(Rz,orientation)
-                    # print(next_step)
+                    # next_step = np.dot(Rx,next_step)
+                    next_step[0] = -next_step[0]
+        
+                if event.key == pygame.K_LEFT:
+                    state[5] += turn_size
 
-                if event.key == pygame.K_e:
-                    state[3] -= turn_size
-
-                    if np.abs(state[3])>=2*np.pi:
-                        state[3] = 0.
-
-                    Rz = get_Rz(state[4])
-                    # Rx = get_Rx(state[3])
+                    if np.abs(state[5])>=2*np.pi:
+                        state[5] = 0.
+                    
+                    # get roll
+                    Rz = get_Rz(state[5])
+                    # get yaw
+                    Rx = get_Rx(state[4])
+     
                     next_step = np.dot(Rz,orientation)
-
-                if event.key == pygame.K_x:
-                    state[3] += turn_size
-
-                    if np.abs(state[3])>=2*np.pi:
-                        state[3] = 0.
-
-                    Rz = get_Rz(state[4])
-                    # Rx = get_Rx(state[3])
-                    next_step = np.dot(Rz,orientation)
+                    # next_step = np.dot(Rx,next_step)
+                    next_step[0] = -next_step[0]
+            
 
 
         X = [state]
@@ -152,6 +194,8 @@ if __name__=="__main__":
         mx = np.array(Y[3]).flatten()
         my = np.array(Y[4]).flatten()
         mz = np.array(Y[5]).flatten()
+
+        print("Y: ", Y)
         
         # if fx.shape[0]>0:
 

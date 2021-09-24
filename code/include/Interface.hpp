@@ -50,12 +50,13 @@ public:
         msgpack::pack(sbuf, data->Fx);
         msgpack::pack(sbuf, data->Fy);
         msgpack::pack(sbuf, data->Fz);
+        // std::cout << sbuf << std::endl;
 
         zmq::message_t msg(sbuf.size());
         memcpy(msg.data(), sbuf.data(), sbuf.size());
         client_socket_.send(msg);
 
-        // std::cout << "Data received." << std::endl;
+        // std::cout << msg << std::endl;
     }
 
 

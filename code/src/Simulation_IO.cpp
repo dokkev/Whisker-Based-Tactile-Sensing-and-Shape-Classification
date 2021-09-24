@@ -223,26 +223,26 @@ void save_data(output* data, std::string dirname){
     catch (...) { 
         std::cout << "- Saving Fz failed." << std::endl;
     }
-    try{
-        filename = subdirname0 + "/Mijk.csv";
-        write_3D_string_csv(filename,data-> Mx,data->My,data->Mz);
-        std::cout << "- Mijk saved." << std::endl;
+    // try{
+    //     filename = subdirname0 + "/Mijk.csv";
+    //     write_3D_string_csv(filename,data-> Mx,data->My,data->Mz);
+    //     std::cout << "- Mijk saved." << std::endl;
         
-    }   
-        catch (...) { 
-        std::cout << "- Saving Mijk failed." << std::endl;
+    // }   
+    //     catch (...) { 
+    //     std::cout << "- Saving Mijk failed." << std::endl;
     
-    }
-    try{
-        filename = subdirname0 + "/Fijk.csv";
-        write_3D_string_csv(filename,data-> Fx,data->Fy,data->Fz);
-        std::cout << "- Fijk saved." << std::endl;
+    // }
+    // try{
+    //     filename = subdirname0 + "/Fijk.csv";
+    //     write_3D_string_csv(filename,data-> Fx,data->Fy,data->Fz);
+    //     std::cout << "- Fijk saved." << std::endl;
         
-    }   
-        catch (...) { 
-        std::cout << "- Saving Fijk failed." << std::endl;
+    // }   
+    //     catch (...) { 
+    //     std::cout << "- Saving Fijk failed." << std::endl;
     
-    }
+    // }
 
 }
 

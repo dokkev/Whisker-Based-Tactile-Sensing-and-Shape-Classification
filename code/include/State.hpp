@@ -23,7 +23,7 @@ struct state{
 class State {
 
 private: 
-
+    
     int current_step;
     int final_step;
     float scale = 1.;

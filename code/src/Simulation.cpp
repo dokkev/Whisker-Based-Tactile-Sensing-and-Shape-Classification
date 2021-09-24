@@ -41,6 +41,7 @@ void Simulation::stepSimulation(){
 
 	if(parameters->CONNECT){
 		connection.send_data(data_dump);
+		std::cout << "data_dump " << data_dump << std::endl;
 		clear_output(data_dump);
 		connection.receive_data(state->new_state);
 		state->update();
