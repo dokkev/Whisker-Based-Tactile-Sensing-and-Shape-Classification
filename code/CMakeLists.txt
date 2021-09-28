@@ -243,6 +243,7 @@ TARGET_LINK_LIBRARIES(whiskit_gui
 	${OPENGL_gl_LIBRARY} 
     ${OPENGL_glu_LIBRARY}
     ${ZeroMQ_LIBRARY}
+    ${MSGPACK_LIBRARY}
     Bullet3Common
     BulletDynamics
     BulletCollision
@@ -250,7 +251,7 @@ TARGET_LINK_LIBRARIES(whiskit_gui
     OpenGLWindow
     BulletExampleBrowserLib
     BulletExampleLib
-    # msgpack
+
     
  )
 
