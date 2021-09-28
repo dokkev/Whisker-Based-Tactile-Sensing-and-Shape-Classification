@@ -8,7 +8,6 @@
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
---WHISKER_NAMES TEST \
 --file_env "../data/environment/scan_95.obj" \
 --ACTIVE 1 \
 --SIM_TIME 10000.0 \
