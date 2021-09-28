@@ -40,12 +40,14 @@ void Simulation::stepSimulation(){
 	
 
 	if(parameters->CONNECT){
+
+		scabbers->dump_M(data_dump);
+		scabbers->dump_F(data_dump);
+		scabbers->dump_Q(data_dump);
+
 		connection.send_data(data_dump);
 		// std::cout << "data_dump " << data_dump << std::endl;
 		clear_output(data_dump);
-
-		// send a test message 
-		// connection.send_okay();
 
 		// receive data from Python and update Rat transfomration
 		connection.receive_data(state->new_state);
@@ -64,7 +66,7 @@ void Simulation::stepSimulation(){
 			scabbers->dump_F(data_dump);
 			scabbers->dump_Q(data_dump);
 
-			std::cout << "scabbers: " << scabbers << std::endl;
+			// std::cout << "scabbers: " << scabbers << std::endl;
 		}
 
 		// moving object 1
