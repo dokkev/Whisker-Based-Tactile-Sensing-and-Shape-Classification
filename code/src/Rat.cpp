@@ -46,6 +46,7 @@ Rat::Rat(GUIHelperInterface* helper,btDiscreteDynamicsWorld* world, btAlignedObj
 			m_whiskerArray.push_back(whisker);
 		}
 	}
+
 			
 }
 

@@ -33,6 +33,7 @@ Whisker::Whisker(btDiscreteDynamicsWorld* world, GUIHelperInterface* helper,btAl
 	NO_MASS = parameters->NO_MASS;
 	BLOW = parameters->BLOW;
 	PRINT = parameters->PRINT;
+	CONNECT = parameters->CONNECT;
 	dt = parameters->TIME_STEP;
 	NUM_LINKS = parameters->NUM_LINKS;
 	NUM_JOINTS = NUM_LINKS - 1;
@@ -62,7 +63,10 @@ Whisker::Whisker(btDiscreteDynamicsWorld* world, GUIHelperInterface* helper,btAl
 	rho = parameters->RHO_BASE/pow(SCALE,3);	// rho: density, SCALE: convert kg/m3 to kg/mm3
 	rho_slope = ((parameters->RHO_TIP-parameters->RHO_BASE)/length /pow(SCALE,3)) ;
 	zeta = parameters->ZETA;				// zeta: damping ratio
-	E = parameters->E/SCALE;			// E: Young's modulus, SCALE: convert kg/m/s2 to kg/mm/s2 
+	E = parameters->E/SCALE;			// E: Young's modulus, SCALE: convert kg/m/s2 to kg/mm/s2
+
+	// setup connection
+
 }
 
 
@@ -310,6 +314,15 @@ btVector3 Whisker::getTorques(){
 		std::cout << "My : " << torques[1] << std::endl;
 		std::cout << "Mz : " << torques[2] << std::endl;
 	}
+	
+	// if(parameters->CONNECT){
+	// 	std::vector<float> vector = {torques[0],torques[1],torques[2]};
+	// 	connection.send_real_time_data(vector);
+		
+	// }
+
+
+
 	return torques;
 }
 

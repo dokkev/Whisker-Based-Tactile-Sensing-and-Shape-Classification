@@ -8,6 +8,7 @@ from io import BytesIO
 import sys
 import math
 
+
 from graph import *
 
 def get_Rx(theta):
@@ -20,7 +21,7 @@ def get_Ry(theta):
 
 def get_Rz(theta):
     theta = theta
-    R = np.array([[np.cos(-theta),-np.sin(-theta),0.],[np.sin(theta), np.cos(theta), 0.],[0.,0., 1.]])
+    R = np.array([[np.cos(theta),-np.sin(theta),0.],[np.sin(theta), np.cos(theta), 0.],[0.,0., 1.]])
     return R
 
 def update_state(state):
@@ -50,6 +51,7 @@ if __name__=="__main__":
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5555")
+    # socket.connect("tcp://localhost:5555")
 
     unpacker = msgpack.Unpacker()
     packer = msgpack.Packer()
@@ -94,52 +96,50 @@ if __name__=="__main__":
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 
-
+                # go backward
                 if event.key == pygame.K_s:
                     state[0:3] -= next_step
-          
+
+                # go forward
                 if event.key == pygame.K_w:
                     state[0:3] += next_step
 
-                if event.key == pygame.K_DOWN:
-                    state[0:3] -= next_step
-          
+                # look up
                 if event.key == pygame.K_UP:
-                    state[0:3] += next_step
+                    state[4] += next_step
 
-                # if event.key == pygame.K_UP:
-                #     state[4] += turn_size
+                    # update_state(state)
 
-                #     # update_state(state)
-
-                #     if np.abs(state[4])>=2*np.pi:
-                #         state[4] = 0.
+                    if np.abs(state[4])>=2*np.pi:
+                        state[4] = 0.
                     
-                #     # get roll
-                #     Rz = get_Rz(state[5])
-                #     # get yaw
-                #     Rx = get_Rx(state[4])
+                    # get roll
+                    Rz = get_Rz(state[5])
+                    # get yaw
+                    Rx = get_Rx(state[4])
 
-                #     # next_step = np.dot(Rz,orientation)
-                #     next_step = np.dot(Rx,orientation)
-                #     # next_step[0] = -next_step[0]
+                    # next_step = np.dot(Rz,orientation)
+                    next_step = np.dot(Rx,next_step)
+                    # next_step[0] = -next_step[0]
+                
+                # look down
+                if event.key == pygame.K_DOWN:
+                    state[4] -= next_step
+                    # update_state(state)
 
-                # if event.key == pygame.K_DOWN:
-                #     state[4] -= turn_size
-                #     # update_state(state)
-
-                #     if np.abs(state[4])>=2*np.pi:
-                #         state[4] = 0.
+                    if np.abs(state[4])>=2*np.pi:
+                        state[4] = 0.
                     
-                #     # get roll
-                #     Rz = get_Rz(state[5])
-                #     # get yaw
-                #     Rx = get_Rx(state[4])
+                    # get roll
+                    Rz = get_Rz(state[5])
+                    # get yaw
+                    Rx = get_Rx(state[4])
 
-                #     # next_step = np.dot(Rz,orientation)
-                #     next_step = np.dot(Rx,orientation)
-                #     # next_step[0] = -next_step[0]
+                    # next_step = np.dot(Rz,orientation)
+                    next_step = np.dot(Rx,next_step)
+                    # next_step[0] = -next_step[0]
 
+                # turn right
                 if event.key == pygame.K_RIGHT:
                     state[5] -= turn_size
 
@@ -153,8 +153,9 @@ if __name__=="__main__":
 
                     next_step = np.dot(Rz,orientation)
                     # next_step = np.dot(Rx,next_step)
-                    next_step[0] = -next_step[0]
         
+
+                # turn left
                 if event.key == pygame.K_LEFT:
                     state[5] += turn_size
 
@@ -168,34 +169,45 @@ if __name__=="__main__":
      
                     next_step = np.dot(Rz,orientation)
                     # next_step = np.dot(Rx,next_step)
-                    next_step[0] = -next_step[0]
-            
+         
+
+                # # go up
+                # if event.key == pygame.K_CTRL:
+                #     state[2] += step_size
+
+                # # go down
+                # if event.key == pygame.K_SPACE:
+                #     state[2] -= step_size
 
 
         X = [state]
+        # print("X: ", X)
         #  Wait for next request from client
         # print("Waiting for response...")
 
-        unpacker.feed(socket.recv())
+        # message = socket.recv()
+        # print("Received request: ", message)
 
+        unpacker.feed(socket.recv())
         Y = []
         for values in unpacker:
                 Y.append(np.array(values))
+                print(values)
 
-        # if t>graph1.xmax:
-        #     t = 0.
-            # graph1.flush()
-            # graph2.flush()
+        # # if t>graph1.xmax:
+        # #     t = 0.
+        #     # graph1.flush()
+        #     # graph2.flush()
 
-        fx = np.array(Y[0]).flatten()
-        fy = np.array(Y[1]).flatten()
-        fz = np.array(Y[2]).flatten()
+        # fx = np.array(Y[0]).flatten()
+        # fy = np.array(Y[1]).flatten()
+        # fz = np.array(Y[2]).flatten()
 
-        mx = np.array(Y[3]).flatten()
-        my = np.array(Y[4]).flatten()
-        mz = np.array(Y[5]).flatten()
+        # mx = np.array(Y[3]).flatten()
+        # my = np.array(Y[4]).flatten()
+        # mz = np.array(Y[5]).flatten()
 
-        print("Y: ", Y)
+
         
         # if fx.shape[0]>0:
 

@@ -1,7 +1,7 @@
 
 ../build/whiskit_gui \
 --PRINT 2 \
---SIM_TIME 10.0 \
+--SIM_TIME 1.0 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
@@ -9,11 +9,11 @@
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---WHISKER_NAMES RODGERS \
+--WHISKER_NAMES R \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
 --OBJECT 5 \
---file_env "../data/concave/concave_close.obj" \
+--file_env "../data/concave/concave20.obj" \
 --ObjX 30 \
 --ObjY 30 \
 --ObjZ -10 \

@@ -41,8 +41,13 @@ void Simulation::stepSimulation(){
 
 	if(parameters->CONNECT){
 		connection.send_data(data_dump);
-		std::cout << "data_dump " << data_dump << std::endl;
+		// std::cout << "data_dump " << data_dump << std::endl;
 		clear_output(data_dump);
+
+		// send a test message 
+		// connection.send_okay();
+
+		// receive data from Python and update Rat transfomration
 		connection.receive_data(state->new_state);
 		state->update();
 	}
@@ -58,6 +63,8 @@ void Simulation::stepSimulation(){
 			scabbers->dump_M(data_dump);
 			scabbers->dump_F(data_dump);
 			scabbers->dump_Q(data_dump);
+
+			std::cout << "scabbers: " << scabbers << std::endl;
 		}
 
 		// moving object 1
@@ -84,11 +91,14 @@ void Simulation::stepSimulation(){
 			scabbers->setAngularVelocity(btVector3(this_loc_vel[6], this_loc_vel[7], this_loc_vel[8]));
 			// scabbers->setAngularVelocity(btVector3(0, 0, 0));
 		}
+
+	
+
 		// Control the rat if CONNECT == 1
 		if(parameters->CONNECT){
 		// 	scabbers->rotateHead(state->current_state.pitch,state->current_state.yaw,state->current_state.roll);
 		// 	scabbers->translateHead(btVector3(state->current_state.x,state->current_state.y,state->current_state.z));
-			btQuaternion quat = btQuaternion(state->current_state.pitch,state->current_state.yaw,state->current_state.roll);
+			btQuaternion quat = btQuaternion(state->current_state.yaw,state->current_state.pitch,state->current_state.roll);
 			btVector3 vec = btVector3(state->current_state.x,state->current_state.y,state->current_state.z);
 			btTransform RatTF = btTransform(quat,vec);
 			scabbers->setTransform(RatTF);
@@ -104,11 +114,13 @@ void Simulation::stepSimulation(){
 
 	    // set exit flag to zero
 	    exitSim = 0;
+	
 	}
 	else{
 		// timeout -> set exit flg
 		exitSim = 1;
 	}
+	
 	
 	auto stop = std::chrono::high_resolution_clock::now(); 
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
@@ -130,6 +142,7 @@ void Simulation::initPhysics()
 {	
 	vec = btVector3(0.5,-1,0).normalized();
 	data_dump->init(parameters->WHISKER_NAMES);
+	
 
 	// set visual axis
 	m_guiHelper->setUpAxis(2);

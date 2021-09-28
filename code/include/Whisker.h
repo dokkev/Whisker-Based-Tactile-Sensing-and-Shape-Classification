@@ -19,8 +19,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #ifndef WHISKER_H
 #define WHISKER_H
-
 #include "Simulation_IO.h"
+// #include "Simulation.h"
+// #include "Interface.hpp"
 #include "Simulation_utility.h"
 #include "Parameters.h"
 
@@ -90,6 +91,10 @@ private:
 	int NO_MASS;
 	int BLOW; //for visual clearity
 	int PRINT;
+	int CONNECT;
+
+	// Client connection;
+
 
 	whisker_config config;
 	Parameters* parameters;
