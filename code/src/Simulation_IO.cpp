@@ -40,7 +40,7 @@ void clear_output(output* data){
 
 }
 
-void save_data(output* data, std::string dirname){
+void save_data(int save_k, output* data, std::string dirname){
     
     if(boost::filesystem::exists("../output")){
         std::cout << "Saving data..." << std::endl;
@@ -83,9 +83,9 @@ void save_data(output* data, std::string dirname){
             exit(1);
         }
     }
-
+    
     std::string subdirname1 = dirname + "/kinematics";
-    if(!boost::filesystem::exists(subdirname1)){
+    if(!boost::filesystem::exists(subdirname1) && save_k ==1){
         try{
             boost::filesystem::create_directory(subdirname1);
         }
@@ -97,7 +97,7 @@ void save_data(output* data, std::string dirname){
     }
 
     std::string subdirname2 = dirname + "/kinematics/x";
-    if(!boost::filesystem::exists(subdirname2)){
+    if(!boost::filesystem::exists(subdirname2)&& save_k ==1){
         try{
             boost::filesystem::create_directory(subdirname2);
         }
@@ -108,7 +108,7 @@ void save_data(output* data, std::string dirname){
     }
 
     std::string subdirname3 = dirname + "/kinematics/y";
-    if(!boost::filesystem::exists(subdirname3)){
+    if(!boost::filesystem::exists(subdirname3)&& save_k ==1){
         try{
             boost::filesystem::create_directory(subdirname3);
         }
@@ -119,7 +119,7 @@ void save_data(output* data, std::string dirname){
     }
 
     std::string subdirname4 = dirname + "/kinematics/z";
-    if(!boost::filesystem::exists(subdirname4)){
+    if(!boost::filesystem::exists(subdirname4)&& save_k ==1){
         try{
             boost::filesystem::create_directory(subdirname4);
         }
@@ -128,8 +128,8 @@ void save_data(output* data, std::string dirname){
             exit(1);
         }
     }
-
-    std::string subdirname5 = dirname + "/kinematics/c";
+    
+    std::string subdirname5 = dirname + "/collision";
     if(!boost::filesystem::exists(subdirname5)){
         try{
             boost::filesystem::create_directory(subdirname5);
@@ -154,12 +154,14 @@ void save_data(output* data, std::string dirname){
 
     try{
         for(int i=0;i<data->Q.size();i++){
-            filename = subdirname2 + "/" + data->Q[i].name + ".csv";
-            write_2D_float_csv(filename,data->Q[i].X);
-            filename = subdirname3 + "/" + data->Q[i].name + ".csv";
-            write_2D_float_csv(filename,data->Q[i].Y);
-            filename = subdirname4 + "/" + data->Q[i].name + ".csv";
-            write_2D_float_csv(filename,data->Q[i].Z);
+            if (save_k == 1){
+                filename = subdirname2 + "/" + data->Q[i].name + ".csv";
+                write_2D_float_csv(filename,data->Q[i].X);
+                filename = subdirname3 + "/" + data->Q[i].name + ".csv";
+                write_2D_float_csv(filename,data->Q[i].Y);
+                filename = subdirname4 + "/" + data->Q[i].name + ".csv";
+                write_2D_float_csv(filename,data->Q[i].Z);
+            }
             filename = subdirname5 + "/" + data->Q[i].name + ".csv";
             write_2D_int_csv(filename,data->Q[i].C);
             

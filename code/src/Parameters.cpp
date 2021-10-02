@@ -25,10 +25,12 @@ Parameters::Parameters(){
 	DEBUG = 0;			// enable debug mode
 	TIME_STEP = 0.001;	// set time step, this is related to output video's FPS
 	NUM_STEP_INT = 100;	// set internal time step
-	TIME_STOP = 1.5;		// set overall simulation time
+	TIME_STOP = 1.5;	// set overall simulation time
+	SIM_TIME = 0.5;		// set simulation time 
     PRINT = 2;			// set to PRINT=1 to kinematics/dynamics realtime, set to PRINT = 2 to print simulation time
 	SAVE = 1;			// save results to csv file
 	SAVE_VIDEO = 1;		// save video when running main_opengl.cpp
+	SAVE_KINEMATICS = 0;// save kinematics to csv file
 
 	// collision object type
 	OBJECT = 0;			// 0: nothing

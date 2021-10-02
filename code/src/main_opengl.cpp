@@ -127,9 +127,11 @@ int main(int argc, char** argv)
 		("DEBUG", po::value<int>(&param->DEBUG), "debug on/off")
 		
 		("TIME_STOP", po::value<float>(&param->TIME_STOP), "duration of simulation")
+		("SIM_TIME", po::value<float>(&param->SIM_TIME), "duration of simuation (created for debugging)")
 
 		("PRINT", po::value<int>(&param->PRINT), "print simulation output")
 		("SAVE", po::value<int>(&param->SAVE), "saving on/off")
+		("SAVE_KINEMATICS",po::value<int>(&param->SAVE_KINEMATICS), "save kinematic result")
 		("SAVE_VIDEO", po::value<int>(&param->SAVE_VIDEO), "video on/off")
 
 		("OBJECT", po::value<int>(&param->OBJECT), "collision object ID (0: none, 1: stationary peg, 2: moving peg, 3: wall")
@@ -358,7 +360,7 @@ int main(int argc, char** argv)
 				std::cout << "Simualtion terminated." << std::endl;
 				std::cout << "Saving data..." << std::endl;
 				output* results = simulation->get_results();
-				save_data(results,simulation->parameters->dir_out);
+				save_data(simulation->parameters->SAVE_KINEMATICS,results,simulation->parameters->dir_out);
 			}
 
 			std::cout << "Exit simulation..." << std::endl;

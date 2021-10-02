@@ -72,7 +72,7 @@ struct output{
 
 
 void clear_output(output* data);
-void save_data(output* data, std::string filename = "../output/test");
+void save_data(int save_k,output* data, std::string filename = "../output/test");
 
 void read_csv_string(std::string fileName, std::vector<std::string> &dataList);
 void read_csv_int(std::string fileName, std::vector<std::vector<int> > &dataList);

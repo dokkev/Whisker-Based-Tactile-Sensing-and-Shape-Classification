@@ -53,6 +53,7 @@ private:
 	
 	btScalar m_time_elapsed;
 	btScalar m_time;
+	btScalar m_time_stop;
 	int m_step;
 	int m_total_steps;
 

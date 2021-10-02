@@ -72,11 +72,11 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # ~/Final_Project/whisker_project/code/build/whiskit
     # change this path accordingly 
-    str1 = "../build/whiskit \
+    str1 = "../build/whiskit_gui \
     --PRINT 2 \
     --CDIST 50 \
-    --WHISKER_NAMES R \
-    --TIME_STOP 1.0 \
+    --SIM_TIME 0.1 \
+    --SAVE_KINEMATICS 0 \
     --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
@@ -138,7 +138,7 @@ def simulate_obj(sim_input):
     global object_type
 
     obj_tag = 0 # object tag you want to start with
-    obj_tag_max = 21 # max object tag you want to end with 
+    obj_tag_max = 0 # max object tag you want to end with 
     concave_max = 10 # object tag you want to end with 
     convex_max = 21 # object tag you want to end with
 
@@ -208,7 +208,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 100 # how many times you want to simulate
+    numConfig = 1 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
