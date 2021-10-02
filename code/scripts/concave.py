@@ -138,7 +138,7 @@ def simulate_obj(sim_input):
     global object_type
 
     obj_tag = 0 # object tag you want to start with
-    obj_tag_max = 0 # max object tag you want to end with 
+    obj_tag_max = 21 # max object tag you want to end with 
     concave_max = 10 # object tag you want to end with 
     convex_max = 21 # object tag you want to end with
 
@@ -179,7 +179,7 @@ def simulate_obj(sim_input):
             # tiny rotation mat theta =~ 0.15 rad is applied
             ObjYAW = round(ObjYAWi) #+ random.uniform (-0.35,0.35),4)
             ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
-            ObjROLL = round(ObjROLLi + random.uniform (-0.15,0.15),4)
+            ObjROLL = round(ObjROLLi + random.uniform (-0.2,0.2),4)
 
             simulate("R", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     #    	trials.append([4,trialbase+n])
 
     
-    pool = Pool(processes=28,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=52,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()
