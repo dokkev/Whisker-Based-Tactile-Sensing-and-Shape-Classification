@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+ 
 import numpy as np
 from numpy.random import uniform as randu # makes it easier to read if you have one name for function
 from numpy.linalg import norm # you can import just the function, no need to import the whole set (needs more memory)
@@ -75,7 +77,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
-    --SIM_TIME 0.1 \
+    --SIM_TIME 0.625 \
     --SAVE_KINEMATICS 0 \
     --WHISKER_NAMES R \
     --CPITCH 0 \

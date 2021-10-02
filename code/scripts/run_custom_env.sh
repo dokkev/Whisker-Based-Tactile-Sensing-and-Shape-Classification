@@ -1,5 +1,5 @@
 
-../build/whiskit \
+../build/whiskit_gui \
 --PRINT 2 \
 --CDIST 50 \
 --CPITCH 0 \
@@ -7,17 +7,17 @@
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
---file_env "../data/cylinders/c1.obj" \
+--file_env "../data/concave/concave20.obj" \
 --ACTIVE 1 \
---WHISKER_NAMES TEST
---TIME_STOP 1.0 \
+--WHISKER_NAMES R \
+--SIM_TIME 0.625 \
 --SAVE_VIDEO 1 \
 --SAVE 1 \
---ObjX 45 \
---ObjY 10 \
---ObjZ 0 \
+--ObjX 30 \
+--ObjY 30 \
+--ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
 --ObjROLL 0 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/collision_test_wo_gui
+--dir_out ../output/time_test
