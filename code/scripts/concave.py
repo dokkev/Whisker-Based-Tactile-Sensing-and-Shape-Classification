@@ -61,7 +61,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "../output/"+str(object_type)+"/"+filename
+    dirout = "../output/"+str(object_type)+str(2)+"/"+filename
     # dirout = "data_parameters"+filename
     
     # print(dirout)
@@ -72,11 +72,12 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # ~/Final_Project/whisker_project/code/build/whiskit
     # change this path accordingly 
-    str1 = "../build/whiskit_gui \
+    str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.1 \
     --SAVE_KINEMATICS 0 \
+    --WHISKER_NAMES R \
     --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
@@ -208,7 +209,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 1 # how many times you want to simulate
+    numConfig = 50 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
@@ -220,7 +221,7 @@ if __name__ == "__main__":
     #    	trials.append([4,trialbase+n])
 
     
-    pool = Pool(processes=52,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=50,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()
