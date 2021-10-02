@@ -29,6 +29,7 @@ Parameters::Parameters(){
     PRINT = 2;			// set to PRINT=1 to kinematics/dynamics realtime, set to PRINT = 2 to print simulation time
 	SAVE = 1;			// save results to csv file
 	SAVE_VIDEO = 1;		// save video when running main_opengl.cpp
+	SAVE_KINEMATICS = 0;// save kinematics to csv file
 	CONNECT = 0;		// enable connection between Python and C++
 	SIM_TIME = 0.5;		// total simulation time
 	// collision object type
@@ -36,6 +37,7 @@ Parameters::Parameters(){
 						// 1: peg
 						// 2: wall
 						// 3: create object from 3D scan
+	OBJ_SCALE = 100;	// scale of object
 				
 	// parameters for peg (OBJECT = 1)
 	PEG_LOC = btVector3(20, 25, 0);

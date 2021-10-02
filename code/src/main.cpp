@@ -71,9 +71,11 @@ int main(int argc, char* argv[])
 		("PRINT", po::value<int>(&param->PRINT), "print simulation output")
 		("SAVE", po::value<int>(&param->SAVE), "saving on/off")
 		("SAVE_VIDEO", po::value<int>(&param->SAVE_VIDEO), "video on/off")
+		("SAVE_KINEMATICS",po::value<int>(&param->SAVE_KINEMATICS), "save kinematic result")
 
 		("OBJECT", po::value<int>(&param->OBJECT), "collision object ID (0: none, 1: stationary peg, 2: moving peg, 3: wall")
-		
+		("OBJ_SCALE", po::value<int>(&param->OBJ_SCALE), "Object scale (default=100)")
+
 		("MODEL_TYPE", po::value<int>(&param->MODEL_TYPE), "model type: 0: average rat, 1: model Belli et al. 2018")
 		("WHISKER_NAMES", po::value<std::vector<std::string> >(&param->WHISKER_NAMES)->multitoken(), "whisker names to simulate")
 		("BLOW,b", po::value<float>(&param->BLOW), "whisker curvature on/off")
@@ -211,7 +213,7 @@ int main(int argc, char* argv[])
 			if(simulation->parameters->SAVE){
 				std::cout << "Simualtion terminated." << std::endl;
 				output* results = simulation->get_results();
-				save_data(results,simulation->parameters->dir_out);
+				save_data(simulation->parameters->SAVE_KINEMATICS,results,simulation->parameters->dir_out);
 			}
 			
 

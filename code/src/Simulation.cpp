@@ -265,7 +265,7 @@ void Simulation::initPhysics()
 		btVector3 vec = btVector3(ObjX_,ObjY_,ObjZ_);
 		btTransform tf = btTransform(quat,vec);
 
-		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(100),btScalar(0),COL_ENV,envCollidesWith);
+		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(parameters->OBJ_SCALE),btScalar(0),COL_ENV,envCollidesWith);
 	}
 
 	// create object from 3D scan at a specific position and orientation using 3D quaternion (roll,pitch,yaw)
@@ -291,7 +291,7 @@ void Simulation::initPhysics()
 		btVector3 vec = btVector3(ObjX_,ObjY_,ObjZ_);
 		btTransform tf = btTransform(quat,vec);
 
-		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(100),btScalar(0),COL_ENV,envCollidesWith);
+		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(parameters->OBJ_SCALE),btScalar(0),COL_ENV,envCollidesWith);
 	}
 
 

@@ -68,18 +68,26 @@ public:
         // std::cout << "Sending data...: "<< data << std::endl;
 
   
+        
 
         msgpack::sbuffer sbuf;
-        msgpack::pack(sbuf, data->Mx);
-        msgpack::pack(sbuf, data->My);
-        msgpack::pack(sbuf, data->Mz);
         msgpack::pack(sbuf, data->Fx);
         msgpack::pack(sbuf, data->Fy);
         msgpack::pack(sbuf, data->Fz);
+        msgpack::pack(sbuf, data->Mx);
+        msgpack::pack(sbuf, data->My);
+        msgpack::pack(sbuf, data->Mz);
+        // msgpack::pack(sbuf, data->Q[19].C);
+        // msgpack::pack(sbuf, data->Q[18].C);
+        // msgpack::pack(sbuf, data->Q[17].C);
+        for(int whi=0;whi<data->Q.size();whi++){
+            msgpack::pack(sbuf, data->Q[whi].C);
 
- 
+        }
+
+
         zmq::message_t msg(sbuf.size());
-        std::cout << "msg: "<< msg << std::endl;
+        // std::cout << "Qsize: "<< data->Q.C.size() << "Fsize: " << data -> Fx.size() << std::endl;
         memcpy(msg.data(), sbuf.data(), sbuf.size());
         client_socket_.send(msg);
 

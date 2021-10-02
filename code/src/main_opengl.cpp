@@ -134,9 +134,11 @@ int main(int argc, char** argv)
 		("PRINT", po::value<int>(&param->PRINT), "print simulation output")
 		("SAVE", po::value<int>(&param->SAVE), "saving on/off")
 		("SAVE_VIDEO", po::value<int>(&param->SAVE_VIDEO), "video on/off")
+		("SAVE_KINEMATICS",po::value<int>(&param->SAVE_KINEMATICS), "save kinematic result")
 
 		("OBJECT", po::value<int>(&param->OBJECT), "collision object ID (0: none, 1: stationary peg, 2: moving peg, 3: wall")
-		
+		("OBJ_SCALE", po::value<int>(&param->OBJ_SCALE), "Object scale (default=100)")
+
 		("MODEL_TYPE", po::value<int>(&param->MODEL_TYPE), "model type: 0: average rat, 1: model Belli et al. 2018")
 		("WHISKER_NAMES", po::value<std::vector<std::string> >(&param->WHISKER_NAMES)->multitoken(), "whisker names to simulate")
 		("BLOW,b", po::value<float>(&param->BLOW), "whisker curvature on/off")
@@ -210,18 +212,19 @@ int main(int argc, char** argv)
 	    			"LD0","LD1","LD2","LD3","LD4","LD5",
 	    			"LE1","LE2","LE3","LE4","LE5"};
 	    	}
+
 			else if (param->WHISKER_NAMES[0] == "GAME"){
 	    		param->WHISKER_NAMES = {
-	    			"LA0","LA2","LA4",
-	    			"LB0","LB2","LB4",
-	    			"LC0","LC2","LC4","LC5",
-	    			"LD1","LD3","LD5",
-	    			"LE1","LE2","LE4","LE5",
-	    			"RA0","RA2","RA4",
-	    			"RB0","RB2","RB4",
-	    			"RC0","RC2","RC4","RC5",
-	    			"RD0","RD3","RD5",
-	    			"RE1","RE2","RE4","RE5"};
+	    			"LA2","LA3","LA4",
+	    			"LB1","LB2","LB3","LB4",
+					"LC1","LC2","LC3",
+					"LD1","LD2","LD3",
+					"RA2","RA3","RA4",
+					"RB1","RB2","RB3","RB4",
+					"RC1","RC2","RC3",
+					"RD1","RD2","RD3"
+				};
+	    
 	    	}
 
 			else if (param->WHISKER_NAMES[0] == "TEST"){
@@ -234,9 +237,11 @@ int main(int argc, char** argv)
 	    			"RC0"};
 	    	}
 
-			else if (param->WHISKER_NAMES[0] == "RODGERS"){
+			else if (param->WHISKER_NAMES[0] == "EXP"){
 	    		param->WHISKER_NAMES = {
-	    			"RC0","RC1","RC2","RC3"};
+	    			"RC0","RC1","RC2","RC3",
+					"LC0","LC1","LC2","LC3"
+					};
 	    	}
 
 			std::vector<std::string> coordinates;
@@ -386,10 +391,11 @@ int main(int argc, char** argv)
 			
 			
 			if(simulation->parameters->SAVE){
+			
 				std::cout << "Simualtion terminated." << std::endl;
 				std::cout << "Saving data..." << std::endl;
 				output* results = simulation->get_results();
-				save_data(results,simulation->parameters->dir_out);
+				save_data(simulation->parameters->SAVE_KINEMATICS,results,simulation->parameters->dir_out);
 			}
 
 			std::cout << "Exit simulation..." << std::endl;

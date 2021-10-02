@@ -46,6 +46,7 @@ public:
 	int SAVE;
 	int SAVE_VIDEO;
 	int CONNECT;
+	int SAVE_KINEMATICS;
 	
 	// collision object type
 	int OBJECT;
@@ -92,6 +93,9 @@ public:
 	float CDIST;
 	float CPITCH;
 	float CYAW;
+
+	// object scale
+	int OBJ_SCALE;
 
 	// object position
 	float ObjX;

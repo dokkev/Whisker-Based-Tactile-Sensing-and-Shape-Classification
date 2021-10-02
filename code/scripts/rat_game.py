@@ -1,5 +1,4 @@
 import numpy as np
-
 import zmq
 import msgpack
 import pygame
@@ -8,50 +7,17 @@ from io import BytesIO
 import sys
 import math
 
-
+from rot_mat import *
 from graph import *
-
-def get_Rx(theta):
-    R = np.array([[1.,0.,0.],[0., np.cos(theta), -np.sin(theta)],[0.,np.sin(theta), np.cos(theta)]])
-    return R
-
-def get_Ry(theta):
-    R = np.array([[np.cos(theta),0.,np.sin(theta)],[0., 1., 0.],[-np.sin(theta),0., np.cos(theta)]])
-    return R
-
-def get_Rz(theta):
-    theta = theta
-    R = np.array([[np.cos(theta),-np.sin(theta),0.],[np.sin(theta), np.cos(theta), 0.],[0.,0., 1.]])
-    return R
-
-def update_state(state):
-    if np.abs(state[5])>=2*np.pi:
-        state[5] = 0.
-    if np.abs(state[4])>=2*np.pi:
-        state[4] = 0.               
-    
-    # get roll
-    Rz = get_Rz(state[5])
-    # get yaw
-    Rx = get_Rx(state[4])
-
-    next_step = np.dot(Rz,orientation)
-    next_step = np.dot(Rx,next_step)
-    next_step[0] = -next_step[0]
-    
-
-
 
 WINSIZE = (720, 960)
 
 if __name__=="__main__":
 
-
     pathapp = "../build/whiskit_gui"
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5555")
-    # socket.connect("tcp://localhost:5555")
 
     unpacker = msgpack.Unpacker()
     packer = msgpack.Packer()
@@ -71,8 +37,8 @@ if __name__=="__main__":
     graph.ylabel(4,'My')
     graph.ylabel(5,'Mz')
     graph.xlabel(5,'time [s]')
-    # graph1.set_title('Forces')
     
+    # graph1.set_title('Forces')
 
     # graph2 = Graph()
     # graph2.set_title('Moments')
@@ -80,7 +46,7 @@ if __name__=="__main__":
 
     pygame.key.set_repeat(1, 10)
     turn_size = 0.02
-    step_size = 0.1
+    step_size = 0.3
     orientation = np.array([0.,step_size,0.])
     pitchaxis = np.array([0.,0.,0.])
     global next_step
@@ -106,112 +72,60 @@ if __name__=="__main__":
 
                 # look up
                 if event.key == pygame.K_UP:
-                    state[4] += next_step
-
-                    # update_state(state)
-
-                    if np.abs(state[4])>=2*np.pi:
-                        state[4] = 0.
-                    
-                    # get roll
-                    Rz = get_Rz(state[5])
-                    # get yaw
-                    Rx = get_Rx(state[4])
-
-                    # next_step = np.dot(Rz,orientation)
-                    next_step = np.dot(Rx,next_step)
-                    # next_step[0] = -next_step[0]
+                    next_step = update_pitch(state,turn_size,next_step,orientation)
                 
                 # look down
                 if event.key == pygame.K_DOWN:
-                    state[4] -= next_step
-                    # update_state(state)
-
-                    if np.abs(state[4])>=2*np.pi:
-                        state[4] = 0.
-                    
-                    # get roll
-                    Rz = get_Rz(state[5])
-                    # get yaw
-                    Rx = get_Rx(state[4])
-
-                    # next_step = np.dot(Rz,orientation)
-                    next_step = np.dot(Rx,next_step)
-                    # next_step[0] = -next_step[0]
+                    next_step = update_pitch(state,-turn_size,next_step,orientation)
 
                 # turn right
                 if event.key == pygame.K_RIGHT:
-                    state[5] -= turn_size
-
-                    if np.abs(state[5])>=2*np.pi:
-                        state[5] = 0.
-                    
-                    # get roll
-                    Rz = get_Rz(state[5])
-                    # get yaw
-                    Rx = get_Rx(state[4])
-
-                    next_step = np.dot(Rz,orientation)
-                    # next_step = np.dot(Rx,next_step)
+                    next_step = update_roll(state,-turn_size,next_step,orientation)
         
-
                 # turn left
                 if event.key == pygame.K_LEFT:
-                    state[5] += turn_size
+                    next_step = update_roll(state,turn_size,next_step,orientation)
+  
 
-                    if np.abs(state[5])>=2*np.pi:
-                        state[5] = 0.
-                    
-                    # get roll
-                    Rz = get_Rz(state[5])
-                    # get yaw
-                    Rx = get_Rx(state[4])
-     
-                    next_step = np.dot(Rz,orientation)
-                    # next_step = np.dot(Rx,next_step)
-         
-
-                # # go up
-                # if event.key == pygame.K_CTRL:
-                #     state[2] += step_size
-
-                # # go down
-                # if event.key == pygame.K_SPACE:
-                #     state[2] -= step_size
-
-
-        X = [state]
-        # print("X: ", X)
-        #  Wait for next request from client
-        # print("Waiting for response...")
-
-        # message = socket.recv()
-        # print("Received request: ", message)
-
+        # get info from c++
         unpacker.feed(socket.recv())
+        # empty array to store dynamic data
         Y = []
         for values in unpacker:
                 Y.append(np.array(values))
-                print(values)
+       
+        whisker_num = len(Y) - 6
 
-        # # if t>graph1.xmax:
-        # #     t = 0.
-        #     # graph1.flush()
-        #     # graph2.flush()
-
-        # fx = np.array(Y[0]).flatten()
-        # fy = np.array(Y[1]).flatten()
-        # fz = np.array(Y[2]).flatten()
-
-        # mx = np.array(Y[3]).flatten()
-        # my = np.array(Y[4]).flatten()
-        # mz = np.array(Y[5]).flatten()
-
-
+        fx = np.array(Y[0]).flatten()
+        fy = np.array(Y[1]).flatten()
+        fz = np.array(Y[2]).flatten()
+        mx = np.array(Y[3]).flatten()
+        my = np.array(Y[4]).flatten()
+        mz = np.array(Y[5]).flatten()
+  
+        # empty array to store collision data
+        C = []
+        i = 1
+        while i <= whisker_num:
+            C.append(np.array(Y[5+i]).flatten())
+            i += 1
         
-        # if fx.shape[0]>0:
+        
+        if fx.shape[0]>0:
+            
+            ## Plot ALL whiskers data
+            # j = 0
+            # while j <= (whisker_num-1):
+            #     graph.plot(0,t,fx[j],color=BLUE)
+            #     graph.plot(1,t,fy[j],color=BLACK)
+            #     graph.plot(2,t,fz[j],color=RED)
+            #     graph.plot(3,t,mx[j],color=BLUE)
+            #     graph.plot(4,t,my[j],color=BLACK)
+            #     graph.plot(5,t,mz[j],color=RED)
+            #     j += 1
 
-            # i=0
+            ## Plot ONLY one whisker data
+            # i=1
             # graph.plot(0,t,fx[i],color=BLUE)
             # graph.plot(1,t,fy[i],color=BLACK)
             # graph.plot(2,t,fz[i],color=RED)
@@ -219,16 +133,18 @@ if __name__=="__main__":
             # graph.plot(4,t,my[i],color=BLACK)
             # graph.plot(5,t,mz[i],color=RED)
 
-            # i=23
-            # graph.plot(0,t,fx[i],color=BLUE)
-            # graph.plot(1,t,fy[i],color=BLACK)
-            # graph.plot(2,t,fz[i],color=RED)
-            # graph.plot(3,t,mx[i],color=BLUE)
-            # graph.plot(4,t,my[i],color=BLACK)
-            # graph.plot(5,t,mz[i],color=RED)
+            # Plot Mean of ALL whiskers data
+            graph.plot(0,t,np.nanmean(fx),color=BLUE)
+            graph.plot(1,t,np.nanmean(fy),color=BLACK)
+            graph.plot(2,t,np.nanmean(fz),color=RED)
+            graph.plot(3,t,np.nanmean(mx),color=BLUE)
+            graph.plot(4,t,np.nanmean(my),color=BLACK)
+            graph.plot(5,t,np.nanmean(mz),color=RED)
 
-            # graph.update()
 
+            graph.update()
+        # store state and send it to c++
+        X = [state]
         buffer = BytesIO()
         for x in X:
             buffer.write(packer.pack(list(x)))

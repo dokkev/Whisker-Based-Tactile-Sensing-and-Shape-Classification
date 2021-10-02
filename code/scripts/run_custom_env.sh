@@ -1,7 +1,7 @@
 
 ../build/whiskit_gui \
 --PRINT 2 \
---SIM_TIME 1.0 \
+--SIM_TIME 0.62 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
@@ -9,11 +9,12 @@
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---WHISKER_NAMES R \
---SAVE_VIDEO 1 \
+--WHISKER_NAMES ONE \
+--OBJ_SCALE 1000 \
+--SAVE_VIDEO 0 \
 --SAVE 1 \
 --OBJECT 5 \
---file_env "../data/concave/concave20.obj" \
+--file_env "../data/world/whisker_world.obj" \
 --ObjX 30 \
 --ObjY 30 \
 --ObjZ -10 \
@@ -21,4 +22,4 @@
 --ObjPITCH 0 \
 --ObjROLL 0.3 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/rodgers_convex
+--dir_out ../output/time_test

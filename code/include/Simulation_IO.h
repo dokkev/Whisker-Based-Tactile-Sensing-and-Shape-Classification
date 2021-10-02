@@ -35,9 +35,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <msgpack.hpp>
 #include "LinearMath/btVector3.h"
 
+#include "Parameters.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+
 
 
 struct kinematic_data{
@@ -46,6 +48,7 @@ struct kinematic_data{
 	std::vector<std::vector<float>> Y;
 	std::vector<std::vector<float>> Z;
 	std::vector<std::vector<int>> C;
+	
 };
 
 struct output{
@@ -85,7 +88,7 @@ struct output{
 
 
 void clear_output(output* data);
-void save_data(output* data, std::string filename = "../output/test");
+void save_data(int save_k,output* data, std::string filename = "../output/test");
 
 void read_csv_string(std::string fileName, std::vector<std::string> &dataList);
 void read_csv_int(std::string fileName, std::vector<std::vector<int> > &dataList);

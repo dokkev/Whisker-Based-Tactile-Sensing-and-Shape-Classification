@@ -33,8 +33,8 @@ class Plot:
 
         self.xmin = 0.
         self.xmax = 2.
-        self.ymin = -0.0005
-        self.ymax = 0.0005
+        self.ymin = -0.1
+        self.ymax = 0.1
         self.yzero = (self.axis[1]-2*self.ymargin)/2
 
         self.xscale = (self.axis[0]-np.sum(self.xmargin))/np.abs(self.xmax-self.xmin)
