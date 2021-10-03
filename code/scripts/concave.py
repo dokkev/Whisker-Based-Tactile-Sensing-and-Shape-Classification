@@ -63,7 +63,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "../output/"+str(object_type)+str(2)+"/"+filename
+    dirout = "../output/"+str(object_type)+str(3)+"/"+filename
     # dirout = "data_parameters"+filename
     
     # print(dirout)
@@ -78,7 +78,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
-    --SAVE_KINEMATICS 0 \
+    --SAVE_KINEMATICS 1 \
     --WHISKER_NAMES R \
     --CPITCH 0 \
     --CYAW 180 \
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 50 # how many times you want to simulate
+    numConfig = 100 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
