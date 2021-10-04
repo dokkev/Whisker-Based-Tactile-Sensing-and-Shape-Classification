@@ -1,7 +1,7 @@
 
 ../build/whiskit_gui \
 --PRINT 2 \
---SIM_TIME 0.62 \
+--SIM_TIME 0.125 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
@@ -9,17 +9,18 @@
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---WHISKER_NAMES ONE \
---OBJ_SCALE 1000 \
+--SAVE_KINEMATICS 1 \
+--WHISKER_NAMES TEST \
+--OBJ_SCALE 100 \
 --SAVE_VIDEO 0 \
 --SAVE 1 \
 --OBJECT 5 \
---file_env "../data/world/whisker_world.obj" \
---ObjX 30 \
---ObjY 30 \
+--file_env "../data/concave/concave40.obj" \
+--ObjX 40 \
+--ObjY 10 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL 0.3 \
+--ObjROLL -3.14 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/time_test
+--dir_out ../output/kine3

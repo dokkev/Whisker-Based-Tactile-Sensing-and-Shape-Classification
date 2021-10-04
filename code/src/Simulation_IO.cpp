@@ -1,26 +1,19 @@
 /*
 WHISKiT Physics Simulator
 Copyright (C) 2019 Nadina Zweifel (SeNSE Lab)
-
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 */
 
 #include "Simulation_IO.h"
-
-std::string ps = "+";
-std::string is = "i",js = "j",ks = "k";
 
 
 void clear_output(output* data){
@@ -86,9 +79,9 @@ void save_data(int save_k, output* data, std::string dirname){
             exit(1);
         }
     }
-
+    
     std::string subdirname1 = dirname + "/kinematics";
-    if(!boost::filesystem::exists(subdirname1)){
+    if(!boost::filesystem::exists(subdirname1) && save_k ==1){
         try{
             boost::filesystem::create_directory(subdirname1);
         }
@@ -98,48 +91,41 @@ void save_data(int save_k, output* data, std::string dirname){
         }
         
     }
+
+    std::string subdirname2 = dirname + "/kinematics/x";
+    if(!boost::filesystem::exists(subdirname2)&& save_k ==1){
+        try{
+            boost::filesystem::create_directory(subdirname2);
+        }
+        catch(int e){
+            printf("- Error creating output subdirectory!\n");
+            exit(1);
+        }
+    }
+
+    std::string subdirname3 = dirname + "/kinematics/y";
+    if(!boost::filesystem::exists(subdirname3)&& save_k ==1){
+        try{
+            boost::filesystem::create_directory(subdirname3);
+        }
+        catch(int e){
+            printf("- Error creating output subdirectory!\n");
+            exit(1);
+        }
+    }
+
+    std::string subdirname4 = dirname + "/kinematics/z";
+    if(!boost::filesystem::exists(subdirname4)&& save_k ==1){
+        try{
+            boost::filesystem::create_directory(subdirname4);
+        }
+        catch(int e){
+            printf("- Error creating output subdirectory!\n");
+            exit(1);
+        }
+    }
     
-
-        std::string subdirname2 = dirname + "/kinematics/x";
-
-            if(!boost::filesystem::exists(subdirname2)){
-                try{
-                    boost::filesystem::create_directory(subdirname2);
-                }
-                catch(int e){
-                    printf("- Error creating output subdirectory!\n");
-                    exit(1);
-                }
-            }
-        
-
-        std::string subdirname3 = dirname + "/kinematics/y";
-
-            if(!boost::filesystem::exists(subdirname3)){
-                try{
-                    boost::filesystem::create_directory(subdirname3);
-                }
-                catch(int e){
-                    printf("- Error creating output subdirectory!\n");
-                    exit(1);
-                }
-            }
-        
-
-        std::string subdirname4 = dirname + "/kinematics/z";
-
-            if(!boost::filesystem::exists(subdirname4)){
-                try{
-                    boost::filesystem::create_directory(subdirname4);
-                }
-                catch(int e){
-                    printf("- Error creating output subdirectory!\n");
-                    exit(1);
-                }
-            }
-    
-    
-    std::string subdirname5 = dirname + "/kinematics/c";
+    std::string subdirname5 = dirname + "/collision";
     if(!boost::filesystem::exists(subdirname5)){
         try{
             boost::filesystem::create_directory(subdirname5);
@@ -164,16 +150,15 @@ void save_data(int save_k, output* data, std::string dirname){
 
     try{
         for(int i=0;i<data->Q.size();i++){
-
-                if (save_k == 1){
+            if (save_k == 1){
                 filename = subdirname2 + "/" + data->Q[i].name + ".csv";
                 write_2D_float_csv(filename,data->Q[i].X);
                 filename = subdirname3 + "/" + data->Q[i].name + ".csv";
                 write_2D_float_csv(filename,data->Q[i].Y);
                 filename = subdirname4 + "/" + data->Q[i].name + ".csv";
                 write_2D_float_csv(filename,data->Q[i].Z);
-                filename = subdirname5 + "/" + data->Q[i].name + ".csv";
-                }
+            }
+            filename = subdirname5 + "/" + data->Q[i].name + ".csv";
             write_2D_int_csv(filename,data->Q[i].C);
             
         }
@@ -233,31 +218,8 @@ void save_data(int save_k, output* data, std::string dirname){
     catch (...) { 
         std::cout << "- Saving Fz failed." << std::endl;
     }
-    // try{
-    //     filename = subdirname0 + "/Mijk.csv";
-    //     write_3D_string_csv(filename,data-> Mx,data->My,data->Mz);
-    //     std::cout << "- Mijk saved." << std::endl;
-        
-    // }   
-    //     catch (...) { 
-    //     std::cout << "- Saving Mijk failed." << std::endl;
     
-    // }
-    // try{
-    //     filename = subdirname0 + "/Fijk.csv";
-    //     write_3D_string_csv(filename,data-> Fx,data->Fy,data->Fz);
-    //     std::cout << "- Fijk saved." << std::endl;
-        
-    // }   
-    //     catch (...) { 
-    //     std::cout << "- Saving Fijk failed." << std::endl;
-    
-    // }
-
 }
-
-
-
 
 void write_2D_float_csv(std::string filename, std::vector<std::vector<float>> data){
     std::ofstream outputFile;
@@ -292,30 +254,6 @@ void write_1D_string_csv(std::string filename, std::vector<std::string> data){
     }
     outputFile.close();
 }
-
-void write_3D_string_csv(std::string filename,  std::vector<std::vector<float>> data_x,
-                                                std::vector<std::vector<float>> data_y,
-                                                std::vector<std::vector<float>> data_z){
-    std::ofstream outputFile;
-    outputFile.open(filename);
-    for(int row=0;row<data_x.size();row++){
-        for(int col=0;col<data_x[row].size();col++){
-      
-            std::string data_xs = std::to_string(data_x[row][col]);
-            std::string data_ys = std::to_string(data_y[row][col]);
-            std::string data_zs = std::to_string(data_z[row][col]);
-            std::string ijk_vec = data_xs+is + ps + data_ys+js + ps + data_zs+ks;
-            // std::cout << ijk_vec << std::endl;
-            outputFile << ijk_vec << ",";
-
-     
-
-        }
-        outputFile << std::endl;
-    }
-    outputFile.close();
-}
-
 
 
 void read_csv_string(std::string fileName, std::vector<std::string> &dataList){
@@ -406,4 +344,3 @@ void read_csv_float(std::string fileName, std::vector<std::vector<float> > &data
     }
 
 }
-
