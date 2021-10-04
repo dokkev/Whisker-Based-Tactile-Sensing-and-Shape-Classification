@@ -42,4 +42,6 @@ def save_data(dirname,data,type):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    np.savetxt(dirout+'/'+str(dirname)+'_'+str(type), data, delimiter=',')
+    np.savetxt(str(dirout) + '/' +str(dirname), data, delimiter=',')
+
+    # dirname = "concave20.obj_T" + format(trials, '03d') + "_N00"
