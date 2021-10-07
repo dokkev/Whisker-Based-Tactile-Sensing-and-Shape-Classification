@@ -67,25 +67,48 @@ public:
         
         // std::cout << "Sending data...: "<< data << std::endl;
 
-  
-        
-
+        // create a msgpack to send to the communicator 
         msgpack::sbuffer sbuf;
+
+        // the length of each data is equal to the number of whiskers
         msgpack::pack(sbuf, data->Fx);
         msgpack::pack(sbuf, data->Fy);
         msgpack::pack(sbuf, data->Fz);
         msgpack::pack(sbuf, data->Mx);
         msgpack::pack(sbuf, data->My);
         msgpack::pack(sbuf, data->Mz);
-        // msgpack::pack(sbuf, data->Q[19].C);
-        // msgpack::pack(sbuf, data->Q[18].C);
-        // msgpack::pack(sbuf, data->Q[17].C);
-        for(int whi=0;whi<data->Q.size();whi++){
-            msgpack::pack(sbuf, data->Q[whi].C);
 
+        // create matrix (2D vectors) to store data of each whisker
+        std::vector<std::vector<int>> C_mat;
+        std::vector<std::vector<float>> X_mat;
+        std::vector<std::vector<float>> Y_mat;
+        std::vector<std::vector<float>> Z_mat;
+
+        // access each whisker (whisker loop)
+        for (int whi=0; whi < data->Q.size();whi++){
+            std::vector<int> c_push; //vector to push into C_mat row
+            std::vector<float> x_push;
+            std::vector<float> y_push;
+            std::vector<float> z_push;
+
+            // coloum loop since whisker is divided into 20 segments
+            for (int col=0; col < data->Q[whi].C[0].size(); col++){
+                c_push.push_back(data->Q[whi].C[0][col]);
+                x_push.push_back(data->Q[whi].X[0][col]);
+                y_push.push_back(data->Q[whi].Y[0][col]);
+                z_push.push_back(data->Q[whi].Z[0][col]); 
+            }
+            // push vectors into each row
+            C_mat.push_back(c_push);
+            X_mat.push_back(x_push);
+            Y_mat.push_back(y_push);
+            Z_mat.push_back(z_push);
         }
-
-
+        msgpack::pack(sbuf, C_mat);
+        msgpack::pack(sbuf, X_mat);
+        msgpack::pack(sbuf, Y_mat);
+        msgpack::pack(sbuf, Z_mat);
+       
         zmq::message_t msg(sbuf.size());
         // std::cout << "Qsize: "<< data->Q.C.size() << "Fsize: " << data -> Fx.size() << std::endl;
         memcpy(msg.data(), sbuf.data(), sbuf.size());
