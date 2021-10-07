@@ -91,25 +91,36 @@ if __name__=="__main__":
         unpacker.feed(socket.recv())
         # empty array to store dynamic data
         Y = []
+
+        # Let's unpack the data we recievd
         for values in unpacker:
                 Y.append(np.array(values))
-       
-        whisker_num = len(Y) - 6
-
+      
+        # since we are getting real-time data, we only have one row while column represents whiskers
         fx = np.array(Y[0]).flatten()
         fy = np.array(Y[1]).flatten()
         fz = np.array(Y[2]).flatten()
         mx = np.array(Y[3]).flatten()
         my = np.array(Y[4]).flatten()
         mz = np.array(Y[5]).flatten()
-  
-        # empty array to store collision data
-        C = []
-        i = 1
-        while i <= whisker_num:
-            C.append(np.array(Y[5+i]).flatten())
-            i += 1
         
+        # transpose the kinematic data to match its format with dynamic data.
+        # After transposing, row represents segments of each whisker while colum presents whiskers
+        c = np.array(Y[6]).transpose()
+        x = np.array(Y[7]).transpose()
+        y = np.array(Y[8]).transpose()
+        z = np.array(Y[9]).transpose()
+        
+        print("Number of Whisker used; ", len(fx))
+        print(c)
+        print(fx)
+        # remember that this communicator receives no information about whisker name
+        
+
+
+
+
+        # print(C)
         
         if fx.shape[0]>0:
             

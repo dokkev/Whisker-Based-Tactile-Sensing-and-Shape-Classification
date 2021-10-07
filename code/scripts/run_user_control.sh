@@ -5,7 +5,7 @@
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
---WHISKER_NAMES EXP \
+--WHISKER_NAMES TEST \
 --OBJ_SCALE 1000 \
 --file_env "../data/world/whisker_world.obj" \
 --ACTIVE 1 \

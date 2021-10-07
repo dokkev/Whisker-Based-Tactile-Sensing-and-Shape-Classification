@@ -35,6 +35,8 @@ simID = 0
 objID = 0
 objects_max = 1
 
+
+
 for objID in range(objects_max):
     objFile = objects[objID]
 
@@ -44,21 +46,14 @@ for objID in range(objects_max):
     print(objFile)
     # print("===== NEXT OBJECT ====")
 
-    for trials in range(trials_max):
+    for trialID in range(trials_max):
 
-        dirname = 'concave24.obj_T010' + '_N02'
-        # dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
-  
-        # Let's plot and whisker position for each whisker consecutively
-        # initialize the figure
-        # fig = plt.figure()
-        # ax = fig.add_subplot(projection='3d')
-        # uax = fig.gca(projection='3d')
+        # dirname = 'concave24.obj_T010' + '_N02'
+        dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
+        print(dirname,"saved")
+        # dirname = 'kine'
 
         # matrix to store data with append
-        whisker_x = []
-        whisker_y = []
-        whisker_z = []
         whisker_fx = []
         whisker_fy = []
         whisker_fz = []
@@ -84,74 +79,54 @@ for objID in range(objects_max):
         Mz_array = np.array(Mz)
 
 
-
         # total number of whiskers counting from 0
         n_max = len(whiskers) - 1
-        # print("total number of whiskers: ",len(whiskers))
+        print("total number of whiskers: ",len(whiskers))
 
         # n will direct the specific whisker
         n = 0
+
+        # create an empty contact indicator at incident
+        contact_indicator = np.zeros(len(Fx_array,))
+    
         while n <= n_max:
             
             # whisker name
             whisker_name = whiskers[n]
+            # print(whisker_name)
         
             # set target dir with the specific whisker name
             C_dir = '../output/'+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
-            X_dir = '../output/'+str(dirname)+'/kinematics/x/' + str(whisker_name) + '.csv'
-            Y_dir = '../output/'+str(dirname)+'/kinematics/y/' + str(whisker_name) + '.csv'
-            Z_dir = '../output/'+str(dirname)+'/kinematics/x/' + str(whisker_name) + '.csv'
-            
 
             # get the data from csv file for each whisker
             C = read_from_csv(C_dir)
-            X = read_from_csv(X_dir)
-            Y = read_from_csv(Y_dir)
-            Z = read_from_csv(Z_dir)
 
-            # print(len(C[0]))
             # this for loop will take care of the data in row
-            for i in range(len(C)):
+            # print(len(C)-1)
+            for i in range(len(C)-1):
                 if str(1) in C[i]:
-                    # Fx_array = np.delete(Fx_array,i,0)
-            
-                    whisker_fx.append(float(Fx[i][n]))
-                    whisker_fy.append(float(Fy[i][n]))
-                    whisker_fz.append(float(Fz[i][n]))
-                    whisker_mx.append(float(Mx[i][n]))
-                    whisker_my.append(float(My[i][n]))
-                    whisker_mz.append(float(Mz[i][n]))
-                    # print("collsion!")
-        
-
-                # this for loop takes care of the column of each row
-                for j in range(len(C[0])):
-                    
-                    # if the collision data is 1, then we will plot the position. Make sure that you are comapring to string
-                    if str(C[i][j]) == str(1):
-                        # plot the position
-                        # print("Collision on: ",whisker_name)
-                        whisker_x.append(float(X[i][j]))
-                        whisker_y.append(float(Y[i][j]))
-                        whisker_z.append(float(Z[i][j]))
-
-                        
-                        
+                    contact_indicator[i] = 1
+     
+            print(contact_indicator)
+            print(len(contact_indicator))
+  
             # increment the whisker number      
             n += 1
 
+        # print(len(contact_indicator))
         # combine into a single array
-        whisker_pos = np.array([whisker_x,whisker_y,whisker_z])
-        whisker_f = np.array([whisker_fx,whisker_fy,whisker_fz])
-        whisker_m = np.array([whisker_mx,whisker_my,whisker_mz])
-
-
+        whisker_f = np.array([whisker_fx,whisker_fy,whisker_fz]).transpose()
+        whisker_m = np.array([whisker_mx,whisker_my,whisker_mz]).transpose()
 
         # save data
-        # save_data(dirname,whisker_pos,"pos")
-        # save_data(dirname,whisker_f,"f")
-        # save_data(dirname,whisker_m,"m")
+
+        save_data(dirname,whisker_f,"f")
+        save_data(dirname,whisker_m,"m")
         # print("trial number",trials,"saved")
+
+
+
+ 
 
         # normalize the data
         # whisker_pos = normalize(whisker_pos)
@@ -170,7 +145,7 @@ for objID in range(objects_max):
         
         # print("yes!")
 
-        trials += 1
+        trialID += 1
 
     simID += 1
     objID += 1    
