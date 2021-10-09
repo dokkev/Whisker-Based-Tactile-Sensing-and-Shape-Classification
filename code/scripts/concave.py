@@ -63,7 +63,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "../output/"+str(object_type)+str(3)+"/"+filename
+    dirout = "../output/"+str(object_type)+str("_s")+"/"+filename
     # dirout = "data_parameters"+filename
     
     # print(dirout)
@@ -78,7 +78,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
-    --SAVE_KINEMATICS 1 \
+    --SAVE_KINEMATICS 0 \
     --WHISKER_NAMES R \
     --CPITCH 0 \
     --CYAW 180 \
@@ -159,30 +159,30 @@ def simulate_obj(sim_input):
                 ObjZi = -10
                 ObjYAWi = 0
                 ObjPITCHi = 0
-                ObjROLLi = 0.3
+                ObjROLLi = -0.1
                 object_type = 'concave'
            
             elif concave_max < obj_tag <= convex_max:
                 # Convex
-                ObjXi = 40
-                ObjYi = 10
+                ObjXi = 30
+                ObjYi = 30
                 ObjZi = -10
                 ObjYAWi = 0
                 ObjPITCHi = 0
-                ObjROLLi = -3.14
+                ObjROLLi = -3.5
                 object_type = 'convex'
         
 
 
             # tiny translation max delta =~ 1 cm is applied
-            ObjX = round(ObjXi + random.uniform(-1.0, 1.0),4)
-            ObjY = round(ObjYi + random.uniform(-1.0, 1.0),4)
+            ObjX = round(ObjXi + random.uniform(-5.0, 5.0),4)
+            ObjY = round(ObjYi + random.uniform(-5.0, 5.0),4)
             ObjZ = round(ObjZi) #+ random.uniform(-0.01, 0.01),4)
 
             # tiny rotation mat theta =~ 0.15 rad is applied
             ObjYAW = round(ObjYAWi) #+ random.uniform (-0.35,0.35),4)
             ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
-            ObjROLL = round(ObjROLLi + random.uniform (-0.2,0.2),4)
+            ObjROLL = round(ObjROLLi + random.uniform (-0.1,0.1),4)
 
             simulate("R", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 

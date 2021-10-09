@@ -7,17 +7,17 @@
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
---file_env "../data/concave/concave20.obj" \
+--file_env "../data/concave/convex20.obj" \
 --ACTIVE 1 \
 --WHISKER_NAMES R \
 --SIM_TIME 0.625 \
---SAVE_VIDEO 1 \
+--SAVE_VIDEO 0 \
 --SAVE 1 \
 --ObjX 30 \
 --ObjY 30 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL 0 \
+--ObjROLL -3.5 \
 --file_video "../output/video_object.mp4" \
 --dir_out ../output/time_test
