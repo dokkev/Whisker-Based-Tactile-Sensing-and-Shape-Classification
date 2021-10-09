@@ -7,8 +7,8 @@ from sklearn.preprocessing import normalize
 from read_data import *
 
 """
-From each whisker's xyz position and dynamic data, let's create a tacile 3D mapping 
-Each whisker has 20 segments, and only segments expierenced collsion will be mapped.
+This script extract dynamic data which experienced collision with the object at its time step in the simulation.
+It wirtes csv files of each tiral for each object along with a big summary csv file includes all the trials of same types of objects.
 
 """
 # Fixing random state for reproducibility
@@ -33,18 +33,24 @@ objects = [ 'concave20.obj','concave22.obj','concave24.obj','concave26.obj','con
 # name of the dir in output
 simID = 0
 objID = 0
-objects_max = 1
+objects_max = 22
 
+# There are "ultimate" arrays to keep ALL concave data in one single file for all simulations
 
-
+F_concave = []
+M_concave = []
+F_convex = []
+M_convex = []
+print("total number of whiskers: ",len(whiskers))
 for objID in range(objects_max):
     objFile = objects[objID]
 
     trialID = 0
-    trials_max = 1
+    trials_max = 50
     
     print(objFile)
     # print("===== NEXT OBJECT ====")
+    
 
     for trialID in range(trials_max):
 
@@ -53,14 +59,13 @@ for objID in range(objects_max):
         print(dirname,"saved")
         # dirname = 'kine'
 
-        # matrix to store data with append
+        # matrix to store data with append and empty it for next trialID
         whisker_fx = []
         whisker_fy = []
         whisker_fz = []
         whisker_mx = []
         whisker_my = []
         whisker_mz = []
-
 
         # default path to dynamic data (each include all whiskers)
         D_dir =  '../output/'+(dirname)+'/dynamics/'
@@ -78,19 +83,19 @@ for objID in range(objects_max):
         My_array = np.array(My)
         Mz_array = np.array(Mz)
 
-
         # total number of whiskers counting from 0
         n_max = len(whiskers) - 1
-        print("total number of whiskers: ",len(whiskers))
+        
 
         # n will direct the specific whisker
         n = 0
 
         # create an empty contact indicator at incident
-        contact_indicator = np.zeros(len(Fx_array,))
-    
-        while n <= n_max:
-            
+        contact_indicator = np.zeros((len(Fx),len(Fx[0])-1),dtype=int)
+        # print(contact_indicator)
+        # np.savetxt("contact_indicator.csv",contact_indicator,delimiter=',')
+
+        for n in range(len(whiskers)):
             # whisker name
             whisker_name = whiskers[n]
             # print(whisker_name)
@@ -103,52 +108,70 @@ for objID in range(objects_max):
 
             # this for loop will take care of the data in row
             # print(len(C)-1)
-            for i in range(len(C)-1):
+            for i in range(len(C)):
                 if str(1) in C[i]:
-                    contact_indicator[i] = 1
-     
-            print(contact_indicator)
-            print(len(contact_indicator))
-  
+                    contact_indicator[i,n] = 1
+                    
             # increment the whisker number      
             n += 1
 
-        # print(len(contact_indicator))
-        # combine into a single array
+  
+        np.savetxt("contact_indicator.csv",contact_indicator,delimiter=',')   
+        # print(contact_indicator)  
+        # print(len(contact_indicator)) # make sure the length of the array is corresponding to the data size
+        # print(len(Fx[0]))
+        # Let's compare the dynamic data to the contact_indicator
+        for i in range(len(contact_indicator)):
+            for j in range(len(contact_indicator[0])):
+                if int(contact_indicator[i,j]) == int(1):
+                    whisker_fx.append(float(Fx_array[i][j]))
+                    whisker_fy.append(float(Fy_array[i][j]))
+                    whisker_fz.append(float(Fz_array[i][j]))
+                    whisker_mx.append(float(Mx_array[i][j]))
+                    whisker_my.append(float(My_array[i][j]))
+                    whisker_mz.append(float(Mz_array[i][j]))
+                             
+        # print(len(whisker_fx))
+        # combine into a single array 
         whisker_f = np.array([whisker_fx,whisker_fy,whisker_fz]).transpose()
         whisker_m = np.array([whisker_mx,whisker_my,whisker_mz]).transpose()
+        # print(whisker_f)
 
         # save data
-
         save_data(dirname,whisker_f,"f")
         save_data(dirname,whisker_m,"m")
-        # print("trial number",trials,"saved")
-
-
-
- 
-
-        # normalize the data
-        # whisker_pos = normalize(whisker_pos)
-        # whisker_f = normalize(whisker_f)
-        # whisker_m = normalize(whisker_m)
-
-
-        # 3D Vector Plot
-        # dynamic_data = whisker_f
-        # u,v,w = vector_plot_3d(dynamic_data[0],dynamic_data[1],dynamic_data[2])
-        # uax.quiver(dynamic_data[0], dynamic_data[1], dynamic_data[2], u, v, w, length=0.1, normalize=True)
-
-        # ax.scatter(whisker_pos[0],whisker_pos[1],whisker_pos[2],marker='o',color='b')
-        # ax.scatter(whisker_f[0],whisker_f[1],whisker_f[2],marker='o',color='b')
-        # ax.scatter(whisker_m[0],whisker_m[1],whisker_m[2],marker='o',color='g')
+        # print("trial number",trialID,"saved")
         
-        # print("yes!")
+        if str("concave") in dirname:
+            print("This is Concave!")
+            F_concave.extend(whisker_f)
+            M_concave.extend(whisker_m)
+            # print(len(F_concave))
+
+        elif str("convex") in dirname:
+            print("This is Convex!")
+            F_convex.extend(whisker_f)
+            M_convex.extend(whisker_m)
+
 
         trialID += 1
 
     simID += 1
     objID += 1    
 
-plt.show()
+
+
+
+F_concave = np.array(F_concave)
+M_concave = np.array(M_concave)
+F_convex = np.array(F_convex)
+M_convex = np.array(M_convex)
+
+
+
+save_master("F_concave_total",F_concave)
+save_master("M_concave_total",M_concave)
+save_master("F_convex_total",F_concave)
+save_master("M_convex_total",M_convex)
+print("ALL SAVED!")
 
