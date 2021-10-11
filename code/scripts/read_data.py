@@ -55,3 +55,11 @@ def save_master(filename,data):
     if not os.path.exists(directory):
         os.makedirs(directory)
     np.savetxt(str(dirout) + '/' +str(filename) + '.csv', data, delimiter=',')
+
+def append_data_to_list(list,data):
+
+    if float(data) < 100:
+        list.append(float(data))
+    else:
+        print("data seems too large! Data: ", data)
+        pass

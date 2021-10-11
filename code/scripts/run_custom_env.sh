@@ -9,18 +9,18 @@
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---SAVE_KINEMATICS 1 \
---WHISKER_NAMES TEST \
+--SAVE_KINEMATICS 0 \
+--WHISKER_NAMES R \
 --OBJ_SCALE 100 \
 --SAVE_VIDEO 0 \
 --SAVE 1 \
 --OBJECT 5 \
 --file_env "../data/concave/concave40.obj" \
---ObjX 40 \
---ObjY 10 \
+--ObjX 31.5596 \
+--ObjY 28.9532 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL -3.14 \
+--ObjROLL 0.46 \
 --file_video "../output/video_object.mp4" \
---dir_out ../output/kine3
+--dir_out ../output/overtest
