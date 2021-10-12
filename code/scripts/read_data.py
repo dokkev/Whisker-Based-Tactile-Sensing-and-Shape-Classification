@@ -2,6 +2,9 @@ import csv
 import numpy as np
 import os
 import pathlib
+from PIL import Image
+from sklearn.preprocessing import normalize
+from sklearn.preprocessing import MinMaxScaler
 
 def read_from_csv(dir):
 
@@ -63,3 +66,38 @@ def append_data_to_list(list,data):
     else:
         print("data seems too large! Data: ", data)
         pass
+
+def convert_to_RGB(volume: np.ndarray, index: int):
+    scaler = MinMaxScaler(feature_range=(0, 255))
+    rvolume = scaler.fit_transform(volume.reshape(-1, volume.shape[-1])).reshape(volume.shape)
+    img_arr = Image.fromarray(rvolume[:, :, index])
+    if img_arr.mode != 'RGB':
+        img_arr= img_arr.convert('RGB')
+    # if img_arr.mode == "F" or img_arr.mode == "I":
+    #     img_arr = img_arr.convert('L')
+    return rvolume, img_arr
+
+
+def convert_contact_to_gray(data):
+    for i in range(len(data)):
+        for j in range(len(data[0])):
+            if data[i][j] == 1:
+                data[i][j] = 255
+            else:
+                data[i][j] = 0
+    
+    img_arr = Image.fromarray(np.uint8(data),'L')
+
+
+    return img_arr
+
+
+def save_image(dirname,data,type):
+    dirout = '../results/images/' + str(type) + '/'
+    directory = os.path.dirname(dirout)
+    pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    img_dir = dirout+str(dirname)+'.jpg'
+    data.save(img_dir)
+

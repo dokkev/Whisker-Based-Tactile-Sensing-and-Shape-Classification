@@ -5,6 +5,7 @@ import os
 import pathlib
 from sklearn.preprocessing import normalize
 from read_data import *
+from PIL import Image
 
 """
 This script extract dynamic data which experienced collision with the object at its time step in the simulation.
@@ -14,6 +15,9 @@ It wirtes csv files of each tiral for each object along with a big summary csv f
 
 # args
 save_master = 0
+save_data = 1
+classification = 1
+
 
 # whiskers names array
 whiskers = [
@@ -72,6 +76,8 @@ for objID in range(objects_max):
         whisker_mx = []
         whisker_my = []
         whisker_mz = []
+        Img = []
+    
 
         # default path to dynamic data (each include all whiskers)
         D_dir =  '../output/'+(dirname)+'/dynamics/'
@@ -92,7 +98,6 @@ for objID in range(objects_max):
         # total number of whiskers counting from 0
         n_max = len(whiskers) - 1
         
-
         # n will direct the specific whisker
         n = 0
 
@@ -102,10 +107,14 @@ for objID in range(objects_max):
         # np.savetxt("contact_indicator.csv",contact_indicator,delimiter=',')
 
         for n in range(len(whiskers)):
+            # 1 X 3 Matrix to hold rgb values
+            F_RGB = []
+            M_RGB = []
+
+
             # whisker name
             whisker_name = whiskers[n]
-            # print(whisker_name)
-        
+    
             # set target dir with the specific whisker name
             C_dir = '../output/'+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
 
@@ -119,7 +128,10 @@ for objID in range(objects_max):
                     contact_indicator[i,n] = 1
 
             # set the first row of the contact indicator to 0
-            contact_indicator[0,:] = 0        
+            contact_indicator[0,:] = 0
+
+
+
             # increment the whisker number      
             n += 1
 
@@ -132,7 +144,6 @@ for objID in range(objects_max):
         for i in range(len(contact_indicator)):
             for j in range(len(contact_indicator[0])):
                 if int(contact_indicator[i,j]) == int(1):
-     
                     whisker_fx.append(float(Fx_array[i][j]))
                     whisker_fy.append(float(Fy_array[i][j]))
                     whisker_fz.append(float(Fz_array[i][j]))
@@ -147,7 +158,7 @@ for objID in range(objects_max):
         whisker_f = np.array([whisker_fx,whisker_fy,whisker_fz]).transpose()
         whisker_m = np.array([whisker_mx,whisker_my,whisker_mz]).transpose()
 
-        classification = 0
+
         # add concave / concvex indicator
         if classification == 1:
             if str("concave") in dirname:
@@ -162,11 +173,10 @@ for objID in range(objects_max):
                 whisker_m = np.hstack((whisker_m,convex_indicator))
 
 
-   
-
         # save data
-        save_data(dirname,whisker_f,"f")
-        save_data(dirname,whisker_m,"m")
+        if save_data == 1:
+            save_data(dirname,whisker_f,"f")
+            save_data(dirname,whisker_m,"m")
         # print("trial number",trialID,"saved")
 
         if save_master == 1:
