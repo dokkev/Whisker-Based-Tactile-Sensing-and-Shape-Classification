@@ -6,20 +6,33 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 
 # 0) Prepare data
-# print(bc)
-df = pd.read_csv('../results/data_s/F_total.csv', header = None)
+# df = pd.read_csv('../results/data_s/F_total.csv', header = None)
+df2 = pd.read_csv('../results/data0-99/F_total.csv', header = None)
+df3 = pd.read_csv('../results/data100-199/F_total.csv', header = None)
+df4 = pd.read_csv('../results/data200-299/F_total.csv', header = None)
+
 # print(df)
 print("data loaded")
-X = df.loc[:, 1:2] #features vectors
-y = df.loc[:, 3]   #class labels: 2 = benign, 4 = malignant
-X = np.array(X)
-y = np.array(y)
+# X = np.array(df.loc[:, 1:2]) #features vectors
+# y = np.array(df.loc[:, 3])   #class labels: 1 = concave 0 = convex
+
+X2 = np.array(df2.loc[:, 1:2]) #features vectors
+y2 = np.array(df2.loc[:, 3])   #class labels: 1 = concave 0 = convex
+
+X3 = np.array(df3.loc[:, 1:2]) #features vectors
+y3 = np.array(df3.loc[:, 3])   #class labels: 1 = concave 0 = convex
+
+X4 = np.array(df4.loc[:, 1:2]) #features vectors
+y4 = np.array(df4.loc[:, 3])   #class labels: 1 = concave 0 = convex
+
+X = np.vstack((X2,X3,X4))
+y = np.vstack((y2,y3,y4))
 
 # X, y = bc.data, bc.target
 
 n_samples, n_features = X.shape
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 # scale
 sc = StandardScaler()

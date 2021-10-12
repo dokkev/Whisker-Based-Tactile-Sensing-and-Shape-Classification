@@ -14,8 +14,8 @@ It wirtes csv files of each tiral for each object along with a big summary csv f
 """
 
 # args
-save_master = 0
-save_data = 1
+save_master_status = 1
+save_data_stauts = 0
 classification = 1
 
 
@@ -174,12 +174,12 @@ for objID in range(objects_max):
 
 
         # save data
-        if save_data == 1:
+        if save_data_stauts == 1:
             save_data(dirname,whisker_f,"f")
             save_data(dirname,whisker_m,"m")
         # print("trial number",trialID,"saved")
 
-        if save_master == 1:
+        if save_master_status == int(1):
             if str("concave") in dirname:
                 # print("This is Concave!")
                 F_concave.extend(whisker_f)
@@ -201,18 +201,21 @@ for objID in range(objects_max):
     objID += 1    
 
 
-if save_master == 1:
-    # conver all master arrys to numpy array
+
+# conver all master arrys to numpy array
+
+if save_master_status == int(1):
     F_concave = np.array(F_concave)
     M_concave = np.array(M_concave)
     F_convex = np.array(F_convex)
     M_convex = np.array(M_convex)
     F_total = np.array(F_total)
     M_total = np.array(M_total)
-    save_master("F_concave_total",F_concave)
-    save_master("M_concave_total",M_concave)
-    save_master("F_convex_total",F_concave)
-    save_master("M_convex_total",M_convex)
+
+    # save_master("F_concave_total",F_concave)
+    # save_master("M_concave_total",M_concave)
+    # save_master("F_convex_total",F_concave)
+    # save_master("M_convex_total",M_convex)
     save_master("F_total",F_total)
     save_master("M_total",M_total)
 

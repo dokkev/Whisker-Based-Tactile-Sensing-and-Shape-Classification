@@ -86,7 +86,7 @@ def convert_contact_to_gray(data):
             else:
                 data[i][j] = 0
     
-    img_arr = Image.fromarray(np.uint8(data),'L')
+    img_arr = Image.fromarray(np.uit8(data),'L')
 
 
     return img_arr
