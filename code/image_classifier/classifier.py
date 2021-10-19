@@ -1,18 +1,18 @@
 import tensorflow as tf
-# tf.logging.set_verbosity(tf.logging.ERROR)
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
 
 train_datagenerator = ImageDataGenerator(rescale=1./255)
 test_datagenerator = ImageDataGenerator(rescale=1./255)
 
 train_datagenerator = train_datagenerator.flow_from_directory(
-    'train',
+    'train/s',
     target_size=(128,128),
     batch_size=40,
     class_mode='binary')
 
 test_datagenerator = test_datagenerator.flow_from_directory(
-    'test',
+    'test/s',
     target_size=(128,128),
     batch_size=10,
     class_mode='binary')
@@ -39,21 +39,29 @@ model.compile(loss='binary_crossentropy',
              optimizer=tf.keras.optimizers.Adam(0.001),
              metrics=['accuracy'])
 
-DESIRED_ACCURACY = 0.85
+ACCURACY_THRESHOLD = 0.95
 
 class myCallback(tf.keras.callbacks.Callback):
-  def on_epoch_end(self, epoch, logs={}):
-      a = 1
+ def on_epoch_end(self, epoch, logs={}):
+		if(logs.get('accuracy') > ACCURACY_THRESHOLD):
+			print("\nReached %2.2f%% accuracy, so stopping training!!" %(ACCURACY_THRESHOLD*100))
+			self.model.stop_training = True
 
 
 callbacks = myCallback()
 
-model.fit_generator(
-    train_datagenerator,
-    epochs=100,
-    validation_data = test_datagenerator,
-    callbacks = [callbacks]
-    )
+# model.fit_generator(
+#     train_datagenerator,
+#     epochs=10,
+#     validation_data = test_datagenerator,
+#     callbacks = [callbacks]
+#     )
+model.fit(
+        train_datagenerator,
+        epochs=5,
+        validation_data=test_datagenerator,
+        callbacks=[myCallback()]
+        )
 
 
 model.save('mymodel.h5')

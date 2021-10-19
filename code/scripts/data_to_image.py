@@ -45,7 +45,7 @@ if __name__ == "__main__":
         objFile = objects[objID]
 
         trialID = 0
-        trials_max = 100
+        trials_max = 200
         
 
         # print("===== NEXT OBJECT ====")

@@ -2,9 +2,11 @@ import csv
 import numpy as np
 import os
 import pathlib
+import cv2
 from PIL import Image
 from sklearn.preprocessing import normalize
 from sklearn.preprocessing import MinMaxScaler
+from scipy.io import savemat
 
 def read_from_csv(dir):
 
@@ -59,6 +61,15 @@ def save_master(filename,data):
         os.makedirs(directory)
     np.savetxt(str(dirout) + '/' +str(filename) + '.csv', data, delimiter=',')
 
+def save_3d_array(filename,data):
+    dirout = '../results/'
+    directory = os.path.dirname(dirout)
+    pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    saveas = (str(dirout) + '/' +str(filename) + '.csv')
+    savemat(saveas,data)
+
 def append_data_to_list(list,data):
 
     if float(data) < 100:
@@ -68,14 +79,47 @@ def append_data_to_list(list,data):
         pass
 
 def convert_to_RGB(volume: np.ndarray, index: int):
+    # Get absolute value
+    volume = np.abs(volume)
+
+    r = np.array(volume[:, :, 0])
+    g = np.array(volume[:, :, 1])
+    b = np.array(volume[:, :, 2])
+
+    r = np.divide(r,np.max(r))
+    g = np.divide(g,np.max(g))
+    b = np.divide(b,np.max(b))
+
+    rvolume = np.zeros((len(volume),len(volume[0]),3))
+    rvolume[:,:,0] = r
+    rvolume[:,:,1] = g
+    rvolume[:,:,2] = b
+    # print(np.shape(rvolume))
+
+    rvolume = np.nan_to_num(rvolume)
+    rvolume = np.multiply(rvolume,255)
+    rvolume = rvolume.astype(np.uint8)
+    # print(rvolume)
+    img_arr = Image.fromarray(rvolume.astype('uint8'), 'RGB')
+
+    return img_arr
+
+# def convert_to_RGB(volume: np.ndarray, index: int):
+#     scaler = MinMaxScaler(feature_range=(0, 255))
+#     rvolume = scaler.fit_transform(volume)
+#     img_arr = Image.fromarray(rvolume)
+
+
+def convert_to_Gray(volume: np.ndarray):
     scaler = MinMaxScaler(feature_range=(0, 255))
-    rvolume = scaler.fit_transform(volume.reshape(-1, volume.shape[-1])).reshape(volume.shape)
-    img_arr = Image.fromarray(rvolume[:, :, index])
-    if img_arr.mode != 'RGB':
-        img_arr= img_arr.convert('RGB')
-    # if img_arr.mode == "F" or img_arr.mode == "I":
-    #     img_arr = img_arr.convert('L')
-    return rvolume, img_arr
+    rvolume = scaler.fit_transform(volume)
+    # print(rvolume)
+    img_arr = Image.fromarray(rvolume)
+
+    if img_arr.mode == "F" or img_arr.mode == "I":
+        img_arr = img_arr.convert('L')
+    return img_arr
+
 
 
 def convert_contact_to_gray(data):
@@ -86,7 +130,7 @@ def convert_contact_to_gray(data):
             else:
                 data[i][j] = 0
     
-    img_arr = Image.fromarray(np.uit8(data),'L')
+    img_arr = Image.fromarray(np.uint8(data),'L')
 
 
     return img_arr

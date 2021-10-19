@@ -1,7 +1,7 @@
 
 ../build/whiskit_gui \
 --PRINT 2 \
---SIM_TIME 0.125 \
+--SIM_TIME 0.625 \
 --CONNECT 0 \
 --CDIST 50 \
 --CPITCH -0 \
@@ -10,10 +10,10 @@
 --DEBUG 0 \
 --ACTIVE 1 \
 --SAVE_KINEMATICS 0 \
---WHISKER_NAMES R \
+--WHISKER_NAMES TEST \
 --OBJ_SCALE 100 \
 --SAVE_VIDEO 0 \
---SAVE 1 \
+--SAVE 0 \
 --OBJECT 5 \
 --file_env "../data/concave/concave40.obj" \
 --ObjX 31.5596 \
