@@ -7,6 +7,7 @@ from PIL import Image
 from sklearn.preprocessing import normalize
 from sklearn.preprocessing import MinMaxScaler
 from scipy.io import savemat
+import copy
 
 def read_from_csv(dir):
 
@@ -111,10 +112,11 @@ def convert_to_RGB(volume: np.ndarray, index: int):
 
 
 def convert_to_Gray(volume: np.ndarray):
-    scaler = MinMaxScaler(feature_range=(0, 255))
-    rvolume = scaler.fit_transform(volume)
-    # print(rvolume)
-    img_arr = Image.fromarray(rvolume)
+    volume = np.abs(volume)
+    rvolume = np.divide(volume,np.max(volume))
+    rvolume = np.multiply(rvolume,255)
+    rvolume = rvolume.astype(np.uint8)
+    img_arr = Image.fromarray(rvolume.astype('uint8'))
 
     if img_arr.mode == "F" or img_arr.mode == "I":
         img_arr = img_arr.convert('L')

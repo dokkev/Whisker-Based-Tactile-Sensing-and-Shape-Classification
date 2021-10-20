@@ -42,10 +42,11 @@ class myCallback(tf.keras.callbacks.Callback):
 
 def train(X_train,y_train,X_test, y_test):
 
+    input_size = X_train.shape[1]
     model = keras.Sequential([
-        keras.layers.Flatten(input_shape=(12,)),
-        keras.layers.Dense(16, activation=tf.nn.relu),
-        keras.layers.Dense(16, activation=tf.nn.relu),
+        keras.layers.Flatten(input_shape=(input_size,)),
+        keras.layers.Dense(int(2/3*input_size), activation=tf.nn.relu),
+        # keras.layers.Dense(16, activation=tf.nn.relu),
         keras.layers.Dense(1, activation=tf.nn.sigmoid),
     ])
 

@@ -1,11 +1,9 @@
-from re import S
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import os
 import pathlib
 from numpy.lib.npyio import savetxt
-
 from sklearn.utils.validation import check_array
 from read_data import *
 from whisker_array import *
@@ -19,7 +17,7 @@ if __name__ == "__main__":
 
     simID = 0
     objID = 0
-    objects_max = 22
+    objects_max = 1
 
     # empyt array for all the data
 
@@ -29,7 +27,7 @@ if __name__ == "__main__":
         objFile = objects[objID]
 
         trialID = 0
-        trials_max = 700
+        trials_max = 1
         
         
         while trialID < trials_max:
@@ -55,30 +53,31 @@ if __name__ == "__main__":
             n = 0
 
             # create an empty contact indicator at incident
-            contact_indicator = W.contact_indicator
+            contact_indicator = W.indicate_contact(dirname,whiskers)
+            np.savetxt('contact_indicator.csv', contact_indicator, delimiter=",")
            
             # for loop to fill out contact_indicator
-            for n in range(len(whiskers)):
+            # for n in range(len(whiskers)):
     
-                # whisker name
-                whisker_name = whiskers[n]
+            #     # whisker name
+            #     whisker_name = whiskers[n]
         
-                # set target dir with the specific whisker name
-                C_dir = '../output/'+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
+            #     # set target dir with the specific whisker name
+            #     C_dir = '../output/'+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
 
-                # get the data from csv file for each whisker
-                C = read_from_csv(C_dir)
+            #     # get the data from csv file for each whisker
+            #     C = read_from_csv(C_dir)
 
-                # this for loop will take care of the data in row
-                for i in range(len(C)):
-                    if str(1) in C[i]:
-                        contact_indicator[i,n] = int(1)
+            #     # this for loop will take care of the data in row
+            #     for i in range(len(C)):
+            #         if str(1) in C[i]:
+            #             contact_indicator[i,n] = int(1)
 
-                # increment the whisker number      
-                n += 1
+            #     # increment the whisker number      
+            #     n += 1
             
-            # Set the first row to 0 to prevent error
-            contact_indicator[0,:] = 0
+            # # Set the first row to 0 to prevent error
+            # contact_indicator[0,:] = 0
             # print numpy arrys all the way
             np.set_printoptions(threshold=np.inf)
            
@@ -87,7 +86,7 @@ if __name__ == "__main__":
             Fx,Fy,Fz,DFx,DFy,DFz = W.get_mean_and_derivative(W.whisker_fx,W.whisker_fy,W.whisker_fz)
             Mx,My,Mz,DMx,DMy,DMz = W.get_mean_and_derivative(W.whisker_mx,W.whisker_my,W.whisker_mz)
 
-            print(np.shape(Mz))
+    
             # np.savetxt('DMz.csv',DMz,delimiter=',')
 
 
@@ -121,7 +120,7 @@ if __name__ == "__main__":
             Array_1X324 = Array_12X27.reshape(1,324)
             # print(np.shape(Array_1X324))
 
-            contact_array = 
+            # contact_array = 
 
 
             # add concave indication for master tabular data set
@@ -165,4 +164,4 @@ if __name__ == "__main__":
     # save_master('average12',Total_array2)
     # save_master('mz_dmz',Total_array3)
     # save_master('12X27',Total_array4)
-    save_master('27X12',Total_array5)
+    # save_master('27X12',Total_array5)

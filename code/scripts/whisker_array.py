@@ -7,6 +7,7 @@ from numpy.lib.nanfunctions import nanmean
 from numpy.lib.npyio import savetxt
 from read_data import *
 import warnings
+import copy
 
 # whiskers names array
 whiskers = [
@@ -65,7 +66,34 @@ class WhiskerArray:
 
             self.contact_indicator = np.zeros((rownum,colnum),dtype=int)
 
+    def indicate_contact(self,dirname,whiskers):
+        # for loop to fill out contact_indicator
+        contact_indicator =np.copy(self.contact_indicator)
+        for n in range(len(whiskers)):
 
+            # whisker name
+            whisker_name = whiskers[n]
+    
+            # set target dir with the specific whisker name
+            C_dir = '../output/'+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
+
+            # get the data from csv file for each whisker
+            C = read_from_csv(C_dir)
+
+            # this for loop will take care of the data in row
+            for i in range(len(C)):
+                if str(1) in C[i]:
+                    contact_indicator[i,n] = int(1)
+
+            # increment the whisker number      
+            n += 1
+        
+        # Set the first row to 0 to prevent error
+        contact_indicator[0,:] = 0
+        contact_indicator = np.array(contact_indicator)
+
+        return contact_indicator
+    
     def extract_protraction_data(self,contact_indicator,protraction_indicator):
         for i in range(len(contact_indicator)):
                 for j in range(len(contact_indicator[0])):
@@ -91,7 +119,22 @@ class WhiskerArray:
         self.whisker_my[self.whisker_my==0]=['nan']
         self.whisker_mz[self.whisker_mz==0]=['nan']
 
-        np.savetxt('whisk_mz.csv',self.whisker_mz,delimiter=',')
+        # np.savetxt('whisk_mz.csv',self.whisker_mz,delimiter=',')
+
+
+    def sum_contact(self,contact_indicator):
+        c1,c2,c3,c4,c5 = np.array_split(contact_indicator,5)
+
+        c1 = np.sum(c1,axis=0)
+        c2 = np.sum(c2,axis=0)
+        c3 = np.sum(c3,axis=0)
+        c4 = np.sum(c4,axis=0)
+        c5 = np.sum(c5,axis=0)
+
+        contact_sum = np.vstack((c1,c2,c3,c4,c5))
+
+        return contact_sum
+
 
 
     def get_mean_and_derivative(self,data_x,data_y,data_z):
@@ -99,6 +142,7 @@ class WhiskerArray:
         x1,x2,x3,x4,x5 = np.array_split(data_x,5)
         y1,y2,y3,y4,y5 = np.array_split(data_y,5)
         z1,z2,z3,z4,z5 = np.array_split(data_z,5)
+
 
         # get mean
         with warnings.catch_warnings():
@@ -294,7 +338,6 @@ class WhiskerArray:
 
 
                 
-    
     def indicate_protraction(self):
         # empty protraction indicator
         protraction_indicator = self.protraction_indicator
