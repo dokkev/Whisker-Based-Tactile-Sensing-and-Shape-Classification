@@ -4,4 +4,10 @@ code/build/
 code/bulletlib/lib
 code/results
 code/image_classifier/weight
+code/image_classifier/test
+code/image_classifier/train
+code/tabular_classifier/weight
+code/tabular_classifier/test
+code/tabular_classifier/train
+
 

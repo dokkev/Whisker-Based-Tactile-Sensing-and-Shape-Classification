@@ -29,9 +29,9 @@ if __name__ == '__main__':
         
         while trialID < trials_max:
 
-            model = tf.keras.models.load_model('weight/concave.h5')
+            model = tf.keras.models.load_model('weight/concave_mxyz.h5')
 
-
+            input_type = 'mxyz/'
             dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
             # print(dirname)
 
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
 
 
-            path = 'test/' + obj_type + '/'+ dirname + '.jpg'
+            path = 'test/'+input_type + obj_type + '/'+ dirname + '.jpg'
             img = image.load_img(path, target_size=(128, 128))
             x = image.img_to_array(img)
             x = np.expand_dims(x, axis=0)
@@ -53,7 +53,7 @@ if __name__ == '__main__':
             classes = model.predict(images)
             # prediction = model.predict_proba(images)
 
-            # print(classes[0])
+            print(classes[0])
 
 
             if classes[0]<0.5:

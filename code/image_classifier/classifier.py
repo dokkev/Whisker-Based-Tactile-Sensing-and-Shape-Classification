@@ -6,13 +6,13 @@ train_datagenerator = ImageDataGenerator(rescale=1./255)
 test_datagenerator = ImageDataGenerator(rescale=1./255)
 
 train_datagenerator = train_datagenerator.flow_from_directory(
-    'train/s',
+    'train/gray',
     target_size=(128,128),
-    batch_size=40,
+    batch_size=50,
     class_mode='binary')
 
 test_datagenerator = test_datagenerator.flow_from_directory(
-    'test/s',
+    'test/gray',
     target_size=(128,128),
     batch_size=10,
     class_mode='binary')
@@ -39,23 +39,17 @@ model.compile(loss='binary_crossentropy',
              optimizer=tf.keras.optimizers.Adam(0.001),
              metrics=['accuracy'])
 
-ACCURACY_THRESHOLD = 0.95
+ACCURACY_THRESHOLD = 0.99
 
 class myCallback(tf.keras.callbacks.Callback):
  def on_epoch_end(self, epoch, logs={}):
 		if(logs.get('accuracy') > ACCURACY_THRESHOLD):
-			print("\nReached %2.2f%% accuracy, so stopping training!!" %(ACCURACY_THRESHOLD*100))
+			print("\nReached %2.2f%% accuracy, so stopping training!!" %(logs.get('accuracy')*100))
 			self.model.stop_training = True
 
 
 callbacks = myCallback()
 
-# model.fit_generator(
-#     train_datagenerator,
-#     epochs=10,
-#     validation_data = test_datagenerator,
-#     callbacks = [callbacks]
-#     )
 model.fit(
         train_datagenerator,
         epochs=5,
@@ -64,4 +58,4 @@ model.fit(
         )
 
 
-model.save('mymodel.h5')
+model.save('concave_mxyz.h5')

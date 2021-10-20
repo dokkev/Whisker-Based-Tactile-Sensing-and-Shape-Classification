@@ -27,6 +27,7 @@ Total_array1 = []
 Total_array2 = []
 Total_array3 = []
 Total_array4 = []
+Total_array5 = []
 
 
 class WhiskerArray:
@@ -90,6 +91,8 @@ class WhiskerArray:
         self.whisker_my[self.whisker_my==0]=['nan']
         self.whisker_mz[self.whisker_mz==0]=['nan']
 
+        np.savetxt('whisk_mz.csv',self.whisker_mz,delimiter=',')
+
 
     def get_mean_and_derivative(self,data_x,data_y,data_z):
     
@@ -141,7 +144,6 @@ class WhiskerArray:
         dy = np.vstack((dy1,dy2,dy3,dy4,dy5))
         dz = np.vstack((dz1,dz2,dz3,dz4,dz5))
     
-
         return x,y,z,dx,dy,dz
         
     def Data_to_5_X_27_X_12(self,fx,fy,fz,dfx,dfy,dfz,mx,my,mz,dmx,dmy,dmz):
@@ -216,7 +218,6 @@ class WhiskerArray:
 
         Array_12X27 =[]
         for i in range(len(fx)):
-            A_12 = [] # Combination of subarray
             A12 = [] #Sub-array contains 12 data
             A12.append(fx[i])
             A12.append(fy[i])
