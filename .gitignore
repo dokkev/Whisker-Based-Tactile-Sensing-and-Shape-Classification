@@ -3,4 +3,6 @@ code/output/
 code/results/
 code/build/
 code/bulletlib/lib
+code/tabular_classifier/
+code/image_classifier/
 
