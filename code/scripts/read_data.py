@@ -139,7 +139,10 @@ def convert_contact_to_gray(data):
 
 
 def save_image(dirname,data,type):
-    dirout = '../results/images/' + str(type) + '/'
+    if 'concave' in dirname:
+        dirout = '../results/images/' + str(type) + '/concave/'
+    elif 'convex' in dirname:
+        dirout = '../results/images/' + str(type) + '/convex/'
     directory = os.path.dirname(dirout)
     pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
     if not os.path.exists(directory):

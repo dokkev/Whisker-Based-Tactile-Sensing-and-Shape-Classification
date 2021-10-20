@@ -6,28 +6,28 @@ import numpy as np
 
 
 # Read Data and Split into Training and Test Data
-# df = pd.read_csv('train/27X12.csv')
-# df.head()
-# X = df.iloc[:, 0:-1]
-# y = df.iloc[:, -1]
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+df = pd.read_csv('train/contact_sum.csv')
+df.head()
+X = df.iloc[:, 0:-1]
+y = df.iloc[:, -1]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
 
-
+print("data_read")
 data = 'mz_dmz.csv'
 
-# Read Training Data
-df_train = pd.read_csv('train/'+str(data))
-df_train.head()
-X_train = df_train.iloc[:, 0:-1]
-y_train = df_train.iloc[:, -1]
+# # Read Training Data
+# df_train = pd.read_csv('train/'+str(data))
+# df_train.head()
+# X_train = df_train.iloc[:, 0:-1]
+# y_train = df_train.iloc[:, -1]
 
-# Read Testing Data
-df_test = pd.read_csv('test/'+str(data))
-df_test.head()
-X_test = df_train.iloc[:, 0:-1]
-y_test = df_train.iloc[:, -1]
+# # Read Testing Data
+# df_test = pd.read_csv('test/'+str(data))
+# df_test.head()
+# X_test = df_train.iloc[:, 0:-1]
+# y_test = df_train.iloc[:, -1]
 
-ACCURACY_THRESHOLD = 0.99
+ACCURACY_THRESHOLD = 0.95
 # print(X)
 # print(y)
 
@@ -56,7 +56,7 @@ def train(X_train,y_train,X_test, y_test):
 
     print(model.summary())
 
-    model.fit(X_train, y_train, epochs=100, batch_size=12,callbacks=[myCallback()])
+    model.fit(X_train, y_train, epochs=100, batch_size=27,callbacks=[myCallback()])
 
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print('Test accuracy:', test_acc)
