@@ -82,7 +82,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --OBJECT 5 \
     --ACTIVE 1 \
     --SAVE_VIDEO 0 \
-    --SAVE 1 "
+    --SAVE 1 "print("Simulation Object: " + str(objFile))
 
     str2 = " --file_env ../data/natural_objects/" + objFile
     str3 = " --dir_out " + str(dirout)
@@ -97,16 +97,17 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     start = time.time()
     print("===========NEXT SIMULATION==============")
-    s = subprocess.getoutput([cmdstr])
     print("starting whiskit:" + filename)
+    print("Simulation Object: " + str(objFile))
     print("Object Name: " + str(objName))
     print("Now Whisking: " + str(objFile))
     print("X = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
     print("YAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
     print("ended whiskit")
+    s = subprocess.getoutput([cmdstr])
     time_elapsed = time.time()-start
     # print("Elapsed time: " + str(time_elapsed))
-    print("Simulation Object: " + str(objFile))
+
     outputlist = s.split("\n")
     collision = bool(np.sum(get_output("C: ",outputlist)))
     file = open(dirout+"/parameters.txt",'w+')
