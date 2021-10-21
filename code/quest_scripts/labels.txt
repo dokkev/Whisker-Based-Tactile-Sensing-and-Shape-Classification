@@ -1,0 +1,8 @@
+Food=0
+Leaf=1
+Log=2
+Branch=3
+Surface=4
+Rock=5
+Pinecone=6
+
