@@ -96,15 +96,16 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
 
     start = time.time()
-    print("===========NEXT SIMULATION==============")
-    print("starting whiskit:" + filename)
-    print("Simulation Object: " + str(objFile))
-    print("Object Name: " + str(objName))
-    print("Now Whisking: " + str(objFile))
-    print("X = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
-    print("YAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
-    print("ended whiskit")
+    print1 = ("\n===========NEXT SIMULATION==============")
+    print2 = ("\nstarting whiskit:" + filename)
+    print3 = ("\nSimulation Object: " + str(objFile))
+    print4 = ("\nObject Name: " + str(objName))
+    print5 = ("\nNow Whisking: " + str(objFile))
+    print6 = ("\nX = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
+    print7= ("\nYAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
+    print(print1+print2+print3+print4+print5+print6+print7)
     s = subprocess.getoutput([cmdstr])
+    print("ended whiskit: "+filename)
     time_elapsed = time.time()-start
     # print("Elapsed time: " + str(time_elapsed))
 
@@ -173,7 +174,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 1000 # how many times you want to simulate
+    numConfig = 500 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
