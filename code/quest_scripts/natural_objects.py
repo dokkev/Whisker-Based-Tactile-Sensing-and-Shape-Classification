@@ -70,7 +70,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    str1 = "../build/whiskit_gui \
+    str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
