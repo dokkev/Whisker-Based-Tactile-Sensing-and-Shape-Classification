@@ -82,7 +82,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     --OBJECT 5 \
     --ACTIVE 1 \
     --SAVE_VIDEO 0 \
-    --SAVE 1 "print("Simulation Object: " + str(objFile))
+    --SAVE 1 "
 
     str2 = " --file_env ../data/natural_objects/" + objFile
     str3 = " --dir_out " + str(dirout)
