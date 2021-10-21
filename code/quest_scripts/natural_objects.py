@@ -11,11 +11,9 @@ import os
 import pathlib
 import sys
 import csv
+from numpy.lib.npyio import savetxt
 
 counter = None
-E1 = np.array([1,0,0])
-E2 = np.array([0,1,0])
-E3 = np.array([0,0,1])
 
 def init(args):
     ''' store the counter for later use '''
@@ -58,49 +56,50 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
         'scan_87.obj','scan_88.obj','scan_89.obj','scan_90.obj','scan_91.obj','scan_92.obj','scan_93.obj',\
         'scan_94.obj','scan_95.obj','scan_96.obj','scan_97.obj']
     
+    # np.savetxt('object_param.csv',objects,delimiter=',')
     
     # print('Simulating: ' + str(whisker))
     objFile = objects[objID]
 
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "scan1-5/"+filename
+    dirout = "../output/natural_objects/"+filename
     
-    print(dirout)
+    # print(dirout)
     directory = os.path.dirname(dirout)
     pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    str1 = "../build/whiskit \
+    str1 = "../build/whiskit_gui \
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
-    --CPITCH -0 \
+    --SAVE_KINEMATICS 0 \
+    --WHISKER_NAMES R \
+    --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
     --OBJECT 5 \
     --ACTIVE 1 \
-    --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
 
-    str2 = " --file_env ../data/natural_objects/ " + objFile
+    str2 = " --file_env ../data/natural_objects/" + objFile
     str3 = " --dir_out " + str(dirout)
-    str4 = " --WHISKER_NAMES " + str(whisker)
     strx = " --ObjX " + str(ObjX) 
     stry = " --ObjY " + str(ObjY)
     strz = " --ObjZ " + str(ObjZ)
     stryaw = " --ObjYAW " + str(ObjYAW)
     strpitch = " --ObjPITCH " + str(ObjPITCH)
     strroll = " --ObjROLL " + str(ObjROLL) 
-    cmdstr = str1+str2+str3+str4+strx+stry+strz+stryaw+strpitch+strroll
+
+    cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
 
     start = time.time()
-    print("starting whiskit")
-    s = subprocess.getoutput([cmdstr])
     print("===========NEXT SIMULATION==============")
+    s = subprocess.getoutput([cmdstr])
     print("starting whiskit:" + filename)
-    print("Object Type: " + str(objName))
+    print("Object Name: " + str(objName))
     print("Now Whisking: " + str(objFile))
     print("X = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
     print("YAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
@@ -132,33 +131,30 @@ def simulate_obj(sim_input):
     trialID = sim_input[1]
 
     simID = 0
-    j = 1 # the object number you want to start with
+    obj_tag = 1 # the object number you want to start with
     obj_max = 98 # the object number you want to end with
 
-
-    global x,y,z,yaw,pitch,roll,obj_num
     
-    for i in range(1): #the 4 allows for the program to use all 90 degree rotation of the object around the y axis
-
-        while j < obj_max :
+    while obj_tag < obj_max :
+    
+        # open the object parameters
         
-            # open the object parameters
-            with open('obj_param.csv','r')as file:
-                filecontent=csv.reader(file)
-                line_j = list(filecontent)
-                row = line_j[j]
-                obj_num = int(row[1])
-                obj_name = row[2]
-                x = float(row[4])
-                y = float(row[5])
-                z = float(row[6])
-                yaw = float(row[7])
-                pitch = float(row[8])
-                roll = float(row[9])
+        with open('obj_param.csv','r')as file:
+            filecontent=csv.reader(file)
+            line_j = list(filecontent)
+            row = line_j[obj_tag]
+            obj_num = int(row[1])
+            obj_name = row[2]
+            x = round(float(row[4]) + random.uniform(-5.0, 5.0),4)
+            y = round(float(row[5]) + random.uniform(-5.0, 5.0),4)
+            z = round(float(row[6]) + random.uniform(-5.0, 5.0),4)
+            yaw = round(float(row[7]) + random.uniform (-0.3,0.3),4)
+            pitch = round(float(row[8]) + random.uniform (-0.3,0.3),4)
+            roll = round(float(row[9]) + random.uniform (-0.3,0.3),4)
 
-            simulate("R", x, y, z, yaw, pitch, roll, obj_num, trialID, simID,obj_name)
-            simID+=1
-            j = j + 1
+        simulate("R", x, y, z, yaw, pitch, roll, obj_num, trialID, simID,obj_name)
+        simID+=1
+        obj_tag+=1
 
 
 
@@ -174,27 +170,21 @@ if __name__ == "__main__":
 
     # global counter
     # trialbase = int(sys.argv[1])
-    trialbase = 1
+    trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 10
+    numConfig = 1000 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
 
-    # for n in range(numConfig):
-    #     trials.append([3,trialbase+n])
 
-    # for n in range(numConfig):
-    #    	trials.append([4,trialbase+n])
-
-    
-    pool = Pool(processes=8,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=54,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()
-        # print(i.get())
     finally:
         pool.close()
         pool.join()
+    
     
     

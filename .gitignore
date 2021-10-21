@@ -1,5 +1,8 @@
 # Repostory folder
 code/output/
+code/output_test/
+code/output_concave/
+code/outpt_val/
 code/build/
 code/bulletlib/lib
 code/results

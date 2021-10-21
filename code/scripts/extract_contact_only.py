@@ -23,7 +23,7 @@ if __name__ == "__main__":
         objFile = objects[objID]
 
         trialID = 0
-        trials_max = 700
+        trials_max = 100
         
         
         while trialID < trials_max:
@@ -36,7 +36,7 @@ if __name__ == "__main__":
             # # dirname = 'overtest'
     
             # # default path to dynamic data (each include all whiskers)
-            D_dir =  '../output/'+(dirname)+'/dynamics/'
+            D_dir =  output_dir+(dirname)+'/dynamics/'
 
             W = WhiskerArray(D_dir,objFile,trialID,simID)
             rownum = len(W.Fx)
@@ -89,6 +89,6 @@ if __name__ == "__main__":
         simID += 1
         objID += 1  
 
-    save_master('all_contact',Total_array1)
-    save_master('all_contact_sum',Total_array2)
+    # save_master('all_contact',Total_array1)
+    # save_master('all_contact_sum',Total_array2)
     

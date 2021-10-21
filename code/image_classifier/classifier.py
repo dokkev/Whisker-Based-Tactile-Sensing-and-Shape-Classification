@@ -5,32 +5,41 @@ from tensorflow.keras.models import Sequential
 train_datagenerator = ImageDataGenerator(rescale=1./255)
 test_datagenerator = ImageDataGenerator(rescale=1./255)
 
+image_size = (150, 150)
+
 train_datagenerator = train_datagenerator.flow_from_directory(
-    'train/gray',
-    target_size=(128,128),
-    batch_size=50,
+    'train/contact_sum',
+    target_size=image_size,
+    batch_size=10,
     class_mode='binary')
 
 test_datagenerator = test_datagenerator.flow_from_directory(
-    'test/gray',
-    target_size=(128,128),
-    batch_size=10,
+    'test/contact_sum',
+    target_size=image_size,
+    batch_size=1,
     class_mode='binary')
 
 
 model = tf.keras.models.Sequential([
-    tf.keras.layers.Conv2D(32, (3,3),padding='same', activation='relu', input_shape=(128,128,3)),
+    # Convolutional layer and maxpool layer 1
+    tf.keras.layers.Conv2D(32, (3,3),padding='same', activation='relu', input_shape=(150,150,3)),
     tf.keras.layers.MaxPooling2D((2,2),2),
     
-    tf.keras.layers.Conv2D(64, (3,3), padding='same', activation='relu'),
-    tf.keras.layers.MaxPooling2D((2,2),2),     
+    # # Convolutional layer and maxpool layer 2
+    # tf.keras.layers.Conv2D(64, (3,3), padding='same', activation='relu'),
+    # tf.keras.layers.MaxPooling2D((2,2),2),     
      
-    tf.keras.layers.Conv2D(128, (3,3), padding='same', activation='relu'),
-    tf.keras.layers.MaxPooling2D((2,2),2),   
+    # # Convolutional layer and maxpool layer 3
+    # tf.keras.layers.Conv2D(128, (3,3), padding='same', activation='relu'),
+    # tf.keras.layers.MaxPooling2D((2,2),2),   
     
+    # This layer flattens the resulting image array to 1D array
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(512, activation='relu'),
-    
+
+    # Hidden layer with 512 neurons and Rectified Linear Unit activation function 
+    # tf.keras.layers.Dense(512, activation='relu'),
+
+    # Output layer with a single neuron for binary classification
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 print(model.summary())
@@ -42,12 +51,13 @@ model.compile(loss='binary_crossentropy',
 ACCURACY_THRESHOLD = 0.99
 
 class myCallback(tf.keras.callbacks.Callback):
- def on_epoch_end(self, epoch, logs={}):
-		if(logs.get('accuracy') > ACCURACY_THRESHOLD):
-			print("\nReached %2.2f%% accuracy, so stopping training!!" %(logs.get('accuracy')*100))
-			self.model.stop_training = True
+ 
+    def on_epoch_end(self, epoch, logs={}):
+	    if(logs.get('accuracy') > ACCURACY_THRESHOLD):
+		    print("\nReached %2.2f%% accuracy, so stopping training!!" %(logs.get('accuracy')*100))
+		    self.model.stop_training = True
 
-
+  
 callbacks = myCallback()
 
 model.fit(
@@ -58,4 +68,4 @@ model.fit(
         )
 
 
-model.save('concave_mxyz.h5')
+# model.save('concave_mxyz.h5')

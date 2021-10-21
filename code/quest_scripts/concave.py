@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+ 
 import numpy as np
 from numpy.random import uniform as randu # makes it easier to read if you have one name for function
 from numpy.linalg import norm # you can import just the function, no need to import the whole set (needs more memory)
@@ -61,7 +63,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "../output/natural/"+str(object_type)+"/"+filename
+    dirout = "../output/"+str(object_type)+str("_s")+"/"+filename
     # dirout = "data_parameters"+filename
     
     # print(dirout)
@@ -72,22 +74,22 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # ~/Final_Project/whisker_project/code/build/whiskit
     # change this path accordingly 
-    str1 = "../build/whiskit \
+    str1 = "../build/whiskit_gui \
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
-    --CPITCH -0 \
+    --SAVE_KINEMATICS 0 \
+    --WHISKER_NAMES ONE \
+    --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
     --OBJECT 5 \
     --ACTIVE 1 \
-    --TIME_STOP 1.0 \
     --SAVE_VIDEO 0 \
     --SAVE 1 "
 
-    str2 = " --file_env ../data/concave/ " + objFile
+    str2 = " --file_env ../data/concave/" + objFile
     str3 = " --dir_out " + str(dirout)
-    str4 = " --WHISKER_NAMES " + str(whisker)
     strx = " --ObjX " + str(ObjX) 
     stry = " --ObjY " + str(ObjY)
     strz = " --ObjZ " + str(ObjZ)
@@ -95,7 +97,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     strpitch = " --ObjPITCH " + str(ObjPITCH)
     strroll = " --ObjROLL " + str(ObjROLL) 
 
-    cmdstr = str1+str2+str3+str4+strx+stry+strz+stryaw+strpitch+strroll
+    cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
 
     start = time.time()
     print("===========NEXT SIMULATION==============")
@@ -139,7 +141,7 @@ def simulate_obj(sim_input):
     global object_type
 
     obj_tag = 0 # object tag you want to start with
-    obj_tag_max = 21 # max object tag you want to end with 
+    obj_tag_max = 1 # max object tag you want to end with 
     concave_max = 10 # object tag you want to end with 
     convex_max = 21 # object tag you want to end with
 
@@ -157,32 +159,32 @@ def simulate_obj(sim_input):
                 ObjZi = -10
                 ObjYAWi = 0
                 ObjPITCHi = 0
-                ObjROLLi = 0.3
+                ObjROLLi = -0.1
                 object_type = 'concave'
            
             elif concave_max < obj_tag <= convex_max:
                 # Convex
-                ObjXi = 40
-                ObjYi = 10
+                ObjXi = 30
+                ObjYi = 30
                 ObjZi = -10
                 ObjYAWi = 0
                 ObjPITCHi = 0
-                ObjROLLi = -3.14
+                ObjROLLi = -3.5
                 object_type = 'convex'
         
 
 
             # tiny translation max delta =~ 1 cm is applied
-            ObjX = round(ObjXi + random.uniform(-1.0, 1.0),4)
-            ObjY = round(ObjYi + random.uniform(-1.0, 1.0),4)
+            ObjX = round(ObjXi + random.uniform(-5.0, 5.0),4)
+            ObjY = round(ObjYi + random.uniform(-5.0, 5.0),4)
             ObjZ = round(ObjZi) #+ random.uniform(-0.01, 0.01),4)
 
             # tiny rotation mat theta =~ 0.15 rad is applied
             ObjYAW = round(ObjYAWi) #+ random.uniform (-0.35,0.35),4)
             ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
-            ObjROLL = round(ObjROLLi + random.uniform (-0.15,0.15),4)
+            ObjROLL = round(ObjROLLi + random.uniform (-0.1,0.1),4)
 
-            simulate("ONE", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
+            simulate("R", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 
             # increase simulation ID
             simID+=1
@@ -221,7 +223,7 @@ if __name__ == "__main__":
     #    	trials.append([4,trialbase+n])
 
     
-    pool = Pool(processes=10,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=50,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()
@@ -229,5 +231,3 @@ if __name__ == "__main__":
     finally:
         pool.close()
         pool.join()
-    
-    

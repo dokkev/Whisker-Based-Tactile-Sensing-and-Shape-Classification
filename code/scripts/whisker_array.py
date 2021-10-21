@@ -30,6 +30,7 @@ Total_array3 = []
 Total_array4 = []
 Total_array5 = []
 
+output_dir = '../output_test/'
 
 class WhiskerArray:
     def __init__(self,D_dir,objFile,trialID,simID):
@@ -75,7 +76,7 @@ class WhiskerArray:
             whisker_name = whiskers[n]
     
             # set target dir with the specific whisker name
-            C_dir = '../output/'+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
+            C_dir = str(output_dir)+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
 
             # get the data from csv file for each whisker
             C = read_from_csv(C_dir)
