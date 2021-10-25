@@ -8,14 +8,15 @@ from numpy.lib.npyio import savetxt
 from read_data import *
 import warnings
 import copy
+from os import walk
 
 # whiskers names array
-whiskers = [
-            "RA0","RA1","RA2","RA3","RA4",
-            "RB0","RB1","RB2","RB3","RB4",
-            "RC0","RC1","RC2","RC3","RC4","RC5",
-            "RD0","RD1","RD2","RD3","RD4","RD5",
-            "RE1","RE2","RE3","RE4","RE5"]
+# whiskers = [
+#             "RA0","RA1","RA2","RA3","RA4",
+#             "RB0","RB1","RB2","RB3","RB4",
+#             "RC0","RC1","RC2","RC3","RC4","RC5",
+#             "RD0","RD1","RD2","RD3","RD4","RD5",
+#             "RE1","RE2","RE3","RE4","RE5"]
 
 objects = [ 'concave20.obj','concave22.obj','concave24.obj','concave26.obj','concave28.obj',
             'concave30.obj','concave32.obj','concave34.obj','concave36.obj','concave38.obj',
@@ -33,15 +34,17 @@ Total_array5 = []
 output_dir = '../output_test/'
 
 class WhiskerArray:
-    def __init__(self,D_dir,objFile,trialID,simID):
-            self.dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
+    def __init__(self,dirname):
+        
+            # self.dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
+            self.dirname = dirname
+            D_dir =  output_dir+(dirname)+'/dynamics/'
             self.Fx = read_from_csv_2(D_dir,"Fx")
             self.Fy = read_from_csv_2(D_dir,"Fy")
             self.Fz = read_from_csv_2(D_dir,"Fz")
             self.Mx = read_from_csv_2(D_dir,"Mx")
             self.My = read_from_csv_2(D_dir,"My")
             self.Mz = read_from_csv_2(D_dir,"Mz")
-
             self.Fx_array = np.array(self.Fx)
             self.Fy_array = np.array(self.Fy)
             self.Fz_array = np.array(self.Fz)
@@ -49,11 +52,16 @@ class WhiskerArray:
             self.My_array = np.array(self.My)
             self.Mz_array = np.array(self.Mz)
 
+            # read whisker names
+            path = str(output_dir)+str(self.dirname)+'/collision/'
+            self.whiskers = next(walk(path), (None, None, []))[2]  # [] if no file
+            self.whiskers.sort()
+
             
             rownum = int(len(self.Fx))
             colnum = int(len(self.Fx[0])-1)
             div = int(rownum / 125)
-            new_row = int(rownum / div)
+            # new_row = int(rownum / div)
        
             self.whisker_fx = np.zeros((rownum,colnum))
             self.whisker_fy = np.zeros((rownum,colnum))
@@ -67,33 +75,44 @@ class WhiskerArray:
 
             self.contact_indicator = np.zeros((rownum,colnum),dtype=int)
 
-    def indicate_contact(self,dirname,whiskers):
+    def indicate_contact(self,dirname):
         # for loop to fill out contact_indicator
+        contact_ = []
         contact_indicator =np.copy(self.contact_indicator)
-        for n in range(len(whiskers)):
-
-            # whisker name
-            whisker_name = whiskers[n]
+        for n in range(len(self.whiskers)):
+            
     
+            # whisker name
+            whisker_name = self.whiskers[n]
+
             # set target dir with the specific whisker name
-            C_dir = str(output_dir)+str(dirname)+'/collision/' + str(whisker_name) + '.csv'
+            C_dir = str(output_dir)+str(dirname)+'/collision/' + str(whisker_name)
 
             # get the data from csv file for each whisker
             C = read_from_csv(C_dir)
+            C_array = np.delete(np.array(C),20,axis=1)
+            C_array = C_array.astype(np.int)
+            sum = np.sum(C_array,axis=1)
+            sum.tolist()
+            contact_.append(sum)
+            # print(np.shape(contact_))
+            
 
             # this for loop will take care of the data in row
             for i in range(len(C)):
                 if str(1) in C[i]:
                     contact_indicator[i,n] = int(1)
-
+                  
+            
             # increment the whisker number      
             n += 1
-        
         # Set the first row to 0 to prevent error
         contact_indicator[0,:] = 0
         contact_indicator = np.array(contact_indicator)
+        contact_ = np.array(contact_)
+        contact_ = np.transpose(contact_)
 
-        return contact_indicator
+        return contact_indicator,contact_
     
     def extract_protraction_data(self,contact_indicator,protraction_indicator):
         for i in range(len(contact_indicator)):
@@ -135,7 +154,6 @@ class WhiskerArray:
         contact_sum = np.vstack((c1,c2,c3,c4,c5))
 
         return contact_sum
-
 
 
     def get_mean_and_derivative(self,data_x,data_y,data_z):

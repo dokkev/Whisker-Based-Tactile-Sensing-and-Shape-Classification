@@ -13,17 +13,17 @@ if __name__ == "__main__":
 
     simID = 0
     objID = 0
-    objects_max = 22
+    objects_max = 1
 
     # empyt array for all the data
 
     np.seterr(invalid='ignore')
-    print("total number of whiskers: ",len(whiskers))
+    # print("total number of whiskers: ",len(W.whiskers))
     for objID in range(objects_max):
         objFile = objects[objID]
 
         trialID = 0
-        trials_max = 100
+        trials_max = 1
         
         
         while trialID < trials_max:
@@ -32,26 +32,28 @@ if __name__ == "__main__":
 
             # dirname = 'concave24.obj_T010' + '_N02'
             dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
+            # dirname = 'overtest'
             print(dirname,"saved")
             # # dirname = 'overtest'
     
             # # default path to dynamic data (each include all whiskers)
             D_dir =  output_dir+(dirname)+'/dynamics/'
 
-            W = WhiskerArray(D_dir,objFile,trialID,simID)
+            W = WhiskerArray(dirname)
             rownum = len(W.Fx)
             colnum = len(W.Fx[0])-1
 
             # total number of whiskers counting from 0
-            n_max = len(whiskers) - 1
+            n_max = len(W.whiskers) - 1
             
             # n will direct the specific whisker
             n = 0
             np.set_printoptions(threshold=np.inf)
             # create an empty contact indicator at incident
-            contact_indicator = W.indicate_contact(dirname,whiskers)
+            contact_indicator,contact_ = W.indicate_contact(dirname)
             contact_sum = W.sum_contact(np.copy(contact_indicator))
-            # print(contact_sum)
+
+        
         
             # convert to image data
             contact_img = convert_contact_to_gray(np.copy(contact_indicator))
@@ -62,9 +64,8 @@ if __name__ == "__main__":
             
          
 
-            concave_contact_indicator = W.add_concave_indicator(np.copy(contact_indicator.reshape(5,3375)),dirname)   
-            concave_contact_sum_indicator = W.add_concave_indicator(np.copy(contact_sum),dirname)   
-           
+            # concave_contact_indicator = W.add_concave_indicator(np.copy(contact_indicator.reshape(5,3375)),dirname)   
+            # concave_contact_sum_indicator = W.add_concave_indicator(np.copy(contact_sum),dirname)   
            
             W.indicate_protraction()
             # np.savetxt('protraction_indicator.csv', W.protraction_indicator, delimiter=",")
@@ -79,8 +80,8 @@ if __name__ == "__main__":
                 
 
             # 5 X 3375 contact array
-            Total_array1.extend(concave_contact_indicator)
-            Total_array2.extend(concave_contact_sum_indicator)
+            # Total_array1.extend(concave_contact_indicator)
+            # Total_array2.extend(concave_contact_sum_indicator)
 
            
 

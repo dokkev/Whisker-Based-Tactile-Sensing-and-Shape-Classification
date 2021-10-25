@@ -61,6 +61,7 @@ add_message_files(
   FILES
   WhiskerData.msg
   State.msg
+  Contact.msg
 #   Message1.msg
 #   Message2.msg
 )
@@ -83,6 +84,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs  # Or other packages containing msgs
+  geometry_msgs
 )
 
 ################################################
@@ -173,6 +175,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   nodes/communicator
+  nodes/run_simulator
   nodes/graph.py
   nodes/rot_mat.py
   nodes/read_data.py

@@ -143,6 +143,8 @@ def save_image(dirname,data,type):
         dirout = '../results/images/' + str(type) + '/concave/'
     elif 'convex' in dirname:
         dirout = '../results/images/' + str(type) + '/convex/'
+    else:
+        dirout = '../results/images/' + str(type) + '/'
     directory = os.path.dirname(dirout)
     pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
     if not os.path.exists(directory):
