@@ -15,6 +15,7 @@ from os import walk
 obj_path = '../data/natural_objects'
 objects = next(walk(obj_path), (None, None, []))[2]  # [] if no file
 objects.sort()
+print(objects)
 
 Total_array1 = []
 Total_array2 = []

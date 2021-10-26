@@ -16,7 +16,7 @@ if __name__ == "__main__":
     np.seterr(invalid='ignore')
     # print("total number of whiskers: ",len(W.whiskers))
     obj_tag = 1 # the object number you want to start with
-    obj_max = 2 # the object number you want to end with
+    obj_max = 98 # the object number you want to end with
 
     
     while obj_tag < obj_max :
@@ -67,15 +67,18 @@ if __name__ == "__main__":
 
             class_num = W.get_class_num(dirname)
 
-            save_objects_image(dirname,binary_contact_img,class_num,'contact')
+            save_objects_image(dirname,binary_contact_img,class_num,'binary_contact')
             save_objects_image(dirname,multi_contact_img,class_num,'multi_contact')
             save_objects_image(dirname,contact_sum_img,class_num,'contact_sum')
 
 
-            # class_contact_indicator = W.add_class_num(np.copy(contact_indicator.reshape(5,3375)),dirname)   
+            class_contact_indicator = W.add_class_num(np.copy(contact_indicator.reshape(5,3375)),dirname)   
             class_contact_sum_indicator = W.add_class_num(np.copy(contact_sum),dirname)   
+            class_multi_contact_indicator = W.add_class_num(np.copy(multi_contact.reshape(5,3375)),dirname)
             
+            Total_array1.extend(class_contact_indicator)
             Total_array2.extend(class_contact_sum_indicator)
+            Total_array3.extend(class_multi_contact_indicator)
 
        
             trialID += 1
@@ -83,6 +86,7 @@ if __name__ == "__main__":
         simID += 1
         obj_tag += 1  
 
-    # save_master('all_contact',Total_array1)
+    save_master('binary_contact',Total_array1)
     save_master('contact_sum',Total_array2)
+    save_master('multi_contact',Total_array3)
     
