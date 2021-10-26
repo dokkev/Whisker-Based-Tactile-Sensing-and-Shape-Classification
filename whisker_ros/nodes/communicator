@@ -74,11 +74,7 @@ class Communicator:
         self.pos_pub = rospy.Publisher("/raw_whisker_position", WhiskerData, queue_size=10)
         self.contact_pub = rospy.Publisher("/contact_indicator", Contact, queue_size=10)
         self.raw_contact_pub = rospy.Publisher("/raw_contact",Contact, queue_size=10)
-        
-        # Subscribe Rat State
-        # self.state_sub = 
-        
-        # setup zmq communication and msgpack
+        self.contact_pos_pub = rospy.Publisher("/contact_position",WhiskerData,queue_size=10)
 
         # setup inital rat
         self.state = np.array([0.,0.,0.,0.,0.,0.])
@@ -89,49 +85,73 @@ class Communicator:
         self.next_step = np.array([0.,self.step_size,0.])
 
     def publish_whisker_data(self,data):
-            fx = np.array(data[0]).flatten()
-            fy = np.array(data[1]).flatten()
-            fz = np.array(data[2]).flatten()
-            mx = np.array(data[3]).flatten()
-            my = np.array(data[4]).flatten()
-            mz = np.array(data[5]).flatten()
-            c = np.array(data[6]).flatten()
-            x = np.array(data[7]).flatten()
-            y = np.array(data[8]).flatten()
-            z = np.array(data[9]).flatten()
+        fx = np.array(data[0]).flatten()
+        fy = np.array(data[1]).flatten()
+        fz = np.array(data[2]).flatten()
+        mx = np.array(data[3]).flatten()
+        my = np.array(data[4]).flatten()
+        mz = np.array(data[5]).flatten()
+        c = np.array(data[6])
+        c_flat = c.flatten()
+        x = np.array(data[7]).flatten()
+        y = np.array(data[8]).flatten()
+        z = np.array(data[9]).flatten()
 
-            # initailize message
-            whisker_data_msg = WhiskerData()
-            
-            # publish force data
-            whisker_data_msg.x = fx
-            whisker_data_msg.y = fy
-            whisker_data_msg.z = fz
-            self.force_pub.publish(whisker_data_msg)
+        # initailize message
+        whisker_data_msg = WhiskerData()
+        
+        # publish force data
+        whisker_data_msg.x = fx
+        whisker_data_msg.y = fy
+        whisker_data_msg.z = fz
+        self.force_pub.publish(whisker_data_msg)
 
-            # publish moment data
-            whisker_data_msg.x = mx
-            whisker_data_msg.y = my
-            whisker_data_msg.z = mz
-            self.moment_pub.publish(whisker_data_msg)
+        # publish moment data
+        whisker_data_msg.x = mx
+        whisker_data_msg.y = my
+        whisker_data_msg.z = mz
+        self.moment_pub.publish(whisker_data_msg)
 
-            # publish position data
-            whisker_data_msg.x = x
-            whisker_data_msg.y = y
-            whisker_data_msg.z = z
-            self.pos_pub.publish(whisker_data_msg)
-            print(whisker_data_msg)
+        # publish position data
+        whisker_data_msg.x = x
+        whisker_data_msg.y = y
+        whisker_data_msg.z = z
+        self.pos_pub.publish(whisker_data_msg)
+        print(whisker_data_msg)
 
-            # publish contact data
-            raw_contact_msg = Contact()
-            raw_contact_msg.contact = c
-            self.raw_contact_pub.publish(raw_contact_msg)
+        # publish contact data
 
-            # intidace contact
-            contact_indicator = np.sum(c,axis=1)
-            contact_msg = Contact()
-            contact_msg.contact = contact_indicator
-            self.contact_pub.publish(contact_msg)
+        # intidace contact
+        contact_indicator = np.sum(c,axis=1)
+        contact_msg = Contact()
+        contact_msg.contact = contact_indicator
+        self.contact_pub.publish(contact_msg)
+
+        raw_contact_msg = Contact()
+        raw_contact_msg.contact = c_flat
+        self.raw_contact_pub.publish(raw_contact_msg)
+
+    def process_contact(self,data):
+        c = np.array(data[6])
+        x = np.array(data[7])
+        y = np.array(data[8])
+        z = np.array(data[9])
+
+        contact_x, contact_y, contact_z = [],[],[]
+        for i in range(len(c)):
+            for j in range(len(c[0])):
+    
+                # if the collision data is 1, then we will extract the position of the contact
+                if int(c[i,j]) == int(1):
+                    contact_x.append(float(x[i,j]))
+                    contact_y.append(float(y[i,j]))
+                    contact_z.append(float(z[i,j]))
+
+        contact_msg = WhiskerData()
+        contact_msg.x = contact_x
+        contact_msg.y = contact_y
+        contact_msg.z = contact_z
+        self.contact_pos_pub.publish(contact_msg)
     
     def main(self):
         WINSIZE = (720, 960)
@@ -207,14 +227,9 @@ class Communicator:
         
             # since we are getting real-time data, we only have one row while columna represent whiskers
     
-
             # publish whisker data
             self.publish_whisker_data(Y)
-
-
-  
-            # transpose the kinematic data to match its format with dynamic data.
-            # After transposing, row represents segments of each whisker while colum presents whiskers
+            self.process_contact(Y)
 
             X = [state]
             buffer = BytesIO()

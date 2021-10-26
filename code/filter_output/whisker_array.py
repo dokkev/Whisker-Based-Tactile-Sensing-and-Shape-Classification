@@ -391,3 +391,4 @@ class WhiskerArray:
                 data = np.hstack((data,convex_indicator))
 
             return data
+

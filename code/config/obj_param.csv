@@ -1,4 +1,4 @@
-,Object Numer ,Object Name,Type,ObjX,ObjY,ObjZ,ObjYAW,ObjPITCH,ObjROLL,ClassName,Class
+FileName,ObjectNumer ,ObjectName,Type,ObjX,ObjY,ObjZ,ObjYAW,ObjPITCH,ObjROLL,ClassName,Class
 ,1,orange,solid,60,10,10,1.57,0,0,food,0
 ,2,potato,solid,50,10,10,1.57,0,0,food,0
 ,3,apple,solid,190,360,-70,0,0,1.57,food,0

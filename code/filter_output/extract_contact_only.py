@@ -54,7 +54,6 @@ if __name__ == "__main__":
             contact_sum = W.sum_contact(np.copy(contact_indicator))
 
         
-        
             # convert to image data
             contact_img = convert_contact_to_gray(np.copy(contact_indicator))
             contact_sum_img = convert_to_Gray(np.copy(contact_sum))
@@ -63,25 +62,9 @@ if __name__ == "__main__":
             save_image(dirname,contact_sum_img,'contact_sum')
             
          
-
-            # concave_contact_indicator = W.add_concave_indicator(np.copy(contact_indicator.reshape(5,3375)),dirname)   
-            # concave_contact_sum_indicator = W.add_concave_indicator(np.copy(contact_sum),dirname)   
            
             W.indicate_protraction()
-            # np.savetxt('protraction_indicator.csv', W.protraction_indicator, delimiter=",")
 
-            # contact_protraction_indicator = contact_indicator
-            # for i in range(len(contact_indicator)):
-            #     for j in range(len(contact_indicator[i])):
-            #         if int(W.protraction_indicator[i]) == int(0):
-            #             contact_protraction_indicator[i][j] = 0
-            #         else:
-            #             pass
-                
-
-            # 5 X 3375 contact array
-            # Total_array1.extend(concave_contact_indicator)
-            # Total_array2.extend(concave_contact_sum_indicator)
 
            
 
