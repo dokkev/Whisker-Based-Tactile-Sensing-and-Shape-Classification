@@ -3,7 +3,7 @@ import numpy as np
 import csv
 import os
 import pathlib
-from numpy.lib.npyio import savetxt
+from numpy.lib.npyio import save, savetxt
 from sklearn.utils.validation import check_array
 from read_data import *
 from natural_object_class import *
@@ -25,7 +25,6 @@ if __name__ == "__main__":
         trialID = 0
         trials_max = 1
         
-        
         while trialID < trials_max:
 
             # # print(trialID)
@@ -33,7 +32,7 @@ if __name__ == "__main__":
             # dirname = 'concave24.obj_T010' + '_N02'
             dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
             # dirname = 'overtest'
-            print(dirname,"saved")
+
             # # dirname = 'overtest'
     
             # # default path to dynamic data (each include all whiskers)
@@ -65,7 +64,7 @@ if __name__ == "__main__":
             contact_sum_img = convert_to_Gray(np.copy(contact_sum))
             # print(np.array(contact_sum_img))
 
-            class_num = W.get_class_num(dirname)
+            class_num,obj_num = W.get_class_num(dirname)
 
             save_objects_image(dirname,binary_contact_img,class_num,'binary_contact')
             save_objects_image(dirname,multi_contact_img,class_num,'multi_contact')
@@ -79,10 +78,14 @@ if __name__ == "__main__":
             Total_array1.extend(class_contact_indicator)
             Total_array2.extend(class_contact_sum_indicator)
             Total_array3.extend(class_multi_contact_indicator)
-
-       
+            
+            print(dirname,"saved",obj_num)
+                
             trialID += 1
 
+        # there is an error! we are missing scan_79.obj so skip it!
+      
+   
         simID += 1
         obj_tag += 1  
 

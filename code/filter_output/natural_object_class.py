@@ -9,13 +9,14 @@ from read_data import *
 import warnings
 import copy
 import pandas as pd
-from os import walk
+from os import error, walk
+from pathlib import Path
 
 # read objects
 obj_path = '../data/natural_objects'
 objects = next(walk(obj_path), (None, None, []))[2]  # [] if no file
 objects.sort()
-print(objects)
+
 
 Total_array1 = []
 Total_array2 = []
@@ -27,7 +28,7 @@ output_dir = '../output/natural_objects/'
 df = pd.read_csv('../config/obj_param.csv')
 # print(df)
 # print(df.iat[96,-1])
-
+error_flag = 0
 
 class NaturalObjects:
     def __init__(self,dirname):
@@ -35,19 +36,26 @@ class NaturalObjects:
             # self.dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
             self.dirname = dirname
             D_dir =  output_dir+(dirname)+'/dynamics/'
-            self.Fx = read_from_csv_2(D_dir,"Fx")
-            self.Fy = read_from_csv_2(D_dir,"Fy")
-            self.Fz = read_from_csv_2(D_dir,"Fz")
-            self.Mx = read_from_csv_2(D_dir,"Mx")
-            self.My = read_from_csv_2(D_dir,"My")
-            self.Mz = read_from_csv_2(D_dir,"Mz")
-            self.Fx_array = np.array(self.Fx)
-            self.Fy_array = np.array(self.Fy)
-            self.Fz_array = np.array(self.Fz)
-            self.Mx_array = np.array(self.Mx)
-            self.My_array = np.array(self.My)
-            self.Mz_array = np.array(self.Mz)
-
+            my_file = Path(D_dir)
+            if my_file.exists():
+                error_flag = 0
+                self.Fx = read_from_csv_2(D_dir,"Fx")
+                self.Fy = read_from_csv_2(D_dir,"Fy")
+                self.Fz = read_from_csv_2(D_dir,"Fz")
+                self.Mx = read_from_csv_2(D_dir,"Mx")
+                self.My = read_from_csv_2(D_dir,"My")
+                self.Mz = read_from_csv_2(D_dir,"Mz")
+                self.Fx_array = np.array(self.Fx)
+                self.Fy_array = np.array(self.Fy)
+                self.Fz_array = np.array(self.Fz)
+                self.Mx_array = np.array(self.Mx)
+                self.My_array = np.array(self.My)
+                self.Mz_array = np.array(self.Mz)
+                # print(error_flag)
+            else:
+                error_flag = 1
+                print("error!")
+    
             # read whisker names
             path = str(output_dir)+str(self.dirname)+'/collision/'
             self.whiskers = next(walk(path), (None, None, []))[2]  # [] if no file
@@ -240,7 +248,7 @@ class NaturalObjects:
         obj_num = (dirname.split('N'))
         obj_num = int(obj_num[1])
         class_num = (df.iat[obj_num,-1])
-        return class_num
+        return class_num,obj_num
 
 def save_objects_image(dirname,data,class_num,type):
     dirout = '../results/images/' + str(type) + '/class' + str(class_num) + '/'
