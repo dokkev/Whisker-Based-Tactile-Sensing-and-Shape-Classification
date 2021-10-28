@@ -74,7 +74,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # ~/Final_Project/whisker_project/code/build/whiskit
     # change this path accordingly 
-    str1 = "../build/whiskit \
+    str1 = "../build/whiskit_gui \
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 100 # how many times you want to simulate
+    numConfig = 1 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     #    	trials.append([4,trialbase+n])
 
     
-    pool = Pool(processes=50,initializer = init, initargs = (counter, ))
+    pool = Pool(processes=1,initializer = init, initargs = (counter, ))
     try:
         i = pool.map_async(simulate_obj, trials, chunksize = 1)
         i.wait()

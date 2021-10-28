@@ -41,7 +41,7 @@ def normalize(vect):
     return vect/norm(vect,2) # operations on each element in a for loop is very slow -> vector operations
 
 #runs simulation with stated parameters
-def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,simID):
+def simulate(whisker,RatPOS, RatORI, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,simID):
     global counter
     #with counter.get_lock():
     #    counter.value += 1
@@ -55,8 +55,7 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
                'convex40.obj']
                
         
-    
-    
+
     # print('Simulating: ' + str(whisker))
     objFile = objects[objID]
 
@@ -74,12 +73,12 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
 
     # ~/Final_Project/whisker_project/code/build/whiskit
     # change this path accordingly 
-    str1 = "../build/whiskit_gui \
+    str1 = "../build/whiskit \
     --PRINT 2 \
     --CDIST 50 \
     --SIM_TIME 0.625 \
     --SAVE_KINEMATICS 0 \
-    --WHISKER_NAMES ONE \
+    --WHISKER_NAMES ALL \
     --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
@@ -95,17 +94,22 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     strz = " --ObjZ " + str(ObjZ)
     stryaw = " --ObjYAW " + str(ObjYAW)
     strpitch = " --ObjPITCH " + str(ObjPITCH)
-    strroll = " --ObjROLL " + str(ObjROLL) 
+    strroll = " --ObjROLL " + str(ObjROLL)
+    strpos = " --POSITION " + str(RatPOS)
+    strori = " --ORIENTATION " + str(RatORI) 
 
-    cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll
+    cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll+strpos+strori
 
     start = time.time()
-    print("===========NEXT SIMULATION==============")
-    print("starting whiskit:" + filename)
-    print("Object Type: " + str(object_type))
-    print("Now Whisking: " + str(objFile))
-    print("X = " + str(ObjX) + " Y = " + str(ObjY) + " Z = " +str(ObjZ))
-    print("YAW = " + str(ObjYAW) + " PITCH = " + str(ObjPITCH) + " ROLL = " +str(ObjROLL))
+    print1=("===========NEXT SIMULATION==============")
+    print2=("\nstarting whiskit:" + filename)
+    print3=("\nObject Type: " + str(object_type))
+    print4=("\nNow Whisking: " + str(objFile))
+    print5=("\nObjX = " + str(ObjX) + " ObjY = " + str(ObjY) + " ObjZ = " +str(ObjZ))
+    print6=("\nObjYAW = " + str(ObjYAW) + " ObjPITCH = " + str(ObjPITCH) + " ObjROLL = " +str(ObjROLL))
+    print7=("\nRatPos = " + str(RatPOS))
+    print8=("\nRatOri = " + str(RatORI))
+    print(print1+print2+print3+print4+print5+print6+print7+print8)
 
     s = subprocess.getoutput([cmdstr])
     print("ended whiskit:" + filename)
@@ -116,12 +120,13 @@ def simulate(whisker, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL,objID,trialID,
     collision = bool(np.sum(get_output("C: ",outputlist)))
     file = open(dirout+"/parameters.txt",'w+')
     file.write("Whiskers: "+whisker)
+    file.write("\nObject Type: "+str(object_type))
     file.write("\nX : "+str(ObjX))
     file.write("\nY : "+str(ObjY))
     file.write("\nZ : "+str(ObjZ))
-    file.write("\nYAW : "+str(ObjYAW))
-    file.write("\nPITCH : "+str(ObjPITCH))
-    file.write("\nROLL : "+str(ObjROLL))
+    file.write("\nObjYAW : "+str(ObjYAW))
+    file.write("\nObjPITCH : "+str(ObjPITCH))
+    file.write("\nObjROLL : "+str(ObjROLL))
     file.write("\nobject ID: "+str(objID))
     file.write("\ntrial ID: "+str(trialID))
     file.write("\nfilename: "+str(objFile))
@@ -154,37 +159,57 @@ def simulate_obj(sim_input):
 
             if obj_tag <= concave_max: 
                 # Concave
-                ObjXi = 30
-                ObjYi = 30
+                RatXi = 0
+                RatYi = 0
+                RatZi = 0
+                RatYAWi = 0
+                RatPITCHi = 0
+                RatROLLi = 0
+                ObjXi = 0
+                ObjYi = 40
                 ObjZi = -10
                 ObjYAWi = 0
                 ObjPITCHi = 0
-                ObjROLLi = -0.1
+                ObjROLLi = 0.785
                 object_type = 'concave'
            
             elif concave_max < obj_tag <= convex_max:
                 # Convex
-                ObjXi = 30
-                ObjYi = 30
+                RatXi = 0
+                RatYi = 0
+                RatZi = 0
+                RatYAWi = 0
+                RatPITCHi = 0
+                RatROLLi = 0
+                ObjXi = 0
+                ObjYi = 35
                 ObjZi = -10
                 ObjYAWi = 0
                 ObjPITCHi = 0
-                ObjROLLi = -3.5
+                ObjROLLi = 3.92
                 object_type = 'convex'
         
-
+            # Rat Position & Orientation
+            RatX = RatXi
+            RatY = RatYi
+            RatZ = RatZi
+            RatYAW = RatYAWi
+            RatPITCH = RatPITCHi
+            RatROLL = round(RatROLLi + random.uniform(-1.57,1.57),4)
+            POS = str(RatX) + " " + str(RatY) + " " + str(RatZ)
+            ORI = str(RatYAW) + " " + str(RatPITCH) + " " + str(RatROLL)
 
             # tiny translation max delta =~ 1 cm is applied
-            ObjX = round(ObjXi + random.uniform(-5.0, 5.0),4)
-            ObjY = round(ObjYi + random.uniform(-5.0, 5.0),4)
+            ObjX = round(ObjXi + random.uniform(-2.0, 2.0),4)
+            ObjY = round(ObjYi + random.uniform(-2.0, 2.0),4)
             ObjZ = round(ObjZi) #+ random.uniform(-0.01, 0.01),4)
 
             # tiny rotation mat theta =~ 0.15 rad is applied
-            ObjYAW = round(ObjYAWi) #+ random.uniform (-0.35,0.35),4)
-            ObjPITCH =round(ObjPITCHi) #+ random.uniform (-0.35,0.35),4)
-            ObjROLL = round(ObjROLLi + random.uniform (-0.1,0.1),4)
+            ObjYAW = round(ObjYAWi,4) #+ random.uniform (-0.35,0.35),4)
+            ObjPITCH =round(ObjPITCHi,4) #+ random.uniform (-0.35,0.35),4)
+            ObjROLL = round(ObjROLLi,4)
 
-            simulate("R", ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
+            simulate("R",POS, ORI, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL, obj_tag, trialID, simID)
 
             # increase simulation ID
             simID+=1
@@ -194,8 +219,6 @@ def simulate_obj(sim_input):
 
 
 
-
-   
 
 def test(x):
     global counter
@@ -211,7 +234,7 @@ if __name__ == "__main__":
     # trialbase = int(sys.argv[1])
     trialbase = 0
     counter = Value('i',trialbase)
-    numConfig = 1 # how many times you want to simulate
+    numConfig = 100 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
