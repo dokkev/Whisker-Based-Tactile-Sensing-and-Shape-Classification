@@ -4,24 +4,25 @@
 --SIM_TIME 0.625 \
 --CONNECT 0 \
 --CDIST 50 \
---CPITCH -45 \
+--CPITCH 0 \
 --CYAW 90 \
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
 --SAVE_KINEMATICS 0 \
+--WHISKER_NAMES ALL \
 --OBJ_SCALE 100 \
---SAVE_VIDEO 1 \
+--SAVE_VIDEO 0 \
 --POSITION 0 0 0 \
---ORIENTATION 0 0 1.57 \
+--ORIENTATION 0 0 0 \
 --SAVE 1 \
 --OBJECT 5 \
 --file_env "../data/concave/concave40.obj" \
 --ObjX 0 \
---ObjY 35 \
+--ObjY 40 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL 3.92 \
+--ObjROLL 0.785 \
 --file_video "../output/ALL.mp4" \
---dir_out ../output/overtest
+--dir_out ../output/alltest
