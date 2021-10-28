@@ -16,14 +16,14 @@ if __name__ == "__main__":
     np.seterr(invalid='ignore')
     # print("total number of whiskers: ",len(W.whiskers))
     obj_tag = 1 # the object number you want to start with
-    obj_max = 98 # the object number you want to end with
+    obj_max = 2 # the object number you want to end with
 
     
     while obj_tag < obj_max :
         objFile = objects[obj_tag]
 
         trialID = 0
-        trials_max = 1
+        trials_max = 1        
         
         while trialID < trials_max:
 
@@ -85,11 +85,15 @@ if __name__ == "__main__":
 
         # there is an error! we are missing scan_79.obj so skip it!
       
-   
+        if obj_num == 77:
+            print("skip ")
+            simID+=1
+            obj_tag+=1
         simID += 1
         obj_tag += 1  
 
     save_master('binary_contact',Total_array1)
     save_master('contact_sum',Total_array2)
     save_master('multi_contact',Total_array3)
+    print("ALL SAVED")
     

@@ -12,24 +12,24 @@ train_datagenerator = train_datagenerator.flow_from_directory(
     'train/concave_convex/contact_sum',
     target_size=image_size,
     batch_size=10,
-    class_mode='binary')
+    class_mode='categorical')
 
 test_datagenerator = test_datagenerator.flow_from_directory(
     'test/concave_convex/contact_sum',
     target_size=image_size,
     batch_size=10,
-    class_mode='binary')
+    class_mode='categorical')
 
 
 model = tf.keras.models.Sequential([
     # Convolutional layer and maxpool layer 1
-    tf.keras.layers.Conv2D(32, (3,3),padding='same', activation='relu', input_shape=(150,150,3)),
-    tf.keras.layers.MaxPooling2D((2,2),2),
+    tf.keras.layers.Conv2D(128, kernel_size=7, activation='relu', input_shape=(150,150,3)),
+    tf.keras.layers.MaxPooling2D(pool_size=(4,4), strides=(2,2)),
     
     # # Convolutional layer and maxpool layer 2
-    # tf.keras.layers.Conv2D(64, (3,3), padding='same', activation='relu'),
-    # tf.keras.layers.MaxPooling2D((2,2),2),     
-     
+    tf.keras.layers.Conv2D(64, kernel_size=5, activation='relu'),
+    tf.keras.layers.MaxPooling2D(pool_size=(4,4), strides=(2,2)),
+
     # # Convolutional layer and maxpool layer 3
     # tf.keras.layers.Conv2D(128, (3,3), padding='same', activation='relu'),
     # tf.keras.layers.MaxPooling2D((2,2),2),   
@@ -38,14 +38,14 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(),
 
     # Hidden layer with 512 neurons and Rectified Linear Unit activation function 
-    # tf.keras.layers.Dense(512, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
 
     # Output layer with a single neuron for binary classification
-    tf.keras.layers.Dense(1, activation='sigmoid')
+    tf.keras.layers.Dense(6, activation='softmax')
 ])
 print(model.summary())
 
-model.compile(loss='binary_crossentropy',
+model.compile(loss='categorical_crossentropy',
              optimizer=tf.keras.optimizers.Adam(0.001),
              metrics=['accuracy'])
 
@@ -61,7 +61,7 @@ class myCallback(tf.keras.callbacks.Callback):
   
 callbacks = myCallback()
 
-history = model.fit(
+history= model.fit(
         train_datagenerator,
         epochs=5,
         validation_data=test_datagenerator,
@@ -73,7 +73,7 @@ history = model.fit(
 
 #Graphing our training and validation
 acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 epochs = range(len(acc))

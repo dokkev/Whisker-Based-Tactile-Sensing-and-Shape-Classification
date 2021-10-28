@@ -9,18 +9,19 @@
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---WHISKER_NAMES ALL \
 --SAVE_KINEMATICS 0 \
 --OBJ_SCALE 100 \
 --SAVE_VIDEO 1 \
+--POSITION 0 0 0 \
+--ORIENTATION 0 0 1.57 \
 --SAVE 1 \
 --OBJECT 5 \
 --file_env "../data/concave/concave40.obj" \
 --ObjX 0 \
---ObjY 40 \
+--ObjY 35 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL 0.65 \
+--ObjROLL 3.92 \
 --file_video "../output/ALL.mp4" \
 --dir_out ../output/overtest
