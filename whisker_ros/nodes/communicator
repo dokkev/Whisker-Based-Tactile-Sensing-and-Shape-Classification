@@ -76,14 +76,7 @@ class Communicator:
         self.raw_contact_pub = rospy.Publisher("/raw_contact",Contact, queue_size=10)
         self.contact_pos_pub = rospy.Publisher("/contact_position",WhiskerData,queue_size=10)
 
-        # setup inital rat
-        self.state = np.array([0.,0.,0.,0.,0.,0.])
-        self.turn_size = 0.02
-        self.step_size = 0.3
-
-        self.orientation = np.array([0.,self.step_size,0.])
-        self.next_step = np.array([0.,self.step_size,0.])
-
+       
     def publish_whisker_data(self,data):
         fx = np.array(data[0]).flatten()
         fy = np.array(data[1]).flatten()
