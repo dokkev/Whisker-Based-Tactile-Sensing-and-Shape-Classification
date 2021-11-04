@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+import rospy
+import numpy as np
+import tensorflow as tf
+from whisker_ros.msg import Contact
+import os
+import rospkg
+
+rospack = rospkg.RosPack()
+pkgpath = rospack.get_path('whisker_ros')
+# path = '~/Final_Project/ws/src/whiskitphysics/whisker_ros/weight/mymodel'
+path = pkgpath + '/weight/mymodel'
+
+model = tf.keras.models.load_model(path)
+
+LA0 = 0
+LA1 = 0
+LA2 = 0
+LA3 = 0
+LA4 = 0
+LB0 = 0
+LB1 = 0
+LB2 = 0
+LB3 = 0
+LB4 = 0
+LC0 = 0
+LC1 = 0
+LC2 = 0
+LC3 = 0
+LC4 = 0
+LC5 = 0
+LD0 = 0
+LD1 = 0
+LD2 = 0
+LD3 = 0
+LD4 = 0
+LD5 = 0
+LE1 = 0
+LE2 = 0
+LE3 = 0
+LE4 = 0
+LE5 = 0
+RA0 = 0
+RA1 = 0
+RA2 = 0
+RA3 = 0
+RA4 = 0
+RB0 = 0
+RB1 = 0
+RB2 = 0
+RB3 = 0
+RB4 = 0
+RC0 = 0
+RC1 = 0
+RC2 = 0
+RC3 = 0
+RC4 = 0
+RC5 = 0
+RD0 = 0
+RD1 = 0
+RD2 = 0
+RD3 = 0
+RD4 = 0
+RD5 = 0
+RE1 = 0
+RE2 = 0
+RE3 = 0
+RE4 = 0
+RE5 = 0
+
+def contact_callback(data):
+    global contact_data
+
+    contact_data = np.array(data.contact)
+    # print(contact_data)
+    # contact_data = np.array([LA0,LA1,LA2,LA3,LA4,LB0,LB1,LB2,LB3,LB4,LC0,LC1,LC2,LC3,LC4,LC5,LD0,LD1,LD2,LD3,LD4,LD5,LE1,LE2,LE3,LE4,LE5,RA0,RA1,RA2,RA3,RA4,RB0,RB1,RB2,RB3,RB4,RC0,RC1,RC2,RC3,RC4,RC5,RD0,RD1,RD2,RD3,RD4,RD5,RE1,RE2,RE3,RE4,RE5])
+    classes = model.predict((tf.convert_to_tensor([contact_data])))
+    print(classes[0])
+    if classes[0]<0.5:
+        print("<< This is Concave")
+    else:
+        print(" << This is Convex")
+
+    
+if __name__ == '__main__':
+    rospy.init_node('tabular_classifier')
+    rospy.Subscriber('/contact_sum', Contact, contact_callback)
+ 
+
+    rospy.spin()
+    
+

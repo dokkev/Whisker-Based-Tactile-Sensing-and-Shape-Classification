@@ -19,6 +19,7 @@ objID = 0
 objects_max = 22
 
 
+
 if __name__ == '__main__':
      for objID in range(objects_max):
         objFile = objects[objID]
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 
 
             path = 'test/'+input_type + obj_type + '/'+ dirname + '.jpg'
-            img = image.load_img(path, target_size=(128, 128))
+            img = image.load_img(path, target_size=(150, 150))
             x = image.img_to_array(img)
             x = np.expand_dims(x, axis=0)
 

@@ -12,5 +12,6 @@ code/image_classifier/train
 code/tabular_classifier/weight
 code/tabular_classifier/test
 code/tabular_classifier/train
+whisker_ros/weight
 
 

@@ -380,7 +380,7 @@ int main(int argc, char** argv)
 				DrawGridData dg;
 		        dg.upAxis = app->getUpAxis();
 				app->setBackgroundColor(1,1,1);
-				app->drawGrid(dg);
+				// app->drawGrid(dg);
 				// char bla[1024];
 				// std::sprintf(bla, "Simple test frame %d", frameCount);
 				// app->drawText(bla, 10, 10);

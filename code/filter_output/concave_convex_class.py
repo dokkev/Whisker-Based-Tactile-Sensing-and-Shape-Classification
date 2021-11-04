@@ -13,10 +13,6 @@ from os import error, walk
 from pathlib import Path
 
 
-"""
-This is Class for concave and convex data. This class should be initialized for processing every simulation.
-"""
-
 # read objects
 obj_path = '../data/concave'
 objects = next(walk(obj_path), (None, None, []))[2]  # [] if no file
@@ -28,10 +24,13 @@ Total_array3 = []
 Total_array4 = []
 Total_array5 = []
 
-output_dir = '../output/'
+output_dir = '../output/ALL/'
 error_flag = 0
 
 class ConcaveConvex:
+    """
+    This is Class for concave and convex data. This class should be initialized for processing every simulation.
+    """
     def __init__(self,dirname):
         
             # self.dirname = str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d')
@@ -129,6 +128,18 @@ class ConcaveConvex:
         contact_sum = np.vstack((c1,c2,c3,c4,c5))
 
         return contact_sum
+
+    def separate_contact(self,contact_indicator):
+        c1,c2,c3,c4,c5 = np.array_split(contact_indicator,5)
+
+        c1 = np.sum(c1,axis=0)
+        c2 = np.sum(c2,axis=0)
+        c3 = np.sum(c3,axis=0)
+        c4 = np.sum(c4,axis=0)
+        c5 = np.sum(c5,axis=0)
+
+        return c1,c2,c3,c4,c5
+
     
     def extract_protraction_data(self,contact_indicator,protraction_indicator):
         for i in range(len(contact_indicator)):

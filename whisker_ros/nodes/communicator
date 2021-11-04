@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
 import rospy
-import geometry_msgs.msg
-import tf2_ros
-import tf
 import numpy as np
 import zmq
 import msgpack
@@ -11,14 +8,20 @@ import pygame
 from pygame.locals import *
 from io import BytesIO
 import sys
-import math
-
-from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Int8
 from whisker_ros.msg import WhiskerData
 from whisker_ros.msg import Contact
 
-# from rot_mat import *
-# from graph import *
+"""
+This ROS node provides communication between the WHISKiT Physics Simulator and ROS
+while it provides GUI for the rat control
+WHISKiT physics simulator has to be running in order to use this node.
+Converting data from the simulator to ROS topics, this node update the transformation of the rat head.
+
+
+
+"""
+
 
 def get_Rx(theta):
     R = np.array([[1.,0.,0.],[0., np.cos(theta), -np.sin(theta)],[0.,np.sin(theta), np.cos(theta)]])
@@ -73,8 +76,13 @@ class Communicator:
         self.moment_pub = rospy.Publisher("/raw_whisker_moment", WhiskerData, queue_size=10)
         self.pos_pub = rospy.Publisher("/raw_whisker_position", WhiskerData, queue_size=10)
         self.contact_pub = rospy.Publisher("/contact_indicator", Contact, queue_size=10)
-        self.raw_contact_pub = rospy.Publisher("/raw_contact",Contact, queue_size=10)
-        self.contact_pos_pub = rospy.Publisher("/contact_position",WhiskerData,queue_size=10)
+        self.bcontact_pub = rospy.Publisher("binary_contact_indicator",Contact, queue_size=10)
+        self.raw_contact_pub = rospy.Publisher("/raw_whisker_contact",Contact, queue_size=10)
+        self.contact_pos_pub = rospy.Publisher("/whisker_contact_position",WhiskerData,queue_size=10)
+        self.contact_status_pub = rospy.Publisher("/contact_status",Int8,queue_size=10)
+        self.contact_sum_pub = rospy.Publisher("/contact_sum",Contact,queue_size=10)
+        self.counter = 0
+        self.contact_sum = []
 
        
     def publish_whisker_data(self,data):
@@ -110,19 +118,58 @@ class Communicator:
         whisker_data_msg.y = y
         whisker_data_msg.z = z
         self.pos_pub.publish(whisker_data_msg)
-        print(whisker_data_msg)
+        # print(whisker_data_msg)
+        
+        ##########################
+        ## publish contact data ##
+        ##########################
 
-        # publish contact data
-
-        # intidace contact
+        # sum contact along segments
         contact_indicator = np.sum(c,axis=1)
         contact_msg = Contact()
         contact_msg.contact = contact_indicator
         self.contact_pub.publish(contact_msg)
 
+        for i in range(len(contact_indicator)):
+            if contact_indicator[i] >= 1:
+                contact_indicator[i] = 1
+            else:
+                contact_indicator[i] = 0
+
+        binary_contact_indicator = contact_indicator
+        contact_msg.contact = contact_indicator
+
+        self.bcontact_pub.publish(contact_msg)
+        
+        # summation of binary contact for one cycle of whisking
+        if self.counter < int(125):
+            self.contact_sum.append(list(binary_contact_indicator))
+            # print(self.contact_sum, self.counter)
+            # print(len(self.contact_sum))
+            self.counter +=int(1)
+        elif self.counter == int(125):
+            contact_sum = np.array(self.contact_sum)
+            contact_sum = np.sum(contact_sum,axis=0)
+            contact_sum_msg = Contact()
+            contact_sum_msg.contact = contact_sum
+            self.contact_sum_pub.publish(contact_sum_msg)
+            self.counter = 0
+            self.contact_sum = []
+
+
+
         raw_contact_msg = Contact()
         raw_contact_msg.contact = c_flat
         self.raw_contact_pub.publish(raw_contact_msg)
+
+        # publish contact status
+        contact_status = np.sum(c_flat)
+        if contact_status == 0:
+            contact_status = 0
+        else:
+            contact_status = 1
+        self.contact_status_pub.publish(contact_status)
+
 
     def process_contact(self,data):
         c = np.array(data[6])
@@ -145,6 +192,10 @@ class Communicator:
         contact_msg.y = contact_y
         contact_msg.z = contact_z
         self.contact_pos_pub.publish(contact_msg)
+
+
+
+
     
     def main(self):
         WINSIZE = (720, 960)
@@ -201,11 +252,11 @@ class Communicator:
                         next_step = update_pitch(state,-turn_size,next_step,orientation)
 
                     # turn right
-                    if event.key == pygame.K_RIGHT:
+                    if event.key == pygame.K_d:
                         next_step = update_roll(state,-turn_size,next_step,orientation)
             
                     # turn left
-                    if event.key == pygame.K_LEFT:
+                    if event.key == pygame.K_a:
                         next_step = update_roll(state,turn_size,next_step,orientation)
     
 

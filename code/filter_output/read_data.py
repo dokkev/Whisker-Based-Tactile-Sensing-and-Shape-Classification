@@ -122,6 +122,10 @@ def convert_to_Gray(volume: np.ndarray):
         img_arr = img_arr.convert('L')
     return img_arr
 
+def raw_to_Gray(data):
+    img = Image.fromarray(data)
+
+    return img
 
 
 def convert_contact_to_gray(data):
@@ -150,5 +154,19 @@ def save_image(dirname,data,type):
     if not os.path.exists(directory):
         os.makedirs(directory)
     img_dir = dirout+str(dirname)+'.jpg'
+    data.save(img_dir)
+
+def save_image_5sections(c,dirname,data,type):
+    if 'concave' in dirname:
+        dirout = '../results/images/' + str(type) + '/concave/'
+    elif 'convex' in dirname:
+        dirout = '../results/images/' + str(type) + '/convex/'
+    else:
+        dirout = '../results/images/' + str(type) + '/'
+    directory = os.path.dirname(dirout)
+    pathlib.Path(dirout).mkdir(parents=True, exist_ok=True)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    img_dir = dirout+str(dirname)+'_'+str(c)+'.jpg'
     data.save(img_dir)
 

@@ -23,10 +23,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Rat::Rat(GUIHelperInterface* helper,btDiscreteDynamicsWorld* world, btAlignedObjectArray<btCollisionShape*>* shapes, Parameters* parameters){
 	// set initial position and orientation of rat head
 	btVector3 position = btVector3(parameters->RATHEAD_LOC[0],parameters->RATHEAD_LOC[1],parameters->RATHEAD_LOC[2]);
-	btVector3 orientation = btVector3(parameters->RATHEAD_ORIENT[0],parameters->RATHEAD_ORIENT[1],parameters->RATHEAD_ORIENT[2]);
+	// btVector3 orientation = btVector3(parameters->RATHEAD_ORIENT[0],parameters->RATHEAD_ORIENT[1],parameters->RATHEAD_ORIENT[2]);
+	btQuaternion quat = btQuaternion(parameters->RATHEAD_ORIENT[0],parameters->RATHEAD_ORIENT[1],parameters->RATHEAD_ORIENT[2]);
 	
 	// create transform for ratHead
-	btTransform headTransform = createFrame(position, orientation);
+	// btTransform headTransform = createFrame(position, orientation);
+	btTransform headTransform = btTransform(quat, position);
 	
 	// define shape and body of head (mass=100)
 	btVector4 color = btVector4(0.1,0.1,0.1,1);

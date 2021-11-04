@@ -9,13 +9,13 @@ test_datagenerator = ImageDataGenerator(rescale=1./255)
 image_size = (150, 150)
 
 train_datagenerator = train_datagenerator.flow_from_directory(
-    'train/concave_convex/contact_sum',
+    'train/ALL',
     target_size=image_size,
     batch_size=10,
     class_mode='binary')
 
 test_datagenerator = test_datagenerator.flow_from_directory(
-    'test/concave_convex/contact_sum',
+    'test/ALL',
     target_size=image_size,
     batch_size=10,
     class_mode='binary')
@@ -56,7 +56,7 @@ class myCallback(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
 	    if(logs.get('accuracy') > ACCURACY_THRESHOLD):
 		    print("\nReached %2.2f%% accuracy, so stopping training!!" %(logs.get('accuracy')*100))
-		    self.model.stop_training = True
+		    # self.model.stop_training = True
 
   
 callbacks = myCallback()
@@ -72,22 +72,25 @@ history = model.fit(
 # model.save('concave_mxyz.h5')
 
 #Graphing our training and validation
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
-loss = history.history['loss']
-val_loss = history.history['val_loss']
-epochs = range(len(acc))
-plt.plot(epochs, acc, 'r', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
-plt.ylabel('accuracy') 
-plt.xlabel('epoch')
-plt.legend()
-plt.figure()
-plt.plot(epochs, loss, 'r', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
-plt.ylabel('loss') 
-plt.xlabel('epoch')
-plt.legend()
+plt.figure(1)
+# summarize history for accuracy
+plt.subplot(211)
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model Accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Training', 'Validation'], loc='lower right')
+
+# summarize history for loss
+
+plt.subplot(212)
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Training', 'Validation'], loc='upper right')
+
+plt.tight_layout()
 plt.show()

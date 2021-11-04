@@ -5,7 +5,6 @@
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
---WHISKER_NAMES TEST \
 --OBJ_SCALE 100 \
 --file_env "../data/concave/concave40.obj" \
 --ACTIVE 1 \

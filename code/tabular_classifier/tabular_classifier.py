@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 
 
 # Read Data and Split into Training and Test Data
-df = pd.read_csv('train/concave_convex/contact_raw.csv')
+df = pd.read_csv('train/ALL/contact_sum.csv')
 df.head()
 X = df.iloc[:, 0:-1]
 y = df.iloc[:, -1]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=None)
 
 print("data_read")
 data = 'mz_dmz.csv'
@@ -39,7 +39,7 @@ class myCallback(tf.keras.callbacks.Callback):
  def on_epoch_end(self, epoch, logs={}):
 		if(logs.get('accuracy') > ACCURACY_THRESHOLD):
 			print("\nReached %2.2f%% accuracy, so stopping training!!" %(logs.get('accuracy')*100))
-			self.model.stop_training = True
+			# self.model.stop_training = True
 
 def train(X_train,y_train,X_test, y_test):
    
@@ -59,7 +59,7 @@ def train(X_train,y_train,X_test, y_test):
     print(model.summary())
 
     history = model.fit(X_train, y_train, epochs=20, batch_size=27,validation_data=(X_test,y_test),callbacks=[myCallback()])
-
+    model.save('mymodel')
     # test_loss, test_acc = model.evaluate(X_test, y_test)
     # print('Test accuracy:', test_acc)
 

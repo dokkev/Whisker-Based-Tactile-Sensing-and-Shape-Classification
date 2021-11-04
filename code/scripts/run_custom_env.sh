@@ -3,14 +3,10 @@
 --PRINT 2 \
 --SIM_TIME 0.625 \
 --CONNECT 0 \
---CDIST 50 \
---CPITCH 0 \
---CYAW 90 \
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
 --SAVE_KINEMATICS 0 \
---WHISKER_NAMES ALL \
 --OBJ_SCALE 100 \
 --SAVE_VIDEO 0 \
 --POSITION 0 0 0 \
@@ -22,7 +18,7 @@
 --ObjY 40 \
 --ObjZ -10 \
 --ObjYAW 0 \
---ObjPITCH 0 \
+--ObjPITCH 0.5 \
 --ObjROLL 0.785 \
 --file_video "../output/ALL.mp4" \
 --dir_out ../output/alltest
