@@ -62,7 +62,7 @@ def simulate(whisker,RatPOS, RatORI, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL
 
     # here's where you set directory for the output
     filename =  str(objFile) + '_T' + format(trialID, '03d') + '_N' + format(simID, '02d') #curr_time.replace(":","-")
-    dirout = "../output/"+str(object_type)+str("_s")+"/"+filename
+    dirout = "../output/"+str(object_type)+str("_ALL")+"/"+filename
     # dirout = "data_parameters"+filename
     
     # print(dirout)
@@ -101,7 +101,7 @@ def simulate(whisker,RatPOS, RatORI, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL
     cmdstr = str1+str2+str3+strx+stry+strz+stryaw+strpitch+strroll+strpos+strori
 
     start = time.time()
-    print1=("===========NEXT SIMULATION==============")
+    print1=("\n===========NEXT SIMULATION==============")
     print2=("\nstarting whiskit:" + filename)
     print3=("\nObject Type: " + str(object_type))
     print4=("\nNow Whisking: " + str(objFile))
@@ -146,7 +146,7 @@ def simulate_obj(sim_input):
     global object_type
 
     obj_tag = 0 # object tag you want to start with
-    obj_tag_max = 1 # max object tag you want to end with 
+    obj_tag_max = 21 # max object tag you want to end with 
     concave_max = 10 # object tag you want to end with 
     convex_max = 21 # object tag you want to end with
 
@@ -200,8 +200,8 @@ def simulate_obj(sim_input):
             ORI = str(RatYAW) + " " + str(RatPITCH) + " " + str(RatROLL)
 
             # tiny translation max delta =~ 1 cm is applied
-            ObjX = round(ObjXi + random.uniform(-2.0, 2.0),4)
-            ObjY = round(ObjYi + random.uniform(-2.0, 2.0),4)
+            ObjX = round(ObjXi + random.uniform(-5.0, 5.0),4)
+            ObjY = round(ObjYi + random.uniform(-5.0, 5.0),4)
             ObjZ = round(ObjZi) #+ random.uniform(-0.01, 0.01),4)
 
             # tiny rotation mat theta =~ 0.15 rad is applied
@@ -232,9 +232,9 @@ if __name__ == "__main__":
 
     # global counter
     # trialbase = int(sys.argv[1])
-    trialbase = 0
+    trialbase = 900
     counter = Value('i',trialbase)
-    numConfig = 100 # how many times you want to simulate
+    numConfig = 300 # how many times you want to simulate
     trials = []
     for n in range(numConfig):
         trials.append([2,trialbase+n])
