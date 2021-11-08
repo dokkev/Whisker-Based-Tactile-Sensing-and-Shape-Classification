@@ -11,11 +11,11 @@
 --SIM_TIME 10000.0 \
 --SAVE_VIDEO 0 \
 --SAVE 0 \
---ObjX 30 \
---ObjY 30 \
+--ObjX 0 \
+--ObjY 40 \
 --ObjZ -10 \
 --ObjYAW 0 \
 --ObjPITCH 0 \
---ObjROLL -0.5 \
+--ObjROLL 0.785 \
 --file_video "../output/ratgame.mp4" \
 --dir_out ../output/ratgame

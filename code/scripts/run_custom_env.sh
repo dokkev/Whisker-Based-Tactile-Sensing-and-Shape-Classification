@@ -16,9 +16,9 @@
 --file_env "../data/concave/concave40.obj" \
 --ObjX 0 \
 --ObjY 40 \
---ObjZ -10 \
+--ObjZ -100 \
 --ObjYAW 0 \
---ObjPITCH 0.5 \
+--ObjPITCH 0 \
 --ObjROLL 0.785 \
 --file_video "../output/ALL.mp4" \
 --dir_out ../output/alltest

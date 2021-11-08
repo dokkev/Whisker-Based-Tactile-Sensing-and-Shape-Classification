@@ -32,9 +32,9 @@ class Plot:
         self.xspace = size[0]*0.07
 
         self.xmin = 0.
-        self.xmax = 2.
-        self.ymin = -0.1
-        self.ymax = 0.1
+        self.xmax = 5.
+        self.ymin = -1
+        self.ymax = 1
         self.yzero = (self.axis[1]-2*self.ymargin)/2
 
         self.xscale = (self.axis[0]-np.sum(self.xmargin))/np.abs(self.xmax-self.xmin)
@@ -119,7 +119,12 @@ class Plot:
 
         #Scale data
         xp = (x-self.xmin)*self.xscale + self.xmargin[0]
-        yp = self.axis[1] - self.ymargin - self.yzero-(y)*self.yscale 
+        yp = self.axis[1] - self.ymargin - self.yzero-(y)*self.yscale
+        if np.isnan(xp):
+            xp = np.nan_to_num(xp)
+        if np.isnan(yp):
+            yp = np.nan_to_num(yp)
+ 
         
         current = [int(xp), int(yp)]
         # self.surface.set_at((int(xp), int(yp)), BLACK)

@@ -28,7 +28,7 @@ if __name__ == "__main__":
         objFile = objects[objID]
 
         trialID = 0    # inital number of trials to process
-        trials_max = 300 # final number of trials to process
+        trials_max = 600 # final number of trials to process
         
         while trialID < trials_max:
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
             # create a contact indicator
             contact_indicator,multi_contact_indicator = W.indicate_contact(dirname)
             contact_sum = W.sum_contact(contact_indicator)
-            c1,c2,c3,c4,c5 = W.separate_contact(contact_indicator)
+            # c1,c2,c3,c4,c5 = W.separate_contact(contact_indicator)
             # extract data based on contact & protraction
             W.extract_protraction_data(contact_indicator,protraction_indicator)
      
@@ -59,26 +59,26 @@ if __name__ == "__main__":
             # Mz = np.nan_to_num(Mz)
             # Mz = W.add_concave_indicator(Mz,dirname)
 
-            # contact_sum = W.add_concave_indicator(contact_sum,dirname)
+            contact_sum = W.add_concave_indicator(contact_sum,dirname)
 
             # Total_array1.extend(Mz)
-            # Total_array2.extend(contact_sum)
+            Total_array2.extend(contact_sum)
 
             # convert to image data
-            c1 = convert_to_Gray(c1)
-            c2 = convert_to_Gray(c2)
-            c3 = convert_to_Gray(c3)
-            c4 = convert_to_Gray(c4)
-            c5 = convert_to_Gray(c5)
-            # contact_sum = convert_to_Gray(contact_sum)
+            # c1 = convert_to_Gray(c1)
+            # c2 = convert_to_Gray(c2)
+            # c3 = convert_to_Gray(c3)
+            # c4 = convert_to_Gray(c4)
+            # c5 = convert_to_Gray(c5)
+            contact_sum = convert_to_Gray(contact_sum)
 
             # save the image data
-            save_image_5sections("c1",dirname,c1,"ALL")
-            save_image_5sections("c2",dirname,c2,"ALL")
-            save_image_5sections("c3",dirname,c3,"ALL")
-            save_image_5sections("c4",dirname,c4,"ALL")
-            save_image_5sections("c5",dirname,c5,"ALL")
-            # save_image(dirname,contact_sum,"ALL")
+            # save_image_5sections("c1",dirname,c1,"ALL")
+            # save_image_5sections("c2",dirname,c2,"ALL")
+            # save_image_5sections("c3",dirname,c3,"ALL")
+            # save_image_5sections("c4",dirname,c4,"ALL")
+            # save_image_5sections("c5",dirname,c5,"ALL")
+            save_image(dirname,contact_sum,"ALL")
             
 
             print(dirname,"saved")
@@ -90,6 +90,6 @@ if __name__ == "__main__":
         objID += 1
 
     # save_master('mz',Total_array1)
-    # save_master('contact_sum',Total_array2)
+    save_master('contact_sum',Total_array2)
     print("ALL SAVED")
     
