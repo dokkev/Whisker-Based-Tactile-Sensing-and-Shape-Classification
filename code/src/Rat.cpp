@@ -14,7 +14,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 */
 
 #include "Rat.h"
@@ -68,8 +67,11 @@ const btTransform Rat::getTransform(){
 	return rathead->body->getCenterOfMassTransform();
 }
 
+
 void Rat::setTransform(btTransform tr){
 	rathead->body->setCenterOfMassTransform(tr);
+	btMotionState* motionState = rathead->body->getMotionState();
+	motionState->setWorldTransform(tr);
 }
 
 void Rat::setLinearVelocity(btVector3 shift){

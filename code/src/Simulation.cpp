@@ -93,6 +93,13 @@ void Simulation::stepSimulation(){
 			scabbers->setAngularVelocity(btVector3(this_loc_vel[6], this_loc_vel[7], this_loc_vel[8]));
 			// scabbers->setAngularVelocity(btVector3(0, 0, 0));
 		}
+		// Set velocity of the rat with user input
+		if (parameters->VEL_MODE){
+			
+
+			scabbers->setLinearVelocity(btVector3(0, 0, 0));
+			scabbers->setAngularVelocity(btVector3(0, 0, 0));
+		}
 
 	
 

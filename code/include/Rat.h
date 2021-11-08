@@ -38,6 +38,8 @@ private:
 	btAlignedObjectArray<Whisker*> m_whiskerArray;
 	std::vector<std::string> whisker_names;
 	
+
+	btVector3 adjustedOffset = btVector3(0, 0, 0);
 	btVector3 originOffset = btVector3(0,26,4);		//unit: mm
 	btVector3 originOrientation = btVector3(0,0,0);
 

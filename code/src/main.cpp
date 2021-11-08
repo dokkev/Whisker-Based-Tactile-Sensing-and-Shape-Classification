@@ -153,16 +153,28 @@ int main(int argc, char* argv[])
 			
 			else if (param->WHISKER_NAMES[0] == "GAME"){
 	    		param->WHISKER_NAMES = {
-	    			"LA0","LA2","LA4",
-	    			"LB1","LB3","LB5",
-	    			"LC0","LC2","LC4","LC6",
-	    			"LD1","LD3","LD5",
-	    			"LE1","LE3","LE5","LE6",
-	    			"RA0","RA2","RA4",
-	    			"RB1","RB3","RB5",
-	    			"RC0","RC2","RC4","RC6",
-	    			"RD1","RD3","RD5",
-	    			"RE1","RE3","RE5","RE6"};
+	    			"LA2",
+	    			"LB2",
+	    			"LC0","LC1","LC2","LC3","LC4",
+	    			"LE2",
+	 				"RA2",
+	 				"RB2",
+	    			"RC0","RC1","RC2","RC3","RC4",
+	    			"RE2"
+				};
+	    
+	    	}
+
+			if (param->WHISKER_NAMES[0] == "RL"){
+	    		param->WHISKER_NAMES = {
+
+	    			"LB1","LB2","LB3",
+	    			"LC1","LC2","LC3",
+	    			"LD1","LD2","LD3",
+	    			"RB1","RB2","RB3",
+	    			"RC1","RC2","RC3",
+	    			"RD1","RD2","RD3"
+				};
 	    	}
 
 			else if (param->WHISKER_NAMES[0] == "TEST"){

@@ -47,6 +47,7 @@ public:
 	int SAVE_VIDEO;
 	int CONNECT;
 	int SAVE_KINEMATICS;
+	int VEL_MODE;
 	
 	// collision object type
 	int OBJECT;

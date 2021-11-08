@@ -42,6 +42,7 @@ Parameters::Parameters(){
 	// parameters for peg (OBJECT = 1)
 	PEG_LOC = btVector3(20, 25, 0);
 	PEG_SPEED = 10;	
+	VEL_MODE = 1;
 
 	// specify whisker configuration parameters
 	MODEL_TYPE = 0; // Selects model type: 0 => average rat whisker array; 1 => model rat whisker array from Belli et al. 2018
@@ -59,7 +60,7 @@ Parameters::Parameters(){
 	RHO_BASE = 1260.0;		// set density at whisker base
 	RHO_TIP = 1690.0;		// set density at whisker tip
 	E = 5e9;				// set young's modulus (GPa) at whisker base
-	ZETA = 0.32;			// set damping coefficient zeta at whisker base
+	ZETA = 0.6;			// set damping coefficient zeta at whisker base
 
 	// enable/disable whisking mode for added whiskers
 	// Note: the whisking trajectory is pre-specified by user.
