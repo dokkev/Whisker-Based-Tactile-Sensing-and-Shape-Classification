@@ -60,7 +60,6 @@ def update_pitch(state,turn_size,next_step,orientation):
 
 float_formatter = "{:.5f}".format
 # np.set_printoptions(formatter={'float_kind':float_formatter})
-np.set_printoptions(formatter={'float_kind':float_formatter})
 
 class Communicator:
     def __init__(self):

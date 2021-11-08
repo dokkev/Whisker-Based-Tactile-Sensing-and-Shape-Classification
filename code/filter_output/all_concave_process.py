@@ -28,7 +28,7 @@ if __name__ == "__main__":
         objFile = objects[objID]
 
         trialID = 0    # inital number of trials to process
-        trials_max = 600 # final number of trials to process
+        trials_max = 1200 # final number of trials to process
         
         while trialID < trials_max:
 
