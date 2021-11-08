@@ -148,6 +148,12 @@ int main(int argc, char* argv[])
 	    			"LE1","LE2","LE3","LE4","LE5"};
 	    	}
 
+			else if (param->WHISKER_NAMES[0] == "RODGERS"){
+	    		param->WHISKER_NAMES = {
+	    			"RC0","RC1","RC2","RC3",
+					"LC0","LC1","LC2","LC3"};
+	    	}
+
 			std::vector<std::string> coordinates;
 			if (!vm["POSITION"].empty() && (coordinates = vm["POSITION"].as<std::vector<std::string> >()).size() == 3) {
 				param->RATHEAD_LOC[0] = lexical_cast<float>(coordinates[0]);

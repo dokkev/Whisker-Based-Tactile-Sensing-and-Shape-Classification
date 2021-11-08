@@ -78,7 +78,7 @@ def simulate(whisker,RatPOS, RatORI, ObjX, ObjY, ObjZ, ObjYAW, ObjPITCH, ObjROLL
     --CDIST 50 \
     --SIM_TIME 0.625 \
     --SAVE_KINEMATICS 0 \
-    --WHISKER_NAMES ALL \
+    --WHISKER_NAMES RODGERS \
     --CPITCH 0 \
     --CYAW 180 \
     --BLOW 1  \
