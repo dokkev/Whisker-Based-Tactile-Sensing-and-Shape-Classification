@@ -107,7 +107,8 @@ void Simulation::stepSimulation(){
 		if(parameters->CONNECT){
 		// 	scabbers->rotateHead(state->current_state.pitch,state->current_state.yaw,state->current_state.roll);
 		// 	scabbers->translateHead(btVector3(state->current_state.x,state->current_state.y,state->current_state.z));
-			btQuaternion quat = btQuaternion(state->current_state.yaw,state->current_state.pitch,state->current_state.roll);
+			btQuaternion quat;
+			quat.setEulerZYX(state->current_state.yaw,state->current_state.pitch,state->current_state.roll);
 			btVector3 vec = btVector3(state->current_state.x,state->current_state.y,state->current_state.z);
 			btTransform RatTF = btTransform(quat,vec);
 			scabbers->setTransform(RatTF);
@@ -294,7 +295,8 @@ void Simulation::initPhysics()
 		// std::cout << "ObjX: " << ObjX_ << std::endl;
 
 		//set Quaternion and Vector 
-		btQuaternion quat = btQuaternion(ObjYAW_,ObjPITCH_,ObjROLL_);
+		btQuaternion quat = btQuaternion();
+		quat.setEulerZYX(ObjYAW_,ObjPITCH_,ObjROLL_);
 		btVector3 vec = btVector3(ObjX_,ObjY_,ObjZ_);
 		btTransform tf = btTransform(quat,vec);
 

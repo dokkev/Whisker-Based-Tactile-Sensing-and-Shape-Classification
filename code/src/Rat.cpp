@@ -23,12 +23,18 @@ Rat::Rat(GUIHelperInterface* helper,btDiscreteDynamicsWorld* world, btAlignedObj
 	// set initial position and orientation of rat head
 	btVector3 position = btVector3(parameters->RATHEAD_LOC[0],parameters->RATHEAD_LOC[1],parameters->RATHEAD_LOC[2]);
 	// btVector3 orientation = btVector3(parameters->RATHEAD_ORIENT[0],parameters->RATHEAD_ORIENT[1],parameters->RATHEAD_ORIENT[2]);
-	btQuaternion quat = btQuaternion(parameters->RATHEAD_ORIENT[0],parameters->RATHEAD_ORIENT[1],parameters->RATHEAD_ORIENT[2]);
-	
+	btQuaternion quat;
+	quat.setEulerZYX(parameters->RATHEAD_ORIENT[0],parameters->RATHEAD_ORIENT[1],parameters->RATHEAD_ORIENT[2]);
+
 	// create transform for ratHead
 	// btTransform headTransform = createFrame(position, orientation);
-	btTransform headTransform = btTransform(quat, position);
-	
+	// btTransform headTransform = btTransform(quat, position);
+
+	btTransform headTransform;
+	headTransform.setOrigin(position);
+	headTransform.setRotation(quat);
+
+
 	// define shape and body of head (mass=100)
 	btVector4 color = btVector4(0.1,0.1,0.1,1);
 	rathead = new Object(helper,world,shapes,headTransform,parameters->dir_rathead,color,SCALE/10,100.,COL_HEAD,headCollidesWith);

@@ -90,6 +90,6 @@ if __name__ == "__main__":
         objID += 1
 
     # save_master('mz',Total_array1)
-    save_master('contact_sum',Total_array2)
+    save_master('contact_sum2',Total_array2)
     print("ALL SAVED")
     

@@ -5,17 +5,19 @@
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
---OBJ_SCALE 100 \
---file_env "../data/concave/concave40.obj" \
+--OBJ_SCALE 500 \
+--file_env "../data/concave/long_concave.obj" \
 --ACTIVE 1 \
---SIM_TIME 10000.0 \
---SAVE_VIDEO 0 \
+--WHISKER_NAMES EXP \
+--SIM_TIME 125000.0 \
+--POSITION 0 0 0 \
+--SAVE_VIDEO 1 \
 --SAVE 0 \
 --ObjX 0 \
 --ObjY 40 \
 --ObjZ -10 \
---ObjYAW 0 \
+--ObjYAW 0.785 \
 --ObjPITCH 0 \
---ObjROLL 0.785 \
---file_video "../output/ratgame.mp4" \
+--ObjROLL 0 \
+--file_video "../output/RL.mp4" \
 --dir_out ../output/ratgame

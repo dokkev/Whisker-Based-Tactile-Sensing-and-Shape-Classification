@@ -140,7 +140,7 @@ class Communicator:
         contact_msg.contact = contact_indicator
 
         self.bcontact_pub.publish(contact_msg)
-        
+        print(self.counter)
         # summation of binary contact for one cycle of whisking
         if self.counter < int(125):
             self.contact_sum.append(list(binary_contact_indicator))

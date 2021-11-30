@@ -1,0 +1,23 @@
+
+../build/whiskit_gui \
+--PRINT 3 \
+--CONNECT 1 \
+--BLOW 1 \
+--DEBUG 0 \
+--OBJECT 5 \
+--OBJ_SCALE 100 \
+--WHISKER_NAMES ALL \
+--file_env "../data/concave/concave40.obj" \
+--ACTIVE 1 \
+--SIM_TIME 10000.0 \
+--POSITION 5 0 0 \
+--SAVE_VIDEO 1 \
+--SAVE 0 \
+--ObjX 0 \
+--ObjY 40 \
+--ObjZ -10 \
+--ObjYAW 0.785 \
+--ObjPITCH 0 \
+--ObjROLL 0 \
+--file_video "../output/RL.mp4" \
+--dir_out ../output/ratgame

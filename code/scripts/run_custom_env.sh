@@ -1,24 +1,25 @@
 
 ../build/whiskit_gui \
 --PRINT 2 \
---SIM_TIME 100.625 \
+--SIM_TIME 100 \
 --CONNECT 0 \
 --BLOW 1 \
 --DEBUG 0 \
 --ACTIVE 1 \
---WHISKER_NAMES ONE \
+--CDIST 100 \
+--WHISKER_NAMES EXP \
 --SAVE_KINEMATICS 0 \
---OBJ_SCALE 100 \
+--OBJ_SCALE 500 \
 --SAVE_VIDEO 0 \
---POSITION 0 0 -40 \
---ORIENTATION 1.57 0 0 \
---SAVE 1 \
+--POSITION 0 0 0 \
+--ORIENTATION 0 0 0 \
+--SAVE 0 \
 --OBJECT 5 \
---file_env "../data/world/xyz.obj" \
+--file_env "../data/concave/long_concave.obj" \
 --ObjX 0 \
---ObjY 0 \
---ObjZ -40 \
---ObjYAW 0 \
+--ObjY 40 \
+--ObjZ -10 \
+--ObjYAW 0.785 \
 --ObjPITCH 0 \
 --ObjROLL 0 \
 --file_video "../output/ALL.mp4" \

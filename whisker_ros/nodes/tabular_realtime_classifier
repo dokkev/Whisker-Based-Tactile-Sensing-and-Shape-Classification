@@ -10,7 +10,7 @@ import rospkg
 rospack = rospkg.RosPack()
 pkgpath = rospack.get_path('whisker_ros')
 # path = '~/Final_Project/ws/src/whiskitphysics/whisker_ros/weight/mymodel'
-path = pkgpath + '/weight/mymodel'
+path = pkgpath + '/weight/allmodel'
 
 model = tf.keras.models.load_model(path)
 

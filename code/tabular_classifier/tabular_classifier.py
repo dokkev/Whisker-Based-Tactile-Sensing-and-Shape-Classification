@@ -58,8 +58,8 @@ def train(X_train,y_train,X_test, y_test):
 
     print(model.summary())
 
-    history = model.fit(X_train, y_train, epochs=20, batch_size=27,validation_data=(X_test,y_test),callbacks=[myCallback()])
-    model.save('mymodel')
+    history = model.fit(X_train, y_train, epochs=20, batch_size=54,validation_data=(X_test,y_test),callbacks=[myCallback()])
+    model.save('allmodel')
     # test_loss, test_acc = model.evaluate(X_test, y_test)
     # print('Test accuracy:', test_acc)
 
