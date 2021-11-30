@@ -60,7 +60,7 @@ Parameters::Parameters(){
 	RHO_BASE = 1260.0;		// set density at whisker base
 	RHO_TIP = 1690.0;		// set density at whisker tip
 	E = 5e9;				// set young's modulus (GPa) at whisker base
-	ZETA = 0.6;			// set damping coefficient zeta at whisker base
+	ZETA = 0.99;			// set damping coefficient zeta at whisker base
 
 	// enable/disable whisking mode for added whiskers
 	// Note: the whisking trajectory is pre-specified by user.
