@@ -229,10 +229,8 @@ int main(int argc, char** argv)
 			if (param->WHISKER_NAMES[0] == "RL"){
 	    		param->WHISKER_NAMES = {
 
-	    			"LB1","LB2","LB3",
 	    			"LC1","LC2","LC3",
 	    			"LD1","LD2","LD3",
-	    			"RB1","RB2","RB3",
 	    			"RC1","RC2","RC3",
 	    			"RD1","RD2","RD3"
 				};

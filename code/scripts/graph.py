@@ -31,10 +31,10 @@ class Plot:
         self.yspace = size[1]*0.2
         self.xspace = size[0]*0.07
 
-        self.xmin = 0.
-        self.xmax = 5.
-        self.ymin = -1
-        self.ymax = 1
+        self.xmin = 0
+        self.xmax = 10
+        self.ymin = 0
+        self.ymax = 50
         self.yzero = (self.axis[1]-2*self.ymargin)/2
 
         self.xscale = (self.axis[0]-np.sum(self.xmargin))/np.abs(self.xmax-self.xmin)
@@ -198,3 +198,4 @@ class Graph:
     def flush(self):
         for p in self.subplots:
             p.clear()
+

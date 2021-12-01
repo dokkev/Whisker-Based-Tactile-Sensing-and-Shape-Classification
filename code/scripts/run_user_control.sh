@@ -8,7 +8,7 @@
 --OBJ_SCALE 500 \
 --file_env "../data/concave/long_concave.obj" \
 --ACTIVE 1 \
---WHISKER_NAMES EXP \
+--WHISKER_NAMES RL \
 --SIM_TIME 125000.0 \
 --POSITION 0 0 0 \
 --SAVE_VIDEO 1 \

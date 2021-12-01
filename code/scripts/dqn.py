@@ -70,8 +70,10 @@ for n in range(n_episodes):
         qvals_s = model.predict(s.reshape(1,4))
         print(s.reshape(1,4))
         # Choose action to be epsilon-greedy
-        if np.random.random() < epsilon:  a = env.action_space.sample()
-        else:                             a = np.argmax(qvals_s); 
+        if np.random.random() < epsilon:  
+            a = env.action_space.sample()
+        else:                             
+            a = np.argmax(qvals_s); 
         # Take step, store results
        
         sprime, r, done, info = env.step(a)

@@ -1,6 +1,7 @@
 # General
 import random
 import gym
+from numpy.lib.polynomial import RankWarning
 import pandas as pd
 import numpy as np
 # Neural network 
@@ -18,6 +19,11 @@ from pygame.locals import *
 from io import BytesIO
 import sys
 from graph import *
+from rotation import *
+import signal
+
+"""
+"""
 
 ## Building the nnet that approximates q 
 n_actions = 4  # dim of output layer 
@@ -28,16 +34,27 @@ model.add(Dense(32, activation = 'relu'))
 model.add(Dense(n_actions, activation = 'linear'))
 model.compile(optimizer='adam', loss = 'mse')
 
-
 n_episodes = 1000
 gamma = 0.99
 epsilon = 1
 epilson = 1
 minibatch_size = 32
-r_sums = []  # stores rewards of each epsiode 
+reward_sum_array = []  # stores rewards of each epsiode 
 replay_memory = [] # replay memory holds s, a, r, s'
 mem_max_size = 100000
 state = np.array([0.0,5.0,0.0,0.0,0.0,0.0])
+
+
+
+
+def handler(signum, frame):
+    res = input("Ctrl-c was pressed, would you like to save your model? (y/n)\n")
+    if res == 'y':
+        save_model(model)
+        exit(1)
+    if res == 'n':
+        exit(1)
+
 
 def replay(replay_memory, minibatch_size=32):
     # choose <s,a,r,s',done> experiences randomly from the memory
@@ -65,6 +82,10 @@ def replay(replay_memory, minibatch_size=32):
     model.fit(s_l, target_f, epochs=1, verbose=0)
     return model
 
+def save_model(model):
+    print("model saved")
+    model.save("DQN_model")
+
 def process_contact(data,counter):
     c = np.array(data[6])
     
@@ -81,7 +102,22 @@ def process_contact(data,counter):
 
     return binary_contact_indicator
 
+def symmetic_contact(data):
+    reward = 0
+    if data[0] & data[6] == 1:
+        reward += 2.5
+    if data[1] & data[7] == 1:
+        reward += 2.5
+    if data[2] & data[8] == 1:
+        reward += 2.5
+    if data[3] & data[9] == 1:
+        reward += 2.5
+    if data[4] & data[10] == 1:
+        reward += 2.5
+    if data[5] & data[11] == 1:
+        reward += 2.5
 
+    return reward
 if __name__ == '__main__':
 
     WINSIZE = (720, 960)
@@ -96,103 +132,166 @@ if __name__ == '__main__':
     packer = msgpack.Packer()
     
     # initial condition
-    state = np.array([0.,5.,0.,0.,0.,0.])
+    turn_size = 0.005
+    step_size = 0.001
 
+
+    # graph in pygame
     pygame.init()
     screen = pygame.display.set_mode(WINSIZE)
     screen.fill((255,255,255))
     graph = Graph(screen)
-    graph.add_subplots(8,1)
-    graph.ylabel(0,'RC0')
-    graph.ylabel(1,'RC1')
-    graph.ylabel(2,'RC2')
-    graph.ylabel(3,'RC3')
-    graph.ylabel(4,'LC0')
-    graph.ylabel(5,'LC1')
-    graph.ylabel(6,'LC2')
-    graph.ylabel(7,'LC3')
-    graph.xlabel(7,'time [s]')
+    graph.xmin = 0.
+    graph.xmax = 100
+    graph.ymin = 0
+    graph.ymax = 1000
+    graph.add_subplots(1,1)
+    graph.ylabel(0,'Reward')
+    graph.xlabel(0,'time [s]')
 
     local_counter = 0
     move_counter = 0
     contact_sum = []
 
+   
+
     print("And let's go!!!")
     t = 0
-    r_sum = 0
-    while not done:
-        # get info from c++
-        unpacker.feed(socket.recv())
-        # empty array to store dynamic data
-        Y = []
+    symmetry_array = []
+    contact_array = []
+    
+    signal.signal(signal.SIGINT, handler)
 
-        # Let's unpack the data we recievd
-        for values in unpacker:
-                Y.append(np.array(values))
+    while True:
 
-        binary_contact_indicator = process_contact(Y,local_counter)
-        print(binary_contact_indicator)
+        for i in range(n_episodes):
+            
+            # reset the environment
+            done = False
+            # change the initial state everytime it resets
+       
+            global next_step
+            next_step = np.array([0.,step_size,0.])
+            orientation = np.array([0.,turn_size,0.])
+            next_step = np.array([0.,step_size,0.])
+            state = np.array([0.,5.,0.,0.,0.,0.])
 
-        ## DQN ##
-        s = state
-  
-        done=False
+
+            reward_sum = 0
+
+
+            while not done:
+                # get info from c++
+                unpacker.feed(socket.recv())
+                # empty array to store dynamic data
+                Y = []
+
+                # Let's unpack the data we recievd
+                for values in unpacker:
+                        Y.append(np.array(values))
+
+                binary_contact_indicator = process_contact(Y,local_counter)
+                
+                contact_reward = np.sum(np.array(binary_contact_indicator))
+                sym_reward = symmetic_contact(binary_contact_indicator)
+
+                real_time_reward = contact_reward + 0.1*sym_reward
+
+                graph.plot(0,t,real_time_reward,color=RED)
+                graph.update()
+                    
+                ## DQN ##
+                s = state
         
-        if move_counter == 0:
-            # Feedforward pass for current state to get predicted q-values for all actions 
-            qvals_s = model.predict(s.reshape(1,6))
+                if move_counter == 0:
+                    # Feedforward pass for current state to get predicted q-values for all actions 
+                    qvals_s = model.predict(s.reshape(1,6))
 
-            # Choose action to be epsilon-greedy
-            if np.random.random() < epilson:
-                a = np.random.randint(0,high=4)
-            else:                             
-                a = np.argmax(qvals_s); 
-            # Take step, store results
+                    # Choose action to be epsilon-greedy
+                    if np.random.random() < epilson:
+                        a = np.random.randint(0,high=4)
+                    else:                             
+                        a = np.argmax(qvals_s); 
+                    # Take step, store results
 
-        if local_counter < 60 or local_counter > 80:
-            if a == 0:
-                state[3] += 0.01
-            elif a == 1:
-                state[3] -= 0.01
-            elif a == 2:
-                state[5] += 0.01
-            elif a == 3:
-                state[5] -= 0.01
+                if local_counter < 60 or local_counter > 80:
+                    
+                    # turn right
+                    if a == 0:
+                        next_step = update_yaw(state,-turn_size,next_step,orientation)
+                    # turn left
+                    elif a == 1:
+                        next_step = update_yaw(state,turn_size,next_step,orientation)
+                    # look up
+                    elif a == 2:
+                        next_step = update_roll(state,turn_size,next_step,orientation)
+                    # look down
+                    elif a == 3:
+                        next_step = update_roll(state,-turn_size,next_step,orientation)
+                    # move forward
+                    elif a == 4:
+                        state[0:3] += next_step
+                    # move backward
+                    elif a == 5:
+                        state[0:3] -= next_step
 
-        sprime = state
-        if local_counter == 124:
-            reward = np.sum(binary_contact_indicator)
-            # add to memory, respecting memory buffer limit 
-            if len(replay_memory) > mem_max_size:
-                replay_memory.pop(0)
-            replay_memory.append({"s":s,"a":a,"r":reward,"sprime":sprime,"done":done})
-            # Update state
-            s=sprime
-            # Train the nnet that approximates q(s,a), using the replay memory
-            model=replay(replay_memory, minibatch_size = minibatch_size)
-            # Decrease epsilon until we hit a target threshold 
-            if epsilon > 0.01:      
-                epsilon -= 0.001
-            print("state: ", state)
-            print("reward:", reward)
-    
-    
+                if local_counter < 124:
+                    symmetry_array.append(sym_reward)
+                    contact_array.append(contact_reward)
+
+                sprime = state
+                if local_counter == 124:
+                    # sum of symmetry reward for one cycle of whisk
+                    sum_sym_reward = np.sum(np.array(symmetry_array))
+                    # sum of contact reward for one cycle of whisk
+                    sum_contact_reward = np.sum(np.array(contact_array))
+
+                    reward = sum_sym_reward + (0.1 * sum_contact_reward)
+                    
+        
+                    # add to memory, respecting memory buffer limit 
+                    if len(replay_memory) > mem_max_size:
+                        replay_memory.pop(0)
+                    replay_memory.append({"s":s,"a":a,"r":reward,"sprime":sprime,"done":done})
+                    # Update state
+                    s=sprime
+                    # Train the nnet that approximates q(s,a), using the replay memory
+                    model=replay(replay_memory, minibatch_size = minibatch_size)
+                    # Decrease epsilon until we hit a target threshold 
+                    if epsilon > 0.01:      
+                        epsilon -= 0.001
+                    print("state: ", state)
+                    print("reward: ", reward)
+
+                    # empty array for the next cycle
+                    symmetry_array = []
+                    contact_array = []
+
+                    reward_sum += reward
+
+                    # if the reward is lower than 100, reset the state (next episode)
+                    if reward < 100:
+                        done = True
+                        print("reset!")
+                    
+                reward_sum_array.append(reward_sum)
+
+                X = [state]
+                buffer = BytesIO()
+                for x in X:
+                    buffer.write(packer.pack(list(x)))
+
+                socket.send(buffer.getvalue() )
+
+                t += 0.01
+                if local_counter < 124:
+                    local_counter += 1
+                elif local_counter == 124:
+                    local_counter = 0
+                if move_counter < 20:
+                    move_counter += 1
+                elif move_counter == 20:
+                    move_counter = 0
 
 
-
-        X = [state]
-        buffer = BytesIO()
-        for x in X:
-            buffer.write(packer.pack(list(x)))
-
-        socket.send(buffer.getvalue() )
-
-        t += 0.01
-        if local_counter < 124:
-            local_counter += 1
-        elif local_counter == 124:
-            local_counter = 0
-        if move_counter < 20:
-            move_counter += 1
-        elif move_counter == 20:
-            move_counter = 0
+        model.save('model.h5')
