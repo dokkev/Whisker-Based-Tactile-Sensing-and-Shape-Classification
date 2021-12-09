@@ -1,7 +1,3 @@
-# General
-import random
-import gym
-from numpy.lib.polynomial import RankWarning
 import pandas as pd
 import numpy as np
 # Neural network 
@@ -21,31 +17,43 @@ import sys
 from graph import *
 from rotation import *
 import signal
+import seaborn as sns; sns.set_theme()
 
-"""
-"""
 
-## Building the nnet that approximates q 
-n_actions = 4  # dim of output layer 
-input_dim = 6 # dim of input layer 
+## initialze the neural networks
+n_actions = 5  # dim of output layer 
+input_dim = 18 # dim of input layer 
 model = Sequential()
-model.add(Dense(64, input_dim = input_dim , activation = 'relu'))
-model.add(Dense(32, activation = 'relu'))
+model.add(Dense(216, input_dim = input_dim , activation = 'relu'))
+# model.add(Dense(128, input_dim = input_dim , activation = 'relu'))
+model.add(Dense(108, activation = 'relu'))
+# model.add(Dense(108, activation = 'relu'))
 model.add(Dense(n_actions, activation = 'linear'))
 model.compile(optimizer='adam', loss = 'mse')
+print(model.summary())
 
+## Parameters for Reinforcement Learning
 n_episodes = 1000
-gamma = 0.99
-epsilon = 1
-epilson = 1
+gamma = 0.01
+epsilon = 0.5
 minibatch_size = 32
 reward_sum_array = []  # stores rewards of each epsiode 
 replay_memory = [] # replay memory holds s, a, r, s'
 mem_max_size = 100000
-state = np.array([0.0,5.0,0.0,0.0,0.0,0.0])
 
 
+def obtain_weights(model):
+    weights = model.get_weights()
+    # weights connecting input layer to hidden layer 1
+    # print(weights[0])
+    # bias of the hidden layer 1
+    print(weights[1])
+    # weights connecting hidden layer 1 to the output layer
+    print(weights[2])
+    # bias of the output layer
+    # print(weights[3])
 
+    return weights[0],weights[2]
 
 def handler(signum, frame):
     res = input("Ctrl-c was pressed, would you like to save your model? (y/n)\n")
@@ -84,7 +92,7 @@ def replay(replay_memory, minibatch_size=32):
 
 def save_model(model):
     print("model saved")
-    model.save("DQN_model")
+    model.save("DQN_model_contact")
 
 def process_contact(data,counter):
     c = np.array(data[6])
@@ -116,45 +124,129 @@ def symmetic_contact(data):
         reward += 2.5
     if data[5] & data[11] == 1:
         reward += 2.5
+    if reward > 5.0:
+        reward += 10.0
+    return reward
 
+def symmetic_18contact(data):
+    reward = 0
+    if data[0] & data[9] == 1:
+        reward += 2.5
+    if data[1] & data[10] == 1:
+        reward += 2.5
+    if data[2] & data[11] == 1:
+        reward += 2.5
+    if data[3] & data[12] == 1:
+        reward += 2.5
+    if data[4] & data[13] == 1:
+        reward += 2.5
+    if data[5] & data[14] == 1:
+        reward += 2.5
+    if data[6] & data[15] == 1:
+        reward += 2.5
+    if data[7] & data[16] == 1:
+        reward += 2.5
+    if data[8] & data[17] == 1:
+        reward += 2.5
+
+    if reward > 5.0:
+        reward += 10.0
+    return reward
+
+
+
+def all_symmetic_contact(data):
+    reward = 0
+    if data[0] & data[27] == 1:
+        reward += 2.5
+    if data[1] & data[28] == 1:
+        reward += 2.5
+    if data[2] & data[29] == 1:
+        reward += 2.5
+    if data[3] & data[30] == 1:
+        reward += 2.5
+    if data[4] & data[31] == 1:
+        reward += 2.5
+    if data[5] & data[32] == 1:
+        reward += 2.5
+    if data[6] & data[33] == 1:
+        reward += 2.5
+    if data[7] & data[34] == 1:
+        reward += 2.5
+    if data[8] & data[35] == 1:
+        reward += 2.5
+    if data[9] & data[36] == 1:
+        reward += 2.5
+    if data[10] & data[37] == 1:
+        reward += 2.5
+    if data[11] & data[38] == 1:
+        reward += 2.5
+    if data[12] & data[39] == 1:
+        reward += 2.5
+    if data[13] & data[40] == 1:
+        reward += 2.5
+    if data[14] & data[41] == 1:
+        reward += 2.5
+    if data[15] & data[42] == 1:
+        reward += 2.5
+    if data[16] & data[43] == 1:
+        reward += 2.5
+    if data[17] & data[44] == 1:
+        reward += 2.5
+    if data[18] & data[45] == 1:
+        reward += 2.5
+    if data[19] & data[46] == 1:
+        reward += 2.5
+    if data[20] & data[47] == 1:
+        reward += 2.5
+    if data[21] & data[48] == 1:
+        reward += 2.5
+    if data[22] & data[49] == 1:
+        reward += 2.5
+    if data[23] & data[50] == 1:
+        reward += 2.5
+    if data[24] & data[51] == 1:
+        reward += 2.5
+    if data[25] & data[52] == 1:
+        reward += 2.5
+    if data[26] & data[53] == 1:
+        reward += 2.5
+    if reward > 5.0:
+        reward += 30.0
     return reward
 if __name__ == '__main__':
 
     WINSIZE = (720, 960)
-    # initialize the node
 
+    ## zmq setting
     context = zmq.Context()
-
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5555")
-
     unpacker = msgpack.Unpacker()
     packer = msgpack.Packer()
     
-    # initial condition
+    ## initial condition of the rat
     turn_size = 0.005
     step_size = 0.001
+    state = np.array([0.0,5.0,0.0,0.0,0.0,0.0])
 
 
-    # graph in pygame
+    ## graph in pygame
     pygame.init()
     screen = pygame.display.set_mode(WINSIZE)
     screen.fill((255,255,255))
     graph = Graph(screen)
-    graph.xmin = 0.
-    graph.xmax = 100
-    graph.ymin = 0
-    graph.ymax = 1000
-    graph.add_subplots(1,1)
+    graph.add_subplots(3,1)
     graph.ylabel(0,'Reward')
+    graph.ylabel(1,'Learning Rate')
+    graph.ylabel(2,'Greedy Factor')
     graph.xlabel(0,'time [s]')
 
     local_counter = 0
     move_counter = 0
     contact_sum = []
 
-   
-
+    
     print("And let's go!!!")
     t = 0
     symmetry_array = []
@@ -174,10 +266,11 @@ if __name__ == '__main__':
             next_step = np.array([0.,step_size,0.])
             orientation = np.array([0.,turn_size,0.])
             next_step = np.array([0.,step_size,0.])
-            state = np.array([0.,5.,0.,0.,0.,0.])
+            state = np.array([0.,0.,0.,0.,0.,0.])
 
 
             reward_sum = 0
+            reset_state = False
 
 
             while not done:
@@ -189,33 +282,49 @@ if __name__ == '__main__':
                 # Let's unpack the data we recievd
                 for values in unpacker:
                         Y.append(np.array(values))
+                
+                my = np.array(Y[4]).flatten()
+                mz = np.array(Y[5]).flatten()
 
                 binary_contact_indicator = process_contact(Y,local_counter)
                 
                 contact_reward = np.sum(np.array(binary_contact_indicator))
-                sym_reward = symmetic_contact(binary_contact_indicator)
+                sym_reward = symmetic_18contact(binary_contact_indicator)
 
-                real_time_reward = contact_reward + 0.1*sym_reward
+                real_time_reward = 0.1 * contact_reward + sym_reward
 
                 graph.plot(0,t,real_time_reward,color=RED)
+                graph.plot(1,t,gamma,color=BLUE)
+                graph.plot(2,t,epsilon,color=GREEN)
                 graph.update()
                     
                 ## DQN ##
-                s = state
-        
-                if move_counter == 0:
-                    # Feedforward pass for current state to get predicted q-values for all actions 
-                    qvals_s = model.predict(s.reshape(1,6))
+                # s = (my**2 + mz**2)**0.5 # whisker state before action
+                s = binary_contact_indicator
+    
+                # Feedforward pass for current state to get predicted q-values for all actions 
+                qvals_s = model.predict(s.reshape(1,input_dim))
+          
 
+                if 55 < local_counter < 65:
+                    gamma = 0.99
+                    do_RL = True
+                else:
+                    gamma = 0.01
+                    do_RL = False
+          
+                if do_RL:
                     # Choose action to be epsilon-greedy
-                    if np.random.random() < epilson:
-                        a = np.random.randint(0,high=4)
+                    if np.random.random() < epsilon:
+                        a = np.random.randint(0,high=5)
+                        print("random action:" , a)
                     else:                             
-                        a = np.argmax(qvals_s); 
-                    # Take step, store results
-
-                if local_counter < 60 or local_counter > 80:
-                    
+                        a = np.argmax(qvals_s)
+                        print("best action:" , a)
+    
+                # Take step, store results
+                
+                if do_RL:
                     # turn right
                     if a == 0:
                         next_step = update_yaw(state,-turn_size,next_step,orientation)
@@ -228,27 +337,21 @@ if __name__ == '__main__':
                     # look down
                     elif a == 3:
                         next_step = update_roll(state,-turn_size,next_step,orientation)
-                    # move forward
+                    # don't move
                     elif a == 4:
-                        state[0:3] += next_step
-                    # move backward
-                    elif a == 5:
-                        state[0:3] -= next_step
+                        print("stationary")
+                  
 
-                if local_counter < 124:
-                    symmetry_array.append(sym_reward)
-                    contact_array.append(contact_reward)
+                    # sprime = (my**2 + mz**2)**0.5 # whisker state after action
+                    sprime = binary_contact_indicator                    
+               
+                    # evaluate the reward real-time
+                    reward = real_time_reward
 
-                sprime = state
-                if local_counter == 124:
-                    # sum of symmetry reward for one cycle of whisk
-                    sum_sym_reward = np.sum(np.array(symmetry_array))
-                    # sum of contact reward for one cycle of whisk
-                    sum_contact_reward = np.sum(np.array(contact_array))
-
-                    reward = sum_sym_reward + (0.1 * sum_contact_reward)
+                    if reward == 0:
+                        reward = -1
                     
-        
+            
                     # add to memory, respecting memory buffer limit 
                     if len(replay_memory) > mem_max_size:
                         replay_memory.pop(0)
@@ -257,22 +360,45 @@ if __name__ == '__main__':
                     s=sprime
                     # Train the nnet that approximates q(s,a), using the replay memory
                     model=replay(replay_memory, minibatch_size = minibatch_size)
+
+                    # print weight of each neurons
+                    # weights = model.get_weights()
+                    # print("weights: ",weights)
+
                     # Decrease epsilon until we hit a target threshold 
                     if epsilon > 0.01:      
-                        epsilon -= 0.001
-                    print("state: ", state)
+                        epsilon -= 0.00001
+                    
+                    if gamma > 0.01:
+                        gamma -= 0.0001
                     print("reward: ", reward)
 
-                    # empty array for the next cycle
-                    symmetry_array = []
-                    contact_array = []
+               
 
                     reward_sum += reward
 
-                    # if the reward is lower than 100, reset the state (next episode)
-                    if reward < 100:
+                if local_counter < 124:
+                    symmetry_array.append(sym_reward)
+                    contact_array.append(contact_reward)
+
+              
+                # sum of symmetry reward for one cycle of whisk
+                sum_sym_reward = np.sum(np.array(symmetry_array))
+                # sum of contact reward for one cycle of whisk
+                sum_contact_reward = np.sum(np.array(contact_array))
+                
+                # evaluate the reward every cycle
+                if local_counter == 124:
+                    # empty array for the next cycle
+                    symmetry_array = []
+                    contact_array = []
+                    longterm_reward = sum_sym_reward + (0.1 * sum_contact_reward)
+                    print("long term reward: ", longterm_reward)
+                    if longterm_reward < 10:
                         done = True
-                        print("reset!")
+                        reward = -100
+                        print("====================reset===================")
+                 
                     
                 reward_sum_array.append(reward_sum)
 
@@ -288,10 +414,10 @@ if __name__ == '__main__':
                     local_counter += 1
                 elif local_counter == 124:
                     local_counter = 0
-                if move_counter < 20:
+                if move_counter < 124:
                     move_counter += 1
                 elif move_counter == 20:
                     move_counter = 0
+                  
 
 
-        model.save('model.h5')

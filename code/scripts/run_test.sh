@@ -1,7 +1,6 @@
 
 ../build/whiskit_gui \
 --PRINT 3 \
---CONNECT 1 \
 --BLOW 1 \
 --DEBUG 0 \
 --OBJECT 5 \
@@ -11,9 +10,9 @@
 --WHISKER_NAMES RL \
 --SIM_TIME 125000.0 \
 --POSITION 0 0 0 \
---SAVE_VIDEO 1 \
+--SAVE_VIDEO 0 \
 --SAVE 0 \
---ObjX -5 \
+--ObjX 0 \
 --ObjY 65 \
 --ObjZ 0 \
 --ObjYAW 0 \

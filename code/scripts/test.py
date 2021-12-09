@@ -1,3 +1,4 @@
+from threading import local
 import numpy as np
 import time
 import numpy as np
@@ -149,10 +150,30 @@ def main():
         elif local_counter == 125:
             local_counter = 0
 
-
+import cv2
 def randu():
+    c_img = []
+    local_counter = 0
     while True:
-        print(np.random.randint(3))
+        binary_contact_indicator = np.array([100,200,0,200,100])
+        c_img.append((binary_contact_indicator))
+        image = np.array(c_img,dtype=np.uint8)
+        width = 440
+        height = image.shape[0] # keep original height
+        dim = (width, height)
+        
+        # resize image
+        image = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
+        cv2.namedWindow("image", cv2.WINDOW_NORMAL)
+        cv2.imshow('image', image)
+        cv2.waitKey(1)
+        if local_counter < 125:
+            local_counter += 1
+        elif local_counter == 125:
+            local_counter = 0
+            c_img = []
+
+    # recalculate image with new radius here...
 
 if __name__ == '__main__':
     randu()

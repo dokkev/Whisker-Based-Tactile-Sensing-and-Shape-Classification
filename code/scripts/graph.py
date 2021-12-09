@@ -31,10 +31,10 @@ class Plot:
         self.yspace = size[1]*0.2
         self.xspace = size[0]*0.07
 
-        self.xmin = 0
-        self.xmax = 10
-        self.ymin = 0
-        self.ymax = 50
+        self.xmin = 0.
+        self.xmax = 125.
+        self.ymin = 0.
+        self.ymax = 2.
         self.yzero = (self.axis[1]-2*self.ymargin)/2
 
         self.xscale = (self.axis[0]-np.sum(self.xmargin))/np.abs(self.xmax-self.xmin)

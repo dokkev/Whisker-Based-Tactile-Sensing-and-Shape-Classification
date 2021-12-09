@@ -17,14 +17,30 @@ n_actions = env.action_space.n  # dim of output layer
 input_dim = env.observation_space.shape[0]  # dim of input layer 
 print(input_dim)
 model = Sequential()
-model.add(Dense(64, input_dim = input_dim , activation = 'relu'))
-model.add(Dense(32, activation = 'relu'))
+model.add(Dense(128, input_dim = input_dim , activation = 'relu'))
+model.add(Dense(64, activation = 'relu'))
 model.add(Dense(n_actions, activation = 'linear'))
 model.compile(optimizer='adam', loss = 'mse')
+print(model.summary())
+
+
+weights = model.get_weights()
+# print(weights[0].shape)
+# print(weights[1].shape)
+# print(weights[2].shape)
+# print(weights[3].shape)
+# weights connecting input layer to hidden layer 1
+print(weights[0])
+# bias of the hidden layer 1
+# print(weights[1])
+# weights connecting hidden layer 1 to the output layer
+print(weights[2])
+# bias of the output layer
+# print(weights[3])
 
 n_episodes = 1000
 gamma = 0.99
-epsilon = 1
+epsilon = 0.99
 minibatch_size = 32
 r_sums = []  # stores rewards of each epsiode 
 replay_memory = [] # replay memory holds s, a, r, s'
@@ -68,7 +84,7 @@ for n in range(n_episodes):
         
         # Feedforward pass for current state to get predicted q-values for all actions 
         qvals_s = model.predict(s.reshape(1,4))
-        print(s.reshape(1,4))
+
         # Choose action to be epsilon-greedy
         if np.random.random() < epsilon:  
             a = env.action_space.sample()
@@ -86,8 +102,12 @@ for n in range(n_episodes):
         s=sprime
         # Train the nnet that approximates q(s,a), using the replay memory
         model=replay(replay_memory, minibatch_size = minibatch_size)
+        weights = model.get_weights()
+       
         # Decrease epsilon until we hit a target threshold 
-        if epsilon > 0.01:      epsilon -= 0.001
+        if epsilon > 0.01:      
+            epsilon -= 0.05
+
     print("Total reward:", r_sum)
     r_sums.append(r_sum)
 

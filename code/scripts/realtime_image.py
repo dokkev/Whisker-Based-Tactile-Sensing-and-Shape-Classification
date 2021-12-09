@@ -10,12 +10,24 @@ from io import BytesIO
 import sys
 from graph import *
 import numpy as np
-import tensorflow as tf
+import cv2
+from PIL import Image
 
 """
 
 """
+def convert_contact_to_gray(data):
+    for i in range(len(data)):
+        for j in range(len(data[0])):
+            if data[i][j] == 1:
+                data[i][j] = 255
+            else:
+                data[i][j] = 0
+    
+   
 
+
+    return data
 
 def get_Rx(theta):
     R = np.array([[1.,0.,0.],[0., np.cos(theta), -np.sin(theta)],[0.,np.sin(theta), np.cos(theta)]])
@@ -94,9 +106,11 @@ class Communicator:
 
         for i in range(len(contact_indicator)):
             if contact_indicator[i] >= 1:
-                contact_indicator[i] = int(1)
+                contact_indicator[i] = int(255)
             else:
                 contact_indicator[i] = int(0)
+
+        
 
         self.binary_contact_indicator = contact_indicator
 
@@ -169,10 +183,6 @@ class Communicator:
         
         # initial condition
         state = np.array([0.,0.,0.,0.,0.,0.])
-        classify_status = False
-        if classify_status == True:
-            model = tf.keras.models.load_model('../weight/rodgers_moment')
-        pygame.init()
         screen = pygame.display.set_mode(WINSIZE)
         screen.fill((255,255,255))
         graph = Graph(screen)
@@ -185,7 +195,7 @@ class Communicator:
 
         pygame.key.set_repeat(1, 10)
         turn_size = 0.0174533
-        step_size = 0.2
+        step_size = 0.3
         orientation = np.array([0.,turn_size,0.])
         pitchaxis = np.array([0.,0.,0.])
         global next_step
@@ -194,6 +204,7 @@ class Communicator:
         move_counter = 0
         print("And let's go!!!")
         t = 0
+        c_img = []
         while True:
             
             for event in pygame.event.get():
@@ -251,21 +262,23 @@ class Communicator:
             mz = np.array(Y[5]).flatten()
 
 
-            graph.plot(0,t,mz[0],color=RED)
-            graph.update()
+            # graph.plot(0,t,mz[0],color=RED)
+            # graph.update()
 
-            ## real-time classification ##
-            if classify_status == True and local_counter == 62:
-                           
-                data = (my**2+mz**2)**0.5
-                classes = model.predict(tf.convert_to_tensor([data]))
-                
-                if classes[0]<0.5:
-                    print("confidency: " + str(1 - classes[0]))
-                    print("Current Pitch: ",state[5] ,"<< Convex")
-                else:
-                    print("confidency: " + str(classes[0]))
-                    print("Current Pitch: ", state[5] ,"<< Concave")
+            ## create image
+            c_img.append((self.binary_contact_indicator))              
+            image = np.array(c_img,dtype=np.uint8)
+            width = 400
+            height = image.shape[0] # keep original height
+            dim = (width, height)
+            
+            # resize image
+            image = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
+            image = cv2.rotate(image, cv2.cv2.ROTATE_90_COUNTERCLOCKWISE)
+            cv2.namedWindow("image", cv2.WINDOW_NORMAL)
+            cv2.imshow('image', image)
+            cv2.waitKey(1)
+                    
 
 
 
@@ -280,9 +293,9 @@ class Communicator:
             t += 0.01
             local_counter += 1
 
-            if local_counter == 125:
+            if local_counter == 124:
                 local_counter = 0
-
+            
 
             
         
