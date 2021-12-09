@@ -303,6 +303,31 @@ void Simulation::initPhysics()
 		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(parameters->OBJ_SCALE),btScalar(0),COL_ENV,envCollidesWith);
 	}
 
+	// moving object
+	else if (parameters->OBJECT==6){
+		// add environment to world
+		btVector4 envColor = btVector4(0.6,0.6,0.6,1);
+
+		// object position
+		ObjX_ = parameters->ObjX;
+		ObjY_ = parameters->ObjY;
+		ObjZ_ = parameters->ObjZ;
+
+		// object orientation with 3D quaternion
+		ObjYAW_ = parameters->ObjYAW;
+		ObjPITCH_ = parameters->ObjPITCH;
+		ObjROLL_ = parameters->ObjROLL;
+
+		//set Quaternion and Vector 
+		btQuaternion quat = btQuaternion();
+		quat.setEulerZYX(ObjYAW_,ObjPITCH_,ObjROLL_);
+		btVector3 vec = btVector3(ObjX_,ObjY_,ObjZ_);
+		btTransform tf = btTransform(quat,vec);
+
+		env = new Object(m_guiHelper,m_dynamicsWorld, &m_collisionShapes,tf,parameters->file_env,envColor,btScalar(parameters->OBJ_SCALE),btScalar(0),COL_ENV,envCollidesWith);
+
+	}
+
 
 	// generate graphics
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);

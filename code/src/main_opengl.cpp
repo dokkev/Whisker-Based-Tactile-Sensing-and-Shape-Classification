@@ -228,11 +228,14 @@ int main(int argc, char** argv)
 	    	}
 			if (param->WHISKER_NAMES[0] == "RL"){
 	    		param->WHISKER_NAMES = {
-
-	    			"LC1","LC2","LC3",
-	    			"LD1","LD2","LD3",
-	    			"RC1","RC2","RC3",
-	    			"RD1","RD2","RD3"
+	    			
+	    			"LB2","LB3","LB4",
+	    			"LC2","LC4","LC5",
+	    			"LD3","LD4","LD5",
+	    			"RB2","RB3","RB4",
+	    			"RC3","RC4","RC5",
+	    			"RD3","RD4","RD5"
+	    		
 				};
 	    	}
 
@@ -249,7 +252,6 @@ int main(int argc, char** argv)
 			else if (param->WHISKER_NAMES[0] == "EXP"){
 	    		param->WHISKER_NAMES = {
 	    			"RC0","RC1","RC2","RC3",
-					"LC0","LC1","LC2","LC3"
 					};
 	    	}
 

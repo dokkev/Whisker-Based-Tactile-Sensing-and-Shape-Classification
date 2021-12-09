@@ -9,13 +9,13 @@ test_datagenerator = ImageDataGenerator(rescale=1./255)
 image_size = (150, 150)
 
 train_datagenerator = train_datagenerator.flow_from_directory(
-    'train/ALL',
+    'train/concave_convex/contact_sum',
     target_size=image_size,
     batch_size=10,
     class_mode='binary')
 
 test_datagenerator = test_datagenerator.flow_from_directory(
-    'test/ALL',
+    'test/concave_convex/contact_sum',
     target_size=image_size,
     batch_size=10,
     class_mode='binary')

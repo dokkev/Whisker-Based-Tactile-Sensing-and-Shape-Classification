@@ -4,18 +4,17 @@ from tensorflow import keras
 from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
+from keras.utils.vis_utils import plot_model
 
 
 # Read Data and Split into Training and Test Data
-df = pd.read_csv('train/ALL/contact_sum.csv')
+df = pd.read_csv('train/ALL/contact_duration.csv')
 df.head()
-X = df.iloc[:, 0:-1]
+X = df.iloc[:, 1:-1]
 y = df.iloc[:, -1]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=None)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=123)
 
 print("data_read")
-data = 'mz_dmz.csv'
-
 # # Read Training Data
 # df_train = pd.read_csv('train/'+str(data))
 # df_train.head()
@@ -33,13 +32,11 @@ ACCURACY_THRESHOLD = 0.9999
 # print(y)
 
 
-
-
 class myCallback(tf.keras.callbacks.Callback):
  def on_epoch_end(self, epoch, logs={}):
 		if(logs.get('accuracy') > ACCURACY_THRESHOLD):
 			print("\nReached %2.2f%% accuracy, so stopping training!!" %(logs.get('accuracy')*100))
-			# self.model.stop_training = True
+			self.model.stop_training = True
 
 def train(X_train,y_train,X_test, y_test):
    
@@ -47,8 +44,8 @@ def train(X_train,y_train,X_test, y_test):
     print(input_size)
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(input_size,)),
-        keras.layers.Dense(int(2/3*input_size), activation=tf.nn.relu),
-        # keras.layers.Dense(16, activation=tf.nn.relu),
+        # keras.layers.Dense(int(2/3*input_size), activation=tf.nn.relu),
+        keras.layers.Dense(9, activation=tf.nn.relu),
         keras.layers.Dense(1, activation=tf.nn.sigmoid),
     ])
 
@@ -58,8 +55,9 @@ def train(X_train,y_train,X_test, y_test):
 
     print(model.summary())
 
-    history = model.fit(X_train, y_train, epochs=20, batch_size=54,validation_data=(X_test,y_test),callbacks=[myCallback()])
-    model.save('allmodel')
+    history = model.fit(X_train, y_train, epochs=50, batch_size=54,validation_data=(X_test,y_test),callbacks=[myCallback()])
+    # model.save('../weight/all_contact_duration')
+    plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
     # test_loss, test_acc = model.evaluate(X_test, y_test)
     # print('Test accuracy:', test_acc)
 
