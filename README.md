@@ -31,7 +31,7 @@ This repository provides modified WHISKiT Physics Simulator with additional func
 3. Clone this repository:
 
 ```
-	git clone https://github.com/dokkev/Whisker_Based_Tactile_Classification_ROS.git
+	git clone https://github.com/dokkev/Whisker-Based-Tactile-Sensing-and-Shape-Classification.git
 ```
 
 4. Compile whisketphysics:
@@ -79,7 +79,7 @@ run `sh run_user_control` and run `python3 keyboard_control.py` on a sperate ter
 	w : move forward
 	s : move backward
 	a : turn left
-	d	: turn right
+	d : turn right
 	up-arrow : look up
 	down-arrow : look down
 ```
