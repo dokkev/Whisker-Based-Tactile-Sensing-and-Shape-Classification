@@ -11,12 +11,17 @@ import copy
 import pandas as pd
 from os import error, walk
 from pathlib import Path
+import math
 
 
-# read objects
-obj_path = '../data/concave'
-objects = next(walk(obj_path), (None, None, []))[2]  # [] if no file
-objects.sort()
+# read objects for All whisker simulations
+# obj_path = '../data/concave'
+# objects = next(walk(obj_path), (None, None, []))[2]  # [] if no file
+# objects.sort()
+
+# read objects for rodgers simulations
+objects = ['concave40.obj','concave40.obj','concave40.obj',
+    'convex40.obj','convex40.obj','convex40.obj']
 
 Total_array1 = []
 Total_array2 = []
@@ -24,9 +29,8 @@ Total_array3 = []
 Total_array4 = []
 Total_array5 = []
 
-output_dir = '../output/ALL/'
+output_dir = '../output/rodgers_train/'
 error_flag = 0
-
 class ConcaveConvex:
     """
     This is Class for concave and convex data. This class should be initialized for processing every simulation.
@@ -78,6 +82,30 @@ class ConcaveConvex:
 
             self.contact_indicator = np.zeros((rownum,colnum),dtype=int)
 
+    def pick_protraction_moment(self,My,Mz):
+        # pick the protraction moment
+        my = np.copy(My)
+        mz = np.copy(Mz)
+     
+
+        M_peak = []
+
+
+        for i in range(len(my)):
+            for j in range(len(my[0])-1):
+                if i == 62:
+                    m = ((float(mz[i,j])**2) + float(my[i,j])**2)**0.5
+                    M_peak.append(m)
+        M_peak = np.array(M_peak)
+
+        return M_peak
+
+      
+
+
+
+    
+
     def indicate_contact(self,dirname):
         # for loop to fill out contact_indicator
         contact_ = []
@@ -128,6 +156,7 @@ class ConcaveConvex:
         contact_sum = np.vstack((c1,c2,c3,c4,c5))
 
         return contact_sum
+
 
     def separate_contact(self,contact_indicator):
         c1,c2,c3,c4,c5 = np.array_split(contact_indicator,5)
@@ -265,4 +294,18 @@ class ConcaveConvex:
                 print("Dirname: *%s*  does not include info about object type"% dirname )
         
 
+            return data
+
+    def add_convace_indicator_flat(self,data,dirname):
+            if str("concave") in dirname:
+                concave_indicator = 1
+
+                data = np.append(data,concave_indicator)
+            elif str("convex") in dirname:
+                convex_indicator = 0
+      
+                data = np.append(data,convex_indicator)
+            else:
+                print("Dirname: *%s*  does not include info about object type"% dirname )
+        
             return data
